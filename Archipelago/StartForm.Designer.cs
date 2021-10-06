@@ -66,7 +66,7 @@ namespace Archipelago
             this.Controls.Add(this.roundPictureBox1);
             this.Controls.Add(this.pictureBox1);
             this.Name = "StartForm";
-            this.Text = "Form1";
+            this.Text = "Archipelago";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.roundPictureBox1)).EndInit();
             this.ResumeLayout(false);
