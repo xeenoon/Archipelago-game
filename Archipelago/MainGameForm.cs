@@ -668,6 +668,31 @@ namespace Archipelago
             MessageBox.Show(string.Format("Your ports generated you {0} wood, {1} metal, {2} cloth", total.wood, total.metal, total.cloth),"New materials" , MessageBoxButtons.OK);
             teamMaterials.AddMaterials(hasTurn, total);
         }
+
+        private void BuildPortButtonClick(object sender, EventArgs e)
+        {
+            if (selected == null)
+            {
+                MessageBox.Show("Please select a square to build a port in", "Error", MessageBoxButtons.OK);
+            }
+            else
+            {
+                var response = MessageBox.Show("Build level 1 port for 1000 wood?", "Build port", MessageBoxButtons.YesNo);
+                if (response == DialogResult.Yes)
+                {
+                    if (teamMaterials.GetMaterials(hasTurn).wood >= 1000)
+                    {
+                        CreatePort(selected.location.X, selected.location.Y, hasTurn);
+                        pictureBox1.Image = pictureboxBitmap;
+                        teamMaterials.AddMaterials(hasTurn, new Materials(-1000,0,0));
+                    }
+                    else
+                    {
+                        MessageBox.Show("You do not have enough wood to build a level 1 port", "Not enough materials", MessageBoxButtons.OK);
+                    }
+                }
+            }
+        }
     }
     public struct Filter
     {
