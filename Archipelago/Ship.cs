@@ -36,6 +36,22 @@ namespace Archipelago
 
         public bool hasMoved;
 
+        public int cargoCapacity;
+        public Materials loaded = new Materials(0,0,0);
+
+        public bool LoadMaterials(Materials m)
+        {
+            if ((m.GetWeight() +loaded.GetWeight())<cargoCapacity) //Is there capacity for the materials to be loaded
+            {
+                loaded += m; //Add the materials
+                return true; //The materials have been successfully loaded
+            }
+            else
+            {
+                return false; //Materials cannot be loaded
+            }
+        }
+
         private Ship(ShipType shipType, int cannons, int health, string name)
         {
             this.shipType = shipType;
@@ -43,6 +59,7 @@ namespace Archipelago
             this.health = health;
             this.name = name;
             required = Materials.Generate(shipType, cannons, health);
+            cargoCapacity = health / 2; //Cargo capacity does not dimish with ship health
         }
         public static Ship Create(string shipType)
         {

@@ -37,6 +37,11 @@ namespace Archipelago
             return new Materials(HealthToWood(health), cannons, cloth);
         }
 
+        internal int GetWeight()
+        {
+            return wood + metal*2 + cloth;
+        }
+
         private static int HealthToWood(int health)
         {
             int result = 0;
@@ -112,6 +117,15 @@ namespace Archipelago
         public static Materials operator -(Materials a, Materials b)
         {
             return new Materials(a.wood - b.wood, a.metal - b.metal, a.cloth - b.cloth);
+        }
+
+        public static bool operator >(Materials a, Materials b)
+        {
+            return a.wood >= b.wood && a.metal >= b.metal && a.cloth >= b.cloth;
+        }
+        public static bool operator <(Materials a, Materials b)
+        {
+            return a.wood <= b.wood && a.metal <= b.metal && a.cloth <= b.cloth;
         }
     }
     public class TeamMaterials

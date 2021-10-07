@@ -38,6 +38,8 @@ namespace Archipelago
             label5.Visible = false;
             label6.Visible = false;
             label7.Visible = false;
+            ShipCargoPopup.Visible = false;
+            LoadCargoMenu.Visible = false;
 
             for (int x = 0; x < horizontalSquares; ++x)
             {
@@ -692,6 +694,88 @@ namespace Archipelago
                     }
                 }
             }
+        }
+        Ship selectedShip;
+        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (listBox1.SelectedIndex == -1) //Nothing is selected
+            {
+                return;
+            }
+            //When the select index is changed, a new ship has been selected
+            selectedShip = selected.ships[listBox1.SelectedIndex];
+            ShipCargoPopup.Visible = true;
+            label14.Text = string.Format("{0} wood\n{1} metal\n{2} cloth", selectedShip.loaded.wood, selectedShip.loaded.metal, selectedShip.loaded.cloth);
+        }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            ShipCargoPopup.Visible = false;
+            listBox1.SelectedIndex = -1;
+        }
+
+        private void button10_Click_1(object sender, EventArgs e)
+        {
+            LoadCargoMenu.Visible = true;
+            button9.Enabled = false;
+        }
+
+        private void MainGameForm_Click(object sender, EventArgs e)
+        {
+            maskedTextBox1.Text = "Wood";
+            maskedTextBox2.Text = "Metal";
+            maskedTextBox3.Text = "Cloth";
+        }
+
+        private void button11_Click(object sender, EventArgs e)
+        {
+            int woodAmount  =0;
+            int metalAmount =0;
+            int clothAmount = 0;
+            try
+            {
+                woodAmount = int.Parse(maskedTextBox1.Text);
+                metalAmount = int.Parse(maskedTextBox2.Text);
+                clothAmount = int.Parse(maskedTextBox3.Text);
+            }
+            catch
+            {
+                MessageBox.Show("Input must be a number", "Error", MessageBoxButtons.OK);
+                return;
+            }
+            Materials cargoToLoad = new Materials(woodAmount,metalAmount,clothAmount);
+            if (cargoToLoad.GetWeight() > selectedShip.cargoCapacity)
+            {
+                MessageBox.Show("Cargo too heavy", "Error", MessageBoxButtons.OK);
+                return;
+            }
+            if (cargoToLoad < teamMaterials.GetMaterials(hasTurn))
+            {
+                switch (hasTurn)
+                {
+                    case Team.Red:
+                        teamMaterials.redMaterials-=cargoToLoad;
+                        break;
+                    case Team.Green:
+                        teamMaterials.redMaterials -= cargoToLoad;
+                        break;
+                    case Team.Black:
+                        teamMaterials.redMaterials -= cargoToLoad;
+                        break;
+                    case Team.Blue:
+                        teamMaterials.redMaterials -= cargoToLoad;
+                        break;
+                } //Using switch statement here because we cannot assign a valud to GetMaterials() here
+            }
+            else
+            {
+                MessageBox.Show("You do not have enough materials", "Error", MessageBoxButtons.OK);
+                return;
+            }
+            selectedShip.LoadMaterials(cargoToLoad);
+            label14.Text = string.Format("{0} wood\n{1} metal\n{2} cloth", selectedShip.loaded.wood, selectedShip.loaded.metal, selectedShip.loaded.cloth);
+            LoadCargoMenu.Visible = false;
+            button9.Enabled = true;
         }
     }
     public struct Filter
