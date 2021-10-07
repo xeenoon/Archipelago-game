@@ -36,6 +36,15 @@ namespace Archipelago
 
         public bool hasMoved;
 
+        /// <summary>
+        /// used to bring back health
+        /// </summary>
+        public static void Repair()
+        {
+
+        }
+
+
         private Ship(ShipType shipType, int cannons, int health, string name)
         {
             this.shipType = shipType;

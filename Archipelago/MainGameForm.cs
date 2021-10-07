@@ -46,6 +46,7 @@ namespace Archipelago
                     squares[x, y] = new Square(x, y);
                 }
             }
+            
             CreatePort(4, 1, Team.Red);
             CreatePort(5, 10, Team.Green);
             CreatePort(21, 5, Team.Black);
