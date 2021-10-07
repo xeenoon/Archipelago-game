@@ -299,7 +299,8 @@ namespace Archipelago
                     TeamLabel.ForeColor = Color.Blue;
                     break;
             }
-
+            Materials myMats = selected.GetMaterials();
+            label18.Text = string.Format("{0} wood\n{1} metal\n{2} cloth", myMats.wood, myMats.metal, myMats.cloth);
             HighlightSquare(xpos, ypos);
             RepaintShipPicture();
 
@@ -682,11 +683,14 @@ namespace Archipelago
                 var response = MessageBox.Show("Build level 1 port for 1000 wood?", "Build port", MessageBoxButtons.YesNo);
                 if (response == DialogResult.Yes)
                 {
-                    if (teamMaterials.GetMaterials(hasTurn).wood >= 1000)
+                    if (selected.GetMaterials().wood >= 1000)
                     {
                         CreatePort(selected.location.X, selected.location.Y, hasTurn);
                         pictureBox1.Image = pictureboxBitmap;
-                        teamMaterials.AddMaterials(hasTurn, new Materials(-1000,0,0));
+                        selected.Buy(new Materials(1000,0,0));
+
+                        Materials myMats = selected.GetMaterials();
+                        label18.Text = string.Format("{0} wood\n{1} metal\n{2} cloth", myMats.wood, myMats.metal, myMats.cloth); //Reload the text that tells you how much cargo you have
                     }
                     else
                     {
@@ -712,6 +716,8 @@ namespace Archipelago
         {
             ShipCargoPopup.Visible = false;
             listBox1.SelectedIndex = -1;
+            Materials myMats = selected.GetMaterials();
+            label18.Text = string.Format("{0} wood\n{1} metal\n{2} cloth", myMats.wood, myMats.metal, myMats.cloth);
         }
 
         private void button10_Click_1(object sender, EventArgs e)
@@ -729,6 +735,19 @@ namespace Archipelago
 
         private void button11_Click(object sender, EventArgs e)
         {
+            if (maskedTextBox1.Text == " ")
+            {
+                maskedTextBox1.Text = "0";
+            }
+            if (maskedTextBox3.Text == " ")
+            {
+                maskedTextBox3.Text = "0";
+            }
+            if (maskedTextBox2.Text == " ")
+            {
+                maskedTextBox2.Text = "0";
+            } //Allow for blank boxes. These will default to 0
+
             int woodAmount  =0;
             int metalAmount =0;
             int clothAmount = 0;
@@ -744,7 +763,7 @@ namespace Archipelago
                 return;
             }
             Materials cargoToLoad = new Materials(woodAmount,metalAmount,clothAmount);
-            if (cargoToLoad.GetWeight() > selectedShip.cargoCapacity)
+            if (cargoToLoad.GetWeight() > selectedShip.cargoCapacity+selectedShip.loaded.GetWeight())
             {
                 MessageBox.Show("Cargo too heavy", "Error", MessageBoxButtons.OK);
                 return;

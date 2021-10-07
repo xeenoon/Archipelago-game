@@ -41,7 +41,7 @@ namespace Archipelago
 
         public bool LoadMaterials(Materials m)
         {
-            if ((m.GetWeight() +loaded.GetWeight())<cargoCapacity) //Is there capacity for the materials to be loaded
+            if ((m.GetWeight() +loaded.GetWeight())<=cargoCapacity) //Is there capacity for the materials to be loaded
             {
                 loaded += m; //Add the materials
                 return true; //The materials have been successfully loaded

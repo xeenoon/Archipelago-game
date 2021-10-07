@@ -78,6 +78,7 @@ namespace Archipelago
             this.maskedTextBox3 = new System.Windows.Forms.MaskedTextBox();
             this.maskedTextBox2 = new System.Windows.Forms.MaskedTextBox();
             this.maskedTextBox1 = new System.Windows.Forms.MaskedTextBox();
+            this.label18 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -124,7 +125,7 @@ namespace Archipelago
             this.label3.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Modern No. 20", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(937, 156);
+            this.label3.Location = new System.Drawing.Point(936, 150);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(48, 18);
             this.label3.TabIndex = 3;
@@ -649,11 +650,23 @@ namespace Archipelago
             this.maskedTextBox1.TabIndex = 0;
             this.maskedTextBox1.Text = " ";
             // 
+            // label18
+            // 
+            this.label18.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.label18.AutoSize = true;
+            this.label18.Font = new System.Drawing.Font("Modern No. 20", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label18.Location = new System.Drawing.Point(940, 171);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(55, 54);
+            this.label18.TabIndex = 38;
+            this.label18.Text = "0 wood\r\n0 metal\r\n0 cloth\r\n";
+            // 
             // MainGameForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1129, 528);
+            this.Controls.Add(this.label18);
             this.Controls.Add(this.LoadCargoMenu);
             this.Controls.Add(this.ShipCargoPopup);
             this.Controls.Add(this.button8);
@@ -749,5 +762,6 @@ namespace Archipelago
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label label18;
     }
 }

@@ -24,5 +24,32 @@ namespace Archipelago
         }
 
         public Materials generates;
+
+        internal Materials GetMaterials()
+        {
+            Materials total = new Materials(0,0,0);
+            foreach (var s in ships)
+            {
+                total += s.loaded;
+            }
+            return total;
+        }
+
+        internal void Buy(Materials materials)
+        {
+            Materials remainder = materials;
+            foreach (var s in ships)
+            {
+                if (s.loaded > remainder)
+                {
+                    s.loaded -= remainder;
+                }
+                else
+                {
+                    remainder -= s.loaded;
+                    s.loaded = new Materials(0,0,0);
+                }
+            }
+        }
     }
 }
