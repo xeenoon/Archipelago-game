@@ -10,6 +10,7 @@ namespace Archipelago
     public class Square
     {
         public bool isPort;
+        public int PortLevel { get; set; } = 0;
         public List<Ship> ships = new List<Ship>();
         public Point location;
         public Team team = Team.None;
