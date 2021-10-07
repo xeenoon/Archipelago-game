@@ -62,7 +62,7 @@ namespace Archipelago
             switch (t)
             {
                 case Team.None:
-                    throw new Exception("Team cannot be none");
+                    throw new Exception("Team is not allowed to be none");
                 case Team.Red:
                     b = Brushes.Red;
                     break;
