@@ -35,7 +35,6 @@ namespace Archipelago
         public Materials required;
 
         public bool hasMoved;
-
         public int cargoCapacity;
         public Materials loaded = new Materials(0,0,0);
 
@@ -50,6 +49,13 @@ namespace Archipelago
             {
                 return false; //Materials cannot be loaded
             }
+        }
+        /// <summary>
+        /// used to bring back health
+        /// </summary>
+        public static void Repair()
+        {
+
         }
 
         private Ship(ShipType shipType, int cannons, int health, string name)
