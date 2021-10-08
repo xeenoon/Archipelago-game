@@ -302,6 +302,8 @@ namespace Archipelago
             }
             Materials myMats = selected.GetMaterials();
             label18.Text = string.Format("{0} wood\n{1} metal\n{2} cloth", myMats.wood, myMats.metal, myMats.cloth);
+            LevelText.Text = "Level: " + selected.level;
+
             HighlightSquare(xpos, ypos);
             RepaintShipPicture();
 
@@ -796,6 +798,20 @@ namespace Archipelago
             label14.Text = string.Format("{0} wood\n{1} metal\n{2} cloth", selectedShip.loaded.wood, selectedShip.loaded.metal, selectedShip.loaded.cloth);
             LoadCargoMenu.Visible = false;
             button9.Enabled = true;
+        }
+
+        private void button12_Click(object sender, EventArgs e)
+        {
+            if (teamMaterials.GetMaterials(hasTurn).wood >= 1500)
+            {
+                selected.UpgradePort();
+                teamMaterials.Pay(hasTurn, new Materials(1500,0,0));
+                LevelText.Text = "Level: " + selected.level;
+            }
+            else
+            {
+                MessageBox.Show("Not enough materials");
+            }
         }
     }
     public struct Filter

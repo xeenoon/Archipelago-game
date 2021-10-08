@@ -13,6 +13,7 @@ namespace Archipelago
         public List<Ship> ships = new List<Ship>();
         public Point location;
         public Team team = Team.None;
+        public int level = 1;
         public Square(Point location)
         {
             this.location = location;
@@ -34,7 +35,14 @@ namespace Archipelago
             }
             return total;
         }
-
+        public void UpgradePort()
+        {
+            if (isPort)//Is the square a port
+            {
+                generates *= 1.5f; //Increase generates by 1.5 times its original amount
+                ++level;
+            }
+        }
         internal void Buy(Materials materials)
         {
             Materials remainder = materials;

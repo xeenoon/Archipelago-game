@@ -119,6 +119,15 @@ namespace Archipelago
             return new Materials(a.wood - b.wood, a.metal - b.metal, a.cloth - b.cloth);
         }
 
+        public static Materials operator *(Materials a, float b)
+        {
+            return new Materials((int)Math.Floor(a.wood * b), (int)Math.Floor(a.metal * b), (int)Math.Floor(a.cloth * b));
+        }
+        public static Materials operator /(Materials a, float b)
+        {
+            return new Materials((int)Math.Floor(a.wood / b), (int)Math.Floor(a.metal / b), (int)Math.Floor(a.cloth / b));
+        }
+
         public static bool operator >(Materials a, Materials b)
         {
             return a.wood >= b.wood && a.metal >= b.metal && a.cloth >= b.cloth;
