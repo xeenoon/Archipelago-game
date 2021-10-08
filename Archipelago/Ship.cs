@@ -50,13 +50,6 @@ namespace Archipelago
                 return false; //Materials cannot be loaded
             }
         }
-        /// <summary>
-        /// used to bring back health
-        /// </summary>
-        public static void Repair()
-        {
-
-        }
 
         /// <summary>
         /// used to bring back health
