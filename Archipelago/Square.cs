@@ -25,7 +25,6 @@ namespace Archipelago
         }
 
         public Materials generates;
-
         internal Materials GetMaterials()
         {
             Materials total = new Materials(0,0,0);
