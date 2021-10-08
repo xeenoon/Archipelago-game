@@ -67,7 +67,7 @@ namespace Archipelago
         }
         public void CreatePort(int x, int y, Team t)
         {
-            var g = Graphics.FromImage(pictureboxBitmap); //Get the graphics from the bitmap
+            var g = Graphics.FromImage(pictureBox1.Image); //Get the graphics from the bitmap
             Brush b; //Define the brush
             switch (t) //Switch on colours to change the colour of the port
             {
@@ -142,6 +142,10 @@ namespace Archipelago
         Bitmap pictureboxBitmap; //The bitmap for the picturebox
         private bool CanMove(int square_x, int square_y)//Determines if a square is allowed to be moved to. A ship cannot move to a square that is more than 90% green
         {
+            if (square_x>=28)
+            {
+                return false; //You cannot move off the screen 
+            }
             var greenCount = 0; //The amount of green pixels in a square
             Bitmap asbitmap = new Bitmap(pictureBox1.Image);
             for (int x = (int)(square_x * png_boxsize + png_left); x < (square_x * png_boxsize) + png_boxsize + png_left; ++x)
@@ -209,7 +213,7 @@ namespace Archipelago
                         ship.hasMoved = true; //Since we just moved the ship, set the ships hasMoved status to true. This will stop it moving again this turn
                     }
                     selected.ships = replaceList; //Use the cache list to refill the selected list
-                    MoveSquare = false; //We are no longer moving, so set this indicator to false
+                    //MoveSquare = false; //We are no longer moving, so set this indicator to false
                     MoveButton.BackColor = Color.Goldenrod; //Reset button colours
                     justmoved = true; //Set the 'justmoved' variable to true, signifying that we have just finished moving some ships                }
                 }
@@ -293,29 +297,7 @@ namespace Archipelago
                 shipList.Items.Add(ship.name + "  " + ship.health); //Update the shiplist with a new ship, specifying the name and the health of the new ship
             }
 
-            switch (selected.team)
-            {
-                case Team.Red:
-                    TeamLabel.Text = "Red";
-                    TeamLabel.ForeColor = Color.Red;
-                    break;
-                case Team.Green:
-                    TeamLabel.Text = "Green";
-                    TeamLabel.ForeColor = Color.Green;
-                    break;
-                case Team.Black:
-                    TeamLabel.Text = "Black";
-                    TeamLabel.ForeColor = Color.Black;
-                    break;
-                case Team.Blue:
-                    TeamLabel.Text = "Blue";
-                    TeamLabel.ForeColor = Color.Blue;
-                    break;
-            } //Change the colour and text of the team label
-            Team squaresShips = selected.ships.Count >= 1 ? selected.ships[0].team : Team.None;
-            //Set the team of the square to being the team of the first ship in the ship list
-            //Even though we specified that earlier, we need to double check because the square may not be a port
-            switch (squaresShips)
+            switch (selected.GetTeam())
             {
                 case Team.Red:
                     TeamLabel.Text = "Red";
@@ -334,16 +316,21 @@ namespace Archipelago
                     TeamLabel.ForeColor = Color.Blue;
                     break;
             }//Update team labels
+
             Materials myMats = selected.GetMaterials();
             label18.Text = string.Format("{0} wood\n{1} metal\n{2} cloth", myMats.wood, myMats.metal, myMats.cloth); //Update cargo label
             LevelText.Text = "Level: " + selected.level; //Update level text
 
-            HighlightSquare(xpos, ypos); //Highlight the selected square
             RepaintShipPicture(); //Repaint the picture
+            HighlightSquare(xpos, ypos); //Highlight the selected square
 
             if (selected.isPort && selected.team == hasTurn)
             {
                 button12.Visible = true;
+            }
+            else
+            {
+                button12.Visible = false;
             }
 
             justmoved = false;
@@ -383,7 +370,7 @@ namespace Archipelago
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
-            pictureBox1.Image = pictureboxBitmap; //Set the image to the stored bitmap
+            
 
             double top = png_top / 1500.0 * pictureBox1.Height;
             double left = png_left / 2000.0 * pictureBox1.Width;
@@ -500,6 +487,8 @@ namespace Archipelago
         }
         private void HighlightSquare(int square_x, int square_y)
         {
+            squares[square_x, square_y].orange = true;
+
             Bitmap result = new Bitmap(pictureBox1.Image); //Create a bitmap of the shown image
 
             for (int x = (int)(square_x * png_boxsize + png_left); x < (square_x * png_boxsize) + png_boxsize + png_left; ++x)
@@ -550,6 +539,20 @@ namespace Archipelago
             }
 
             pictureBox1.Image = result; //Replace the image with the filtered result
+        }
+        private void RemoveHighlight(int square_x, int square_y)
+        {
+            Bitmap result = new Bitmap(pictureBox1.Image); //Create a bitmap based off the picture
+
+            for (int x = (int)(square_x * png_boxsize + png_left); x < (square_x * png_boxsize) + png_boxsize + png_left; ++x)
+            {
+                for (int y = (int)(square_y * png_boxsize + png_top); y < (square_y * png_boxsize) + png_boxsize + png_top; ++y) //Iterate through all pixels
+                {
+                    result.SetPixel(x, y, pictureboxBitmap.GetPixel(x, y)); //Change the colour of the pixel to the original pixels colour
+                }
+            }
+
+            pictureBox1.Image = result; //Replace the image with the unfiltered result
         }
 
         private void MoveClosest(object sender, EventArgs e)
@@ -604,10 +607,36 @@ namespace Archipelago
         {
             foreach (var s in squares)
             {
+                if (s.orange)
+                {
+                    RemoveHighlight(s.location.X, s.location.Y);
+                }
                 if (s.ships.Count >= 1) //Are there ships in the square?
                 {
-                    HighlightSquare(s.location.X, s.location.Y, new Filter(100,-100,-100)); //Highlight square with a red filter (increases red by 100, decreases everything else by 100)
+                    if (!s.red) 
+                    {
+                        HighlightSquare(s.location.X, s.location.Y, new Filter(100, -100, -100)); //Highlight square with a red filter (increases red by 100, decreases everything else by 100)
+                        s.red = true;
+                    }
+
+                    if (s.red && s.orange)
+                    {
+                        HighlightSquare(s.location.X, s.location.Y, new Filter(100, -100, -100)); //Highlight square with a red filter (increases red by 100, decreases everything else by 100)
+                    }
                 }
+                else
+                {
+                    if (s.red)
+                    {
+                        RemoveHighlight(s.location.X, s.location.Y);
+                    }
+                    if (s.red && s.orange)
+                    {
+                        HighlightSquare(s.location.X, s.location.Y, new Filter(100, -100, -100)); //Highlight square with a red filter (increases red by 100, decreases everything else by 100)
+                    }
+                    s.red = false;
+                }
+                s.orange = false;
             }
         }
 
@@ -679,6 +708,10 @@ namespace Archipelago
                     hasTurn = Team.Blue;
                     break;
                 case Team.Blue:
+                    hasTurn = Team.Pirate;
+                    PirateMoves();
+                    break;
+                case Team.Pirate:
                     hasTurn = Team.Red;
                     break;
             } //Change which team will have a turn next
@@ -691,7 +724,7 @@ namespace Archipelago
             }
             MessageBox.Show(hasTurn.ToString() + " teams turn", hasTurn.ToString(), MessageBoxButtons.OK); //Signify which teams turn is next
             OnSquareClick(0,0); //Deselct the previously selected square by the player who had a turn before
-            pictureBox1.Image = pictureboxBitmap; //Reset the picturebox1 bitmap
+        //    pictureBox1.Image = pictureboxBitmap; //Reset the picturebox1 bitmap
             HighlightSquare(0,0); //Highlight the selected square
             RepaintShipPicture(); //Repaint the image to include ports and highlights
 
@@ -708,8 +741,54 @@ namespace Archipelago
             teamMaterials.AddMaterials(hasTurn, total); //Add the materials to the teamMaterials
 
             teamMaterials.Show(hasTurn); //Show the materials on the left side of the screen
-        }
 
+            if (hasTurn == Team.Pirate)
+            {
+                EndTurn(new object(), new EventArgs());
+            }
+        }
+        int iterations = 0;
+        private void PirateMoves()
+        {
+            List<Square> availableSquares = new List<Square>();
+            List<Square> pirateSquares = new List<Square>();
+            foreach (var s in squares)
+            {
+                ++iterations;
+                if (s.GetTeam() == Team.None)//Are the no ships in the square?
+                {
+                    availableSquares.Add(s);
+                }
+                if (s.GetTeam() == Team.Pirate) //Are there pirate ships in the square
+                {
+                    pirateSquares.Add(s);
+                }
+            }
+
+            foreach (var square in pirateSquares)
+            {
+                var ship = square.ships.FirstOrDefault();
+                Point destination = Ship.Destinations(ship.shipType, square.location).Shuffle().Where(p => squares[p.X, p.Y].team != Team.Pirate).FirstOrDefault(); //Select a random destination that does not have pirates in it
+                square.ships.Remove(ship);
+                var destinationSquare = squares[destination.X, destination.Y];
+                destinationSquare.ships.Add(ship);
+                RunAttack(destinationSquare);
+            }
+
+            availableSquares = availableSquares.Shuffle();
+            Square pirateAddedSquare = new Square(new Point(-1,-1));
+            foreach (var s in availableSquares)
+            {
+                if (CanMove(s.location.X, s.location.Y)) //Can we move there
+                {
+                    pirateAddedSquare = s;
+                    break;
+                }
+            }
+            var shipToAdd = Ship.RandomShip();
+            shipToAdd.team = Team.Pirate;
+            pirateAddedSquare.ships.Add(shipToAdd);
+        }
         private void BuildPortButtonClick(object sender, EventArgs e)
         {
             if (selected == null)
@@ -729,7 +808,7 @@ namespace Archipelago
                     if (selected.GetMaterials().wood >= 1000) //Does the user have enough wood to build the port INSIDE the square
                     {
                         CreatePort(selected.location.X, selected.location.Y, hasTurn); //Create the port at the selected location
-                        pictureBox1.Image = pictureboxBitmap; //Reset the picturebox bitmap
+                       // pictureBox1.Image = pictureboxBitmap; //Reset the picturebox bitmap
                         selected.Buy(new Materials(1000,0,0)); //Spend the materials on the port
 
                         Materials myMats = selected.GetMaterials(); //Temporary variable to make next line of code more readable. Gets the materials inside the square

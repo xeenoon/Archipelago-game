@@ -25,6 +25,9 @@ namespace Archipelago
         }
 
         public Materials generates;
+        internal bool red = false;
+        internal bool orange = false;
+
         internal Materials GetMaterials()
         {
             Materials total = new Materials(0,0,0);
@@ -57,6 +60,23 @@ namespace Archipelago
                     remainder -= s.loaded; //Decrement remainder by the amount loaded into the ship
                     s.loaded = new Materials(0,0,0); //Set the amount of materials in the ship to 0
                 }
+            }
+        }
+
+        internal Team GetTeam()
+        {
+            if (isPort)
+            {
+                return team;
+            }
+            else
+            {
+                Team result = Team.None;
+                foreach (var s in ships)
+                {
+                    result = s.team;
+                }
+                return result;
             }
         }
     }
