@@ -62,11 +62,11 @@ namespace Archipelago
             this.WoodResourceLabel = new System.Windows.Forms.Label();
             this.MetalResourceLabel = new System.Windows.Forms.Label();
             this.ClothResourceLabel = new System.Windows.Forms.Label();
-            this.listBox1 = new System.Windows.Forms.ListBox();
+            this.shipList = new System.Windows.Forms.ListBox();
             this.button8 = new System.Windows.Forms.Button();
             this.ShipCargoPopup = new System.Windows.Forms.Panel();
             this.button10 = new System.Windows.Forms.Button();
-            this.button9 = new System.Windows.Forms.Button();
+            this.CloseButton = new System.Windows.Forms.Button();
             this.label14 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
@@ -393,7 +393,7 @@ namespace Archipelago
             this.button6.TabIndex = 27;
             this.button6.Text = "Ok";
             this.button6.UseVisualStyleBackColor = true;
-            this.button6.Click += new System.EventHandler(this.button6_Click);
+            this.button6.Click += new System.EventHandler(this.CloseMoveSpecificMenuButtonClick);
             // 
             // label9
             // 
@@ -419,7 +419,7 @@ namespace Archipelago
             this.button7.TabIndex = 27;
             this.button7.Text = "End turn";
             this.button7.UseVisualStyleBackColor = false;
-            this.button7.Click += new System.EventHandler(this.button7_Click);
+            this.button7.Click += new System.EventHandler(this.EndTurn);
             // 
             // label10
             // 
@@ -488,18 +488,18 @@ namespace Archipelago
             // 
             // listBox1
             // 
-            this.listBox1.AllowDrop = true;
-            this.listBox1.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.listBox1.BackColor = System.Drawing.SystemColors.Control;
-            this.listBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.listBox1.Font = new System.Drawing.Font("Modern No. 20", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.ItemHeight = 17;
-            this.listBox1.Location = new System.Drawing.Point(940, 83);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(167, 68);
-            this.listBox1.TabIndex = 34;
-            this.listBox1.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
+            this.shipList.AllowDrop = true;
+            this.shipList.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.shipList.BackColor = System.Drawing.SystemColors.Control;
+            this.shipList.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.shipList.Font = new System.Drawing.Font("Modern No. 20", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.shipList.FormattingEnabled = true;
+            this.shipList.ItemHeight = 17;
+            this.shipList.Location = new System.Drawing.Point(940, 83);
+            this.shipList.Name = "listBox1";
+            this.shipList.Size = new System.Drawing.Size(167, 68);
+            this.shipList.TabIndex = 34;
+            this.shipList.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
             // 
             // button8
             // 
@@ -520,7 +520,7 @@ namespace Archipelago
             // ShipCargoPopup
             // 
             this.ShipCargoPopup.Controls.Add(this.button10);
-            this.ShipCargoPopup.Controls.Add(this.button9);
+            this.ShipCargoPopup.Controls.Add(this.CloseButton);
             this.ShipCargoPopup.Controls.Add(this.label14);
             this.ShipCargoPopup.Controls.Add(this.label13);
             this.ShipCargoPopup.Controls.Add(this.label12);
@@ -538,17 +538,17 @@ namespace Archipelago
             this.button10.TabIndex = 4;
             this.button10.Text = "Load cargo";
             this.button10.UseVisualStyleBackColor = true;
-            this.button10.Click += new System.EventHandler(this.button10_Click_1);
+            this.button10.Click += new System.EventHandler(this.OpenCargoMenu);
             // 
             // button9
             // 
-            this.button9.Location = new System.Drawing.Point(12, 92);
-            this.button9.Name = "button9";
-            this.button9.Size = new System.Drawing.Size(75, 23);
-            this.button9.TabIndex = 3;
-            this.button9.Text = "Close";
-            this.button9.UseVisualStyleBackColor = true;
-            this.button9.Click += new System.EventHandler(this.button9_Click);
+            this.CloseButton.Location = new System.Drawing.Point(12, 92);
+            this.CloseButton.Name = "button9";
+            this.CloseButton.Size = new System.Drawing.Size(75, 23);
+            this.CloseButton.TabIndex = 3;
+            this.CloseButton.Text = "Close";
+            this.CloseButton.UseVisualStyleBackColor = true;
+            this.CloseButton.Click += new System.EventHandler(this.CloseShipCargoPopup);
             // 
             // label14
             // 
@@ -701,7 +701,7 @@ namespace Archipelago
             this.Controls.Add(this.LoadCargoMenu);
             this.Controls.Add(this.ShipCargoPopup);
             this.Controls.Add(this.button8);
-            this.Controls.Add(this.listBox1);
+            this.Controls.Add(this.shipList);
             this.Controls.Add(this.ClothResourceLabel);
             this.Controls.Add(this.MetalResourceLabel);
             this.Controls.Add(this.WoodResourceLabel);
@@ -777,13 +777,13 @@ namespace Archipelago
         private System.Windows.Forms.Label WoodResourceLabel;
         private System.Windows.Forms.Label MetalResourceLabel;
         private System.Windows.Forms.Label ClothResourceLabel;
-        private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.ListBox shipList;
         private System.Windows.Forms.Button button8;
         private System.Windows.Forms.Panel ShipCargoPopup;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.Button button9;
+        private System.Windows.Forms.Button CloseButton;
         private System.Windows.Forms.Button button10;
         private System.Windows.Forms.Panel LoadCargoMenu;
         private System.Windows.Forms.MaskedTextBox maskedTextBox3;

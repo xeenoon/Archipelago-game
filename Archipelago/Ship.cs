@@ -50,6 +50,7 @@ namespace Archipelago
                 return false; //Materials cannot be loaded
             }
         }
+
         /// <summary>
         /// used to bring back health
         /// </summary>

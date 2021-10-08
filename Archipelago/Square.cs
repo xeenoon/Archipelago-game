@@ -9,9 +9,9 @@ namespace Archipelago
 {
     public class Square
     {
-        public bool isPort;
-        public List<Ship> ships = new List<Ship>();
-        public Point location;
+        public bool isPort; //Using boolean value instead of subclass for simplicity
+        public List<Ship> ships = new List<Ship>(); //List of ships in the square
+        public Point location; //Squares relative location
         public Team team = Team.None;
         public int level = 1;
         public Square(Point location)
@@ -30,7 +30,7 @@ namespace Archipelago
             Materials total = new Materials(0,0,0);
             foreach (var s in ships)
             {
-                total += s.loaded;
+                total += s.loaded; //Add all the materials from all the ships in the square
             }
             return total;
         }
@@ -47,14 +47,15 @@ namespace Archipelago
             Materials remainder = materials;
             foreach (var s in ships)
             {
-                if (s.loaded > remainder)
+                if (s.loaded > remainder) //Does one ship have enough cargo to pay for all the materials?
                 {
-                    s.loaded -= remainder;
+                    s.loaded -= remainder; //Pay for the materials and exit
+                    return;
                 }
                 else
                 {
-                    remainder -= s.loaded;
-                    s.loaded = new Materials(0,0,0);
+                    remainder -= s.loaded; //Decrement remainder by the amount loaded into the ship
+                    s.loaded = new Materials(0,0,0); //Set the amount of materials in the ship to 0
                 }
             }
         }
