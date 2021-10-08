@@ -437,7 +437,6 @@ namespace Archipelago
         public bool MoveSpecificSquare;
 
         private void MoveButtonClick(object sender, EventArgs e)
-        private void MoveButtonClick(object sender, EventArgs e)
         {
             if (selected == null)
             {
