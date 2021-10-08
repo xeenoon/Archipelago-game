@@ -14,6 +14,7 @@ namespace Archipelago
         Green,
         Black,
         Blue,
+        Pirate,
     }
     public class Ship
     {

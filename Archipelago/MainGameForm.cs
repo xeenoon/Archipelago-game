@@ -672,6 +672,10 @@ namespace Archipelago
                     hasTurn = Team.Blue;
                     break;
                 case Team.Blue:
+                    hasTurn = Team.Pirate;
+                    PirateMoves();
+                    break;
+                case Team.Pirate:
                     hasTurn = Team.Red;
                     break;
             } //Change which team will have a turn next
@@ -701,6 +705,18 @@ namespace Archipelago
             teamMaterials.AddMaterials(hasTurn, total); //Add the materials to the teamMaterials
 
             teamMaterials.Show(hasTurn); //Show the materials on the left side of the screen
+        }
+
+        private void PirateMoves()
+        {
+            List<Square> availableSquares = new List<Square>();
+            foreach (var s in squares)
+            {
+                if (CanMove(s.location.X, s.location.Y) && s.GetTeam() == Team.None ||s.GetTeam() == Team.Pirate)
+                {
+
+                }
+            }
         }
 
         private void BuildPortButtonClick(object sender, EventArgs e)

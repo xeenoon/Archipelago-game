@@ -59,5 +59,22 @@ namespace Archipelago
                 }
             }
         }
+
+        internal Team GetTeam()
+        {
+            if (isPort)
+            {
+                return team;
+            }
+            else
+            {
+                Team result = Team.None;
+                foreach (var s in ships)
+                {
+                    result = s.team;
+                }
+                return result;
+            }
+        }
     }
 }
