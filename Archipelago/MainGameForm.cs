@@ -32,6 +32,8 @@ namespace Archipelago
             moveSettings.Visible = false;
             MoveSpecificMenu.Visible = false;
 
+            button12.Visible = false;
+
             ManufactureFast.Visible = false;
             ManufactureLabel.Visible = false;
             ManufactureMedium.Visible = false;
@@ -211,140 +213,145 @@ namespace Archipelago
                     MoveButton.BackColor = Color.Goldenrod; //Reset button colours
                     justmoved = true; //Set the 'justmoved' variable to true, signifying that we have just finished moving some ships                }
                 }
-                else if (MoveSpecificSquare && CanMove(xpos, ypos)) //Instead of moving all ships are we only moving specific ships and can we move to the position
-                {
-                    if (selected.ships.Any(s => s.team == hasTurn)) //Are the ships in the square my team
-                    {
-                        var distance = Math.Sqrt(Math.Pow(xpos - selected.location.X, 2) + Math.Pow(ypos - selected.location.Y, 2)) - 0.45f; //Calculate the distance betwen the two squares
-                        foreach (var ship in selected.ships.Where(s => s.moveNext)) //Iterate through the ships in the square that have been selected to be moved
-                        {
-                            if ((int)ship.shipType < distance && !ship.hasMoved) //Is the ship unable to move the distance and has it not already been moved
-                            {
-                                moveSettings.Visible = true; //Show the movesettings menu
-                                selectCache = squares[selected.location.X, selected.location.Y]; //cache the selected squares
-                                selected = squares[xpos, ypos]; //Set the new selected square to the selected position
-                                HighlightSquare(xpos, ypos); //Highlight the selected square
-                                return;
-                            }
-                        }
-                        List<Ship> replaceList = new List<Ship>(); //Since later on we clear the ships in the square, we need to figure out which ships stay in the square and store them in a list to be added back later
-                        foreach (var ship in selected.ships.Where(s => s.moveNext)) //Iterate through the ships in the square that have been selected to be moved
-                        {
-                            if (ship.hasMoved) //Has the ship already moved?
-                            {
-                                replaceList.Add(ship); //Add the ship to the replace list
-                                continue; //Continue to the next
-                            }
-                            //Else statement is not required because of the continue in the line above
-                            squares[xpos, ypos].ships.Add(ship); //Add the ship to the newly selected square
-                            ship.hasMoved = true; //The ship has now moved so set its indicator to true
-                        }
-                        selected.ships.RemoveAll(s => s.moveNext); //Removeall  ships from the square that where set to move
-                        selected.ships.AddRange(replaceList); //Add the cache list to the selected ships
-                        MoveSpecificSquare = false; //Set the move indicator to false
-                        foreach (var s in squares[xpos, ypos].ships) //Iterate through all ships in the square we are moving too
-                        {
-                            s.moveNext = false; //Set the movenext to false
-                        }
-                        MoveSpecificButton.BackColor = Color.Goldenrod; //Reset the button colour
-                        justmoved = true; //We have just moved some ships, so set that indicator to true
-                    }
-                }
-                selected = squares[xpos, ypos]; //Set the selected square to the newly selected poxition
-                if (squares[xpos, ypos].isPort == true && squares[xpos, ypos].team == hasTurn) //Is the newly selected square a port, and is the port ours
-                {
-                    ManufactureFast.Visible = true;
-                    ManufactureLabel.Visible = true;
-                    ManufactureMedium.Visible = true;
-                    ManufactureHeavy.Visible = true;
-                    ManufactureVeryFast.Visible = true;
-
-                    label4.Visible = true;
-                    label5.Visible = true;
-                    label6.Visible = true;
-                    label7.Visible = true;
-                    //Make the relative menu items visible
-                }
-                else
-                {
-                    ManufactureFast.Visible = false;
-                    ManufactureLabel.Visible = false;
-                    ManufactureMedium.Visible = false;
-                    ManufactureHeavy.Visible = false;
-                    ManufactureVeryFast.Visible = false;
-
-                    label4.Visible = false;
-                    label5.Visible = false;
-                    label6.Visible = false;
-                    label7.Visible = false;
-                    //Otherwise, set those menu items to false
-                }
-                if (justmoved) //Have we just moved somewhere
-                {
-                    RunAttack(selected); //Attack the square
-                }
-
-                shipList.Items.Clear(); //Clear all the items in the UI shiplist
-                foreach (var ship in selected.ships) //Iterate through all the ships in the square
-                {
-                    shipList.Items.Add(ship.name + "  " + ship.health); //Update the shiplist with a new ship, specifying the name and the health of the new ship
-                }
-
-                switch (selected.team)
-                {
-                    case Team.Red:
-                        TeamLabel.Text = "Red";
-                        TeamLabel.ForeColor = Color.Red;
-                        break;
-                    case Team.Green:
-                        TeamLabel.Text = "Green";
-                        TeamLabel.ForeColor = Color.Green;
-                        break;
-                    case Team.Black:
-                        TeamLabel.Text = "Black";
-                        TeamLabel.ForeColor = Color.Black;
-                        break;
-                    case Team.Blue:
-                        TeamLabel.Text = "Blue";
-                        TeamLabel.ForeColor = Color.Blue;
-                        break;
-                } //Change the colour and text of the team label
-                Team squaresShips = selected.ships.Count >= 1 ? selected.ships[0].team : Team.None;
-                //Set the team of the square to being the team of the first ship in the ship list
-                //Even though we specified that earlier, we need to double check because the square may not be a port
-                switch (squaresShips)
-                {
-                    case Team.Red:
-                        TeamLabel.Text = "Red";
-                        TeamLabel.ForeColor = Color.Red;
-                        break;
-                    case Team.Green:
-                        TeamLabel.Text = "Green";
-                        TeamLabel.ForeColor = Color.Green;
-                        break;
-                    case Team.Black:
-                        TeamLabel.Text = "Black";
-                        TeamLabel.ForeColor = Color.Black;
-                        break;
-                    case Team.Blue:
-                        TeamLabel.Text = "Blue";
-                        TeamLabel.ForeColor = Color.Blue;
-                        break;
-                }//Update team labels
-                Materials myMats = selected.GetMaterials();
-                label18.Text = string.Format("{0} wood\n{1} metal\n{2} cloth", myMats.wood, myMats.metal, myMats.cloth); //Update cargo label
-                LevelText.Text = "Level: " + selected.level; //Update level text
-
-                HighlightSquare(xpos, ypos); //Highlight the selected square
-                RepaintShipPicture(); //Repaint the picture
-
-                justmoved = false;
-
-                MoveButton.BackColor = Color.Goldenrod;
-                MoveSpecificButton.BackColor = Color.Goldenrod; //Reset button colours
-                MoveSpecificSquare = false;
-                MoveSquare = false; //Reset move options
             }
+            else if (MoveSpecificSquare && CanMove(xpos, ypos)) //Instead of moving all ships are we only moving specific ships and can we move to the position
+            {
+                if (selected.ships.Any(s => s.team == hasTurn)) //Are the ships in the square my team
+                {
+                    var distance = Math.Sqrt(Math.Pow(xpos - selected.location.X, 2) + Math.Pow(ypos - selected.location.Y, 2)) - 0.45f; //Calculate the distance betwen the two squares
+                    foreach (var ship in selected.ships.Where(s => s.moveNext)) //Iterate through the ships in the square that have been selected to be moved
+                    {
+                        if ((int)ship.shipType < distance && !ship.hasMoved) //Is the ship unable to move the distance and has it not already been moved
+                        {
+                            moveSettings.Visible = true; //Show the movesettings menu
+                            selectCache = squares[selected.location.X, selected.location.Y]; //cache the selected squares
+                            selected = squares[xpos, ypos]; //Set the new selected square to the selected position
+                            HighlightSquare(xpos, ypos); //Highlight the selected square
+                            return;
+                        }
+                    }
+                    List<Ship> replaceList = new List<Ship>(); //Since later on we clear the ships in the square, we need to figure out which ships stay in the square and store them in a list to be added back later
+                    foreach (var ship in selected.ships.Where(s => s.moveNext)) //Iterate through the ships in the square that have been selected to be moved
+                    {
+                        if (ship.hasMoved) //Has the ship already moved?
+                        {
+                            replaceList.Add(ship); //Add the ship to the replace list
+                            continue; //Continue to the next
+                        }
+                        //Else statement is not required because of the continue in the line above
+                        squares[xpos, ypos].ships.Add(ship); //Add the ship to the newly selected square
+                        ship.hasMoved = true; //The ship has now moved so set its indicator to true
+                    }
+                    selected.ships.RemoveAll(s => s.moveNext); //Removeall  ships from the square that where set to move
+                    selected.ships.AddRange(replaceList); //Add the cache list to the selected ships
+                    MoveSpecificSquare = false; //Set the move indicator to false
+                    foreach (var s in squares[xpos, ypos].ships) //Iterate through all ships in the square we are moving too
+                    {
+                        s.moveNext = false; //Set the movenext to false
+                    }
+                    MoveSpecificButton.BackColor = Color.Goldenrod; //Reset the button colour
+                    justmoved = true; //We have just moved some ships, so set that indicator to true
+                }
+            }
+            selected = squares[xpos, ypos]; //Set the selected square to the newly selected poxition
+            if (squares[xpos, ypos].isPort == true && squares[xpos, ypos].team == hasTurn) //Is the newly selected square a port, and is the port ours
+            {
+                ManufactureFast.Visible = true;
+                ManufactureLabel.Visible = true;
+                ManufactureMedium.Visible = true;
+                ManufactureHeavy.Visible = true;
+                ManufactureVeryFast.Visible = true;
+
+                label4.Visible = true;
+                label5.Visible = true;
+                label6.Visible = true;
+                label7.Visible = true;
+                //Make the relative menu items visible
+            }
+            else
+            {
+                ManufactureFast.Visible = false;
+                ManufactureLabel.Visible = false;
+                ManufactureMedium.Visible = false;
+                ManufactureHeavy.Visible = false;
+                ManufactureVeryFast.Visible = false;
+
+                label4.Visible = false;
+                label5.Visible = false;
+                label6.Visible = false;
+                label7.Visible = false;
+                //Otherwise, set those menu items to false
+            }
+            if (justmoved) //Have we just moved somewhere
+            {
+                RunAttack(selected); //Attack the square
+            }
+
+            shipList.Items.Clear(); //Clear all the items in the UI shiplist
+            foreach (var ship in selected.ships) //Iterate through all the ships in the square
+            {
+                shipList.Items.Add(ship.name + "  " + ship.health); //Update the shiplist with a new ship, specifying the name and the health of the new ship
+            }
+
+            switch (selected.team)
+            {
+                case Team.Red:
+                    TeamLabel.Text = "Red";
+                    TeamLabel.ForeColor = Color.Red;
+                    break;
+                case Team.Green:
+                    TeamLabel.Text = "Green";
+                    TeamLabel.ForeColor = Color.Green;
+                    break;
+                case Team.Black:
+                    TeamLabel.Text = "Black";
+                    TeamLabel.ForeColor = Color.Black;
+                    break;
+                case Team.Blue:
+                    TeamLabel.Text = "Blue";
+                    TeamLabel.ForeColor = Color.Blue;
+                    break;
+            } //Change the colour and text of the team label
+            Team squaresShips = selected.ships.Count >= 1 ? selected.ships[0].team : Team.None;
+            //Set the team of the square to being the team of the first ship in the ship list
+            //Even though we specified that earlier, we need to double check because the square may not be a port
+            switch (squaresShips)
+            {
+                case Team.Red:
+                    TeamLabel.Text = "Red";
+                    TeamLabel.ForeColor = Color.Red;
+                    break;
+                case Team.Green:
+                    TeamLabel.Text = "Green";
+                    TeamLabel.ForeColor = Color.Green;
+                    break;
+                case Team.Black:
+                    TeamLabel.Text = "Black";
+                    TeamLabel.ForeColor = Color.Black;
+                    break;
+                case Team.Blue:
+                    TeamLabel.Text = "Blue";
+                    TeamLabel.ForeColor = Color.Blue;
+                    break;
+            }//Update team labels
+            Materials myMats = selected.GetMaterials();
+            label18.Text = string.Format("{0} wood\n{1} metal\n{2} cloth", myMats.wood, myMats.metal, myMats.cloth); //Update cargo label
+            LevelText.Text = "Level: " + selected.level; //Update level text
+
+            HighlightSquare(xpos, ypos); //Highlight the selected square
+            RepaintShipPicture(); //Repaint the picture
+
+            if (selected.isPort && selected.team == hasTurn)
+            {
+                button12.Visible = true;
+            }
+
+            justmoved = false;
+
+            MoveButton.BackColor = Color.Goldenrod;
+            MoveSpecificButton.BackColor = Color.Goldenrod; //Reset button colours
+            MoveSpecificSquare = false;
+            MoveSquare = false; //Reset move options
         }
         Random r = new Random(); //The random class to be used when attacking
 
@@ -711,6 +718,11 @@ namespace Archipelago
             }
             else
             {
+                if (selected.isPort)
+                {
+                    return; //Do not build a port here if there already is one
+                }
+
                 var response = MessageBox.Show("Build level 1 port for 1000 wood?", "Build port", MessageBoxButtons.YesNo);
                 if (response == DialogResult.Yes) //Does the user want to build a port?
                 {
