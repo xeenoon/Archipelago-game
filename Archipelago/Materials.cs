@@ -22,7 +22,7 @@ namespace Archipelago
             switch (shipType)
             {
                 case Ship.ShipType.Heavy:
-                    cloth = 3;
+                    cloth = 3
                     break;
                 case Ship.ShipType.Medium:
                     cloth = 1;
@@ -33,7 +33,7 @@ namespace Archipelago
                 case Ship.ShipType.VeryFast:
                     cloth = 6;
                     break;
-            }
+            }//Different ship types require different amounts of cloth to be produced
             return new Materials(HealthToWood(health), cannons, cloth);
         }
 
@@ -44,6 +44,7 @@ namespace Archipelago
 
         private static int HealthToWood(int health)
         {
+            //A decremental formula where the first 100 hp costs 100 wood, the next 100 hp costs 75 wood...
             int result = 0;
             if (health <= 100)
             {
@@ -95,7 +96,7 @@ namespace Archipelago
 
         internal static bool Canbuild(Materials materials, Materials required)
         {
-            if (materials.wood >= required.wood && materials.metal >= required.metal && materials.cloth >= required.cloth)
+            if (materials.wood >= required.wood && materials.metal >= required.metal && materials.cloth >= required.cloth) //Do we have enough materials to build the ship?
             {
                 return true;
             }
@@ -107,7 +108,7 @@ namespace Archipelago
             int w = wood - required.wood;
             int c = cloth - required.cloth;
             int m = metal - required.metal;
-            return new Materials(w,m,c);
+            return new Materials(w,m,c); //Use local materials to pay for ports or other items
         }
 
         public static Materials operator +(Materials a, Materials b)
@@ -127,12 +128,15 @@ namespace Archipelago
         {
             return a.wood <= b.wood && a.metal <= b.metal && a.cloth <= b.cloth;
         }
+        /**
+         * Using operators to allow comparisons, decrementation and incrementation of materials
+         * */
     }
-    public class TeamMaterials
+    public class TeamMaterials //Stores the different materials for different teams
     {
-        Label WoodResourceLabel;
+        Label WoodResourceLabel; 
         Label MetalResourceLabel;
-        Label ClothResourceLabel;
+        Label ClothResourceLabel; //Labels to update with material data
 
 
         Materials redMATS = new Materials(10000, 500, 50);
@@ -184,6 +188,25 @@ namespace Archipelago
         }
 
         Materials blueMATS = new Materials(10000, 500, 50);
+        public Materials blueMaterials
+        {
+            get
+            {
+                return blueMATS;
+            }
+            set
+            {
+                blueMATS = value;
+                WoodResourceLabel.Text = "Wood: " + blueMATS.wood.ToString();
+                MetalResourceLabel.Text = "Metal: " + blueMATS.metal.ToString();
+                ClothResourceLabel.Text = "Cloth: " + blueMATS.cloth.ToString();
+            }
+        }
+
+        /*
+         * These functions allow an outside class to get and set the amount of materials a team has
+         * When changing the amount of materials, the labels are automatically updated
+         * */
 
         public TeamMaterials(Label woodResourceLabel,
                              Label metalResourceLabel,
@@ -202,7 +225,7 @@ namespace Archipelago
             this.greenMaterials = greenMaterials;
             this.blackMaterials = blackMaterials;
             this.blueMaterials = blueMaterials;
-        }
+        } //Constructor
 
         internal Materials GetMaterials(Team hasTurn)
         {
@@ -216,7 +239,7 @@ namespace Archipelago
                     return blackMaterials;
                 case Team.Blue:
                     return blueMaterials;
-            }
+            }//Return the materials for the team inputted
             throw new Exception("Team cannot be none");
         }
 
@@ -236,23 +259,9 @@ namespace Archipelago
                 case Team.Blue:
                     blueMaterials = blueMaterials.Pay(required);
                     break;
-            }
+            } //Have a specific team pay an amount of materials
         }
 
-        public Materials blueMaterials
-        {
-            get
-            {
-                return blueMATS;
-            }
-            set
-            {
-                blueMATS = value;
-                WoodResourceLabel.Text = "Wood: " + blueMATS.wood.ToString();
-                MetalResourceLabel.Text = "Metal: " + blueMATS.metal.ToString();
-                ClothResourceLabel.Text = "Cloth: " + blueMATS.cloth.ToString();
-            }
-        }
 
         internal void Show(Team hasTurn)
         {
@@ -278,7 +287,7 @@ namespace Archipelago
                     MetalResourceLabel.Text = "Metal: " + blueMATS.metal.ToString();
                     ClothResourceLabel.Text = "Cloth: " + blueMATS.cloth.ToString();
                     break;
-            }
+            } //Update the labels for a specific team   
         }
 
         internal void AddMaterials(Team hasTurn, Materials total)
@@ -297,7 +306,7 @@ namespace Archipelago
                 case Team.Blue:
                     blueMaterials += total;
                     break;
-            }
+            } //Add materials to a team
         }
     }
 

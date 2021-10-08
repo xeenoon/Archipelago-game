@@ -766,21 +766,7 @@ namespace Archipelago
             }
             if (cargoToLoad < teamMaterials.GetMaterials(hasTurn))
             {
-                switch (hasTurn)
-                {
-                    case Team.Red:
-                        teamMaterials.redMaterials-=cargoToLoad;
-                        break;
-                    case Team.Green:
-                        teamMaterials.redMaterials -= cargoToLoad;
-                        break;
-                    case Team.Black:
-                        teamMaterials.redMaterials -= cargoToLoad;
-                        break;
-                    case Team.Blue:
-                        teamMaterials.redMaterials -= cargoToLoad;
-                        break;
-                } //Using switch statement here because we cannot assign a valud to GetMaterials() here
+                teamMaterials.Pay(hasTurn, new Materials(1000,0,0));
                 //Decreasing the teams materials by the amount of cargo to be loaded
             }
             else
