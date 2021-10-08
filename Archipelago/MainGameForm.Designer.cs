@@ -50,7 +50,7 @@ namespace Archipelago
             this.button4 = new System.Windows.Forms.Button();
             this.label8 = new System.Windows.Forms.Label();
             this.moveSettings = new System.Windows.Forms.Panel();
-            this.MoveSpecificButtpn = new System.Windows.Forms.Button();
+            this.MoveSpecificButton = new System.Windows.Forms.Button();
             this.ShipSelectBox = new System.Windows.Forms.CheckedListBox();
             this.MoveSpecificMenu = new System.Windows.Forms.Panel();
             this.button6 = new System.Windows.Forms.Button();
@@ -344,18 +344,18 @@ namespace Archipelago
             // 
             // button5
             // 
-            this.MoveSpecificButtpn.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.MoveSpecificButtpn.AutoEllipsis = true;
-            this.MoveSpecificButtpn.BackColor = System.Drawing.Color.Goldenrod;
-            this.MoveSpecificButtpn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.MoveSpecificButtpn.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.MoveSpecificButtpn.Location = new System.Drawing.Point(1021, 227);
-            this.MoveSpecificButtpn.Name = "button5";
-            this.MoveSpecificButtpn.Size = new System.Drawing.Size(86, 23);
-            this.MoveSpecificButtpn.TabIndex = 24;
-            this.MoveSpecificButtpn.Text = "Move specific";
-            this.MoveSpecificButtpn.UseVisualStyleBackColor = false;
-            this.MoveSpecificButtpn.Click += new System.EventHandler(this.MoveSpecificSquareButtonClick);
+            this.MoveSpecificButton.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.MoveSpecificButton.AutoEllipsis = true;
+            this.MoveSpecificButton.BackColor = System.Drawing.Color.Goldenrod;
+            this.MoveSpecificButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.MoveSpecificButton.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.MoveSpecificButton.Location = new System.Drawing.Point(1021, 227);
+            this.MoveSpecificButton.Name = "button5";
+            this.MoveSpecificButton.Size = new System.Drawing.Size(86, 23);
+            this.MoveSpecificButton.TabIndex = 24;
+            this.MoveSpecificButton.Text = "Move specific";
+            this.MoveSpecificButton.UseVisualStyleBackColor = false;
+            this.MoveSpecificButton.Click += new System.EventHandler(this.MoveSpecificSquareButtonClick);
             // 
             // checkedListBox1
             // 
@@ -710,7 +710,7 @@ namespace Archipelago
             this.Controls.Add(this.label10);
             this.Controls.Add(this.button7);
             this.Controls.Add(this.MoveSpecificMenu);
-            this.Controls.Add(this.MoveSpecificButtpn);
+            this.Controls.Add(this.MoveSpecificButton);
             this.Controls.Add(this.moveSettings);
             this.Controls.Add(this.MoveButton);
             this.Controls.Add(this.label7);
@@ -765,7 +765,7 @@ namespace Archipelago
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Panel moveSettings;
-        private System.Windows.Forms.Button MoveSpecificButtpn;
+        private System.Windows.Forms.Button MoveSpecificButton;
         private System.Windows.Forms.CheckedListBox ShipSelectBox;
         private System.Windows.Forms.Panel MoveSpecificMenu;
         private System.Windows.Forms.Label label9;
