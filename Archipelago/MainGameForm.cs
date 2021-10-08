@@ -53,8 +53,8 @@ namespace Archipelago
             CreatePort(11, 14, Team.Green);
             CreatePort(21, 5, Team.Black);
             CreatePort(22, 18, Team.Blue);
-            panel1.Visible = false;
-            panel2.Visible = false;
+            moveSettings.Visible = false;
+            MoveSpecificMenu.Visible = false;
 
             teamMaterials = new TeamMaterials(WoodResourceLabel, MetalResourceLabel, ClothResourceLabel, new Materials(1000, 100, 12), new Materials(1000, 100, 12), new Materials(1000, 100, 12), new Materials(1000, 100, 12));
         }
@@ -182,7 +182,7 @@ namespace Archipelago
                     {
                         if ((int)ship.shipType < distance && !ship.hasMoved)
                         {
-                            panel1.Visible = true;
+                            moveSettings.Visible = true;
                             selectCache = squares[selected.location.X, selected.location.Y];
                             selected = squares[xpos, ypos];
                             HighlightSquare(xpos, ypos);
@@ -216,7 +216,7 @@ namespace Archipelago
                     {
                         if ((int)ship.shipType < distance && !ship.hasMoved)
                         {
-                            panel1.Visible = true;
+                            moveSettings.Visible = true;
                             selectCache = squares[selected.location.X, selected.location.Y];
                             selected = squares[xpos, ypos];
                             HighlightSquare(xpos, ypos);
@@ -436,7 +436,8 @@ namespace Archipelago
 
         public bool MoveSpecificSquare;
 
-        private void button1_Click(object sender, EventArgs e)
+        private void MoveButtonClick(object sender, EventArgs e)
+        private void MoveButtonClick(object sender, EventArgs e)
         {
             if (selected == null)
             {
@@ -453,7 +454,7 @@ namespace Archipelago
 
         private void Cancel(object sender, EventArgs e)
         {
-            panel1.Visible = false;
+            moveSettings.Visible = false;
             selectCache = null;
 
             MoveSquare = false;
@@ -484,7 +485,7 @@ namespace Archipelago
             MoveSquare = false;
             MoveButton.BackColor = Color.Goldenrod;
 
-            panel1.Visible = false;
+            moveSettings.Visible = false;
 
             OnSquareClick(selected.location.X, selected.location.Y);
         }
@@ -568,7 +569,7 @@ namespace Archipelago
             MoveSquare = false;
             MoveButton.BackColor = Color.Goldenrod;
 
-            panel1.Visible = false;
+            moveSettings.Visible = false;
 
             OnSquareClick(selected.location.X, selected.location.Y);
         }
@@ -603,7 +604,7 @@ namespace Archipelago
             }
         }
 
-        private void button5_Click(object sender, EventArgs e)
+        private void MoveSpecificSquareButtonClick(object sender, EventArgs e)
         {
             if (selected == null)
             {
@@ -614,12 +615,12 @@ namespace Archipelago
             MoveButton.BackColor = Color.Goldenrod;
             MoveSpecificButtpn.BackColor = Color.AliceBlue;
 
-            checkedListBox1.Items.Clear();
+            ShipSelectBox.Items.Clear();
             foreach (var s in selected.ships)
             {
-                checkedListBox1.Items.Add(s.name + "  " + s.health);
+                ShipSelectBox.Items.Add(s.name + "  " + s.health);
             }
-            panel2.Visible = true;
+            MoveSpecificMenu.Visible = true;
         }
 
         private void button6_Click(object sender, EventArgs e)
@@ -628,12 +629,12 @@ namespace Archipelago
             {
                 s.moveNext = false;
             }
-            foreach (var item in checkedListBox1.CheckedItems)
+            foreach (var item in ShipSelectBox.CheckedItems)
             {
                 var items = ((string)item).Split(new string[] {"  "}, StringSplitOptions.None);
                 selected.ships.First(s => s.name == items[0] && s.health.ToString() == items[1]).moveNext = true;
             }
-            panel2.Visible = false;
+            MoveSpecificMenu.Visible = false;
         }
 
         private void Form2_Shown(object sender, EventArgs e)
