@@ -168,8 +168,8 @@ namespace Archipelago
                 {
                     justmoved = false;
 
-                    button1.BackColor = Color.Goldenrod;
-                    button5.BackColor = Color.Goldenrod;
+                    MoveButton.BackColor = Color.Goldenrod;
+                    MoveSpecificButtpn.BackColor = Color.Goldenrod;
                     MoveSpecificSquare = false;
                     MoveSquare = false;
                     return;
@@ -203,7 +203,7 @@ namespace Archipelago
                     selected.ships = replaceList;
                     //      selectCache.ships = replaceList;
                     MoveSquare = false;
-                    button1.BackColor = Color.Goldenrod;
+                    MoveButton.BackColor = Color.Goldenrod;
                     justmoved = true;
                 }
             }
@@ -241,7 +241,7 @@ namespace Archipelago
                     {
                         s.moveNext = false;
                     }
-                    button5.BackColor = Color.Goldenrod;
+                    MoveSpecificButtpn.BackColor = Color.Goldenrod;
                     justmoved = true;
                 }
             }
@@ -335,8 +335,8 @@ namespace Archipelago
 
             justmoved = false;
 
-            button1.BackColor = Color.Goldenrod;
-            button5.BackColor = Color.Goldenrod;
+            MoveButton.BackColor = Color.Goldenrod;
+            MoveSpecificButtpn.BackColor = Color.Goldenrod;
             MoveSpecificSquare = false;
             MoveSquare = false;
         }
@@ -444,7 +444,7 @@ namespace Archipelago
             }
 
             MoveSquare = true;
-            button1.BackColor = Color.AliceBlue;
+            MoveButton.BackColor = Color.AliceBlue;
             foreach (var s in selected.ships)
             {
                 s.moveNext = true;
@@ -457,7 +457,7 @@ namespace Archipelago
             selectCache = null;
 
             MoveSquare = false;
-            button1.BackColor = Color.Goldenrod;
+            MoveButton.BackColor = Color.Goldenrod;
 
             OnSquareClick(selected.location.X, selected.location.Y);
         }
@@ -482,7 +482,7 @@ namespace Archipelago
             }
             selectCache.ships = replacelis;
             MoveSquare = false;
-            button1.BackColor = Color.Goldenrod;
+            MoveButton.BackColor = Color.Goldenrod;
 
             panel1.Visible = false;
 
@@ -566,7 +566,7 @@ namespace Archipelago
             }
             //selectCache.ships.RemoveAll((s => s.moveNext));
             MoveSquare = false;
-            button1.BackColor = Color.Goldenrod;
+            MoveButton.BackColor = Color.Goldenrod;
 
             panel1.Visible = false;
 
@@ -611,8 +611,8 @@ namespace Archipelago
             }
             MoveSquare = false;
             MoveSpecificSquare = true;
-            button1.BackColor = Color.Goldenrod;
-            button5.BackColor = Color.AliceBlue;
+            MoveButton.BackColor = Color.Goldenrod;
+            MoveSpecificButtpn.BackColor = Color.AliceBlue;
 
             checkedListBox1.Items.Clear();
             foreach (var s in selected.ships)

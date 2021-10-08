@@ -43,14 +43,14 @@ namespace Archipelago
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
+            this.MoveButton = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.label8 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.button5 = new System.Windows.Forms.Button();
+            this.MoveSpecificButtpn = new System.Windows.Forms.Button();
             this.checkedListBox1 = new System.Windows.Forms.CheckedListBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.button6 = new System.Windows.Forms.Button();
@@ -258,18 +258,18 @@ namespace Archipelago
             // 
             // button1
             // 
-            this.button1.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.button1.AutoEllipsis = true;
-            this.button1.BackColor = System.Drawing.Color.Goldenrod;
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.button1.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.button1.Location = new System.Drawing.Point(940, 227);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 17;
-            this.button1.Text = "Move";
-            this.button1.UseVisualStyleBackColor = false;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.MoveButton.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.MoveButton.AutoEllipsis = true;
+            this.MoveButton.BackColor = System.Drawing.Color.Goldenrod;
+            this.MoveButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.MoveButton.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.MoveButton.Location = new System.Drawing.Point(940, 227);
+            this.MoveButton.Name = "button1";
+            this.MoveButton.Size = new System.Drawing.Size(75, 23);
+            this.MoveButton.TabIndex = 17;
+            this.MoveButton.Text = "Move";
+            this.MoveButton.UseVisualStyleBackColor = false;
+            this.MoveButton.Click += new System.EventHandler(this.button1_Click);
             // 
             // button3
             // 
@@ -344,18 +344,18 @@ namespace Archipelago
             // 
             // button5
             // 
-            this.button5.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.button5.AutoEllipsis = true;
-            this.button5.BackColor = System.Drawing.Color.Goldenrod;
-            this.button5.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.button5.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.button5.Location = new System.Drawing.Point(1021, 227);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(86, 23);
-            this.button5.TabIndex = 24;
-            this.button5.Text = "Move specific";
-            this.button5.UseVisualStyleBackColor = false;
-            this.button5.Click += new System.EventHandler(this.button5_Click);
+            this.MoveSpecificButtpn.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.MoveSpecificButtpn.AutoEllipsis = true;
+            this.MoveSpecificButtpn.BackColor = System.Drawing.Color.Goldenrod;
+            this.MoveSpecificButtpn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.MoveSpecificButtpn.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.MoveSpecificButtpn.Location = new System.Drawing.Point(1021, 227);
+            this.MoveSpecificButtpn.Name = "button5";
+            this.MoveSpecificButtpn.Size = new System.Drawing.Size(86, 23);
+            this.MoveSpecificButtpn.TabIndex = 24;
+            this.MoveSpecificButtpn.Text = "Move specific";
+            this.MoveSpecificButtpn.UseVisualStyleBackColor = false;
+            this.MoveSpecificButtpn.Click += new System.EventHandler(this.button5_Click);
             // 
             // checkedListBox1
             // 
@@ -710,9 +710,9 @@ namespace Archipelago
             this.Controls.Add(this.label10);
             this.Controls.Add(this.button7);
             this.Controls.Add(this.panel2);
-            this.Controls.Add(this.button5);
+            this.Controls.Add(this.MoveSpecificButtpn);
             this.Controls.Add(this.panel1);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.MoveButton);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
@@ -758,14 +758,14 @@ namespace Archipelago
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button MoveButton;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Button MoveSpecificButtpn;
         private System.Windows.Forms.CheckedListBox checkedListBox1;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Label label9;
