@@ -43,16 +43,16 @@ namespace Archipelago
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
+            this.MoveButton = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.label8 = new System.Windows.Forms.Label();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.button5 = new System.Windows.Forms.Button();
-            this.checkedListBox1 = new System.Windows.Forms.CheckedListBox();
-            this.panel2 = new System.Windows.Forms.Panel();
+            this.moveSettings = new System.Windows.Forms.Panel();
+            this.MoveSpecificButtpn = new System.Windows.Forms.Button();
+            this.ShipSelectBox = new System.Windows.Forms.CheckedListBox();
+            this.MoveSpecificMenu = new System.Windows.Forms.Panel();
             this.button6 = new System.Windows.Forms.Button();
             this.label9 = new System.Windows.Forms.Label();
             this.button7 = new System.Windows.Forms.Button();
@@ -62,11 +62,11 @@ namespace Archipelago
             this.WoodResourceLabel = new System.Windows.Forms.Label();
             this.MetalResourceLabel = new System.Windows.Forms.Label();
             this.ClothResourceLabel = new System.Windows.Forms.Label();
-            this.listBox1 = new System.Windows.Forms.ListBox();
+            this.shipList = new System.Windows.Forms.ListBox();
             this.button8 = new System.Windows.Forms.Button();
             this.ShipCargoPopup = new System.Windows.Forms.Panel();
             this.button10 = new System.Windows.Forms.Button();
-            this.button9 = new System.Windows.Forms.Button();
+            this.CloseButton = new System.Windows.Forms.Button();
             this.label14 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
@@ -80,8 +80,8 @@ namespace Archipelago
             this.maskedTextBox1 = new System.Windows.Forms.MaskedTextBox();
             this.label18 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            this.panel1.SuspendLayout();
-            this.panel2.SuspendLayout();
+            this.moveSettings.SuspendLayout();
+            this.MoveSpecificMenu.SuspendLayout();
             this.ShipCargoPopup.SuspendLayout();
             this.LoadCargoMenu.SuspendLayout();
             this.SuspendLayout();
@@ -256,18 +256,18 @@ namespace Archipelago
             // 
             // button1
             // 
-            this.button1.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.button1.AutoEllipsis = true;
-            this.button1.BackColor = System.Drawing.Color.Goldenrod;
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.button1.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.button1.Location = new System.Drawing.Point(940, 230);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 17;
-            this.button1.Text = "Move";
-            this.button1.UseVisualStyleBackColor = false;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.MoveButton.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.MoveButton.AutoEllipsis = true;
+            this.MoveButton.BackColor = System.Drawing.Color.Goldenrod;
+            this.MoveButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.MoveButton.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.MoveButton.Location = new System.Drawing.Point(940, 230);
+            this.MoveButton.Name = "button1";
+            this.MoveButton.Size = new System.Drawing.Size(75, 23);
+            this.MoveButton.TabIndex = 17;
+            this.MoveButton.Text = "Move";
+            this.MoveButton.UseVisualStyleBackColor = false;
+            this.MoveButton.Click += new System.EventHandler(this.MoveButtonClick);
             // 
             // button3
             // 
@@ -330,57 +330,57 @@ namespace Archipelago
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.label8);
-            this.panel1.Controls.Add(this.button3);
-            this.panel1.Controls.Add(this.button4);
-            this.panel1.Controls.Add(this.label2);
-            this.panel1.Controls.Add(this.button2);
-            this.panel1.Location = new System.Drawing.Point(410, 216);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(328, 98);
-            this.panel1.TabIndex = 23;
+            this.moveSettings.Controls.Add(this.label8);
+            this.moveSettings.Controls.Add(this.button3);
+            this.moveSettings.Controls.Add(this.button4);
+            this.moveSettings.Controls.Add(this.label2);
+            this.moveSettings.Controls.Add(this.button2);
+            this.moveSettings.Location = new System.Drawing.Point(410, 216);
+            this.moveSettings.Name = "panel1";
+            this.moveSettings.Size = new System.Drawing.Size(328, 98);
+            this.moveSettings.TabIndex = 23;
             // 
             // button5
             // 
-            this.button5.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.button5.AutoEllipsis = true;
-            this.button5.BackColor = System.Drawing.Color.Goldenrod;
-            this.button5.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.button5.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.button5.Location = new System.Drawing.Point(1021, 230);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(86, 23);
-            this.button5.TabIndex = 24;
-            this.button5.Text = "Move specific";
-            this.button5.UseVisualStyleBackColor = false;
-            this.button5.Click += new System.EventHandler(this.button5_Click);
+            this.MoveSpecificButtpn.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.MoveSpecificButtpn.AutoEllipsis = true;
+            this.MoveSpecificButtpn.BackColor = System.Drawing.Color.Goldenrod;
+            this.MoveSpecificButtpn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.MoveSpecificButtpn.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.MoveSpecificButtpn.Location = new System.Drawing.Point(1021, 230);
+            this.MoveSpecificButtpn.Name = "button5";
+            this.MoveSpecificButtpn.Size = new System.Drawing.Size(86, 23);
+            this.MoveSpecificButtpn.TabIndex = 24;
+            this.MoveSpecificButtpn.Text = "Move specific";
+            this.MoveSpecificButtpn.UseVisualStyleBackColor = false;
+            this.MoveSpecificButtpn.Click += new System.EventHandler(this.MoveSpecificSquareButtonClick);
             // 
             // checkedListBox1
             // 
-            this.checkedListBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.checkedListBox1.CheckOnClick = true;
-            this.checkedListBox1.FormattingEnabled = true;
-            this.checkedListBox1.Items.AddRange(new object[] {
+            this.ShipSelectBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.ShipSelectBox.CheckOnClick = true;
+            this.ShipSelectBox.FormattingEnabled = true;
+            this.ShipSelectBox.Items.AddRange(new object[] {
             "Steam corvette",
             "Steam corvette",
             "Steam corvette",
             "Steam corvette",
             "Steam corvette"});
-            this.checkedListBox1.Location = new System.Drawing.Point(4, 28);
-            this.checkedListBox1.Name = "checkedListBox1";
-            this.checkedListBox1.Size = new System.Drawing.Size(100, 77);
-            this.checkedListBox1.TabIndex = 25;
-            this.checkedListBox1.ThreeDCheckBoxes = true;
+            this.ShipSelectBox.Location = new System.Drawing.Point(4, 28);
+            this.ShipSelectBox.Name = "checkedListBox1";
+            this.ShipSelectBox.Size = new System.Drawing.Size(100, 77);
+            this.ShipSelectBox.TabIndex = 25;
+            this.ShipSelectBox.ThreeDCheckBoxes = true;
             // 
             // panel2
             // 
-            this.panel2.Controls.Add(this.button6);
-            this.panel2.Controls.Add(this.label9);
-            this.panel2.Controls.Add(this.checkedListBox1);
-            this.panel2.Location = new System.Drawing.Point(520, 196);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(107, 138);
-            this.panel2.TabIndex = 26;
+            this.MoveSpecificMenu.Controls.Add(this.button6);
+            this.MoveSpecificMenu.Controls.Add(this.label9);
+            this.MoveSpecificMenu.Controls.Add(this.ShipSelectBox);
+            this.MoveSpecificMenu.Location = new System.Drawing.Point(520, 196);
+            this.MoveSpecificMenu.Name = "panel2";
+            this.MoveSpecificMenu.Size = new System.Drawing.Size(107, 138);
+            this.MoveSpecificMenu.TabIndex = 26;
             // 
             // button6
             // 
@@ -391,7 +391,7 @@ namespace Archipelago
             this.button6.TabIndex = 27;
             this.button6.Text = "Ok";
             this.button6.UseVisualStyleBackColor = true;
-            this.button6.Click += new System.EventHandler(this.button6_Click);
+            this.button6.Click += new System.EventHandler(this.CloseMoveSpecificMenuButtonClick);
             // 
             // label9
             // 
@@ -417,7 +417,7 @@ namespace Archipelago
             this.button7.TabIndex = 27;
             this.button7.Text = "End turn";
             this.button7.UseVisualStyleBackColor = false;
-            this.button7.Click += new System.EventHandler(this.button7_Click);
+            this.button7.Click += new System.EventHandler(this.EndTurn);
             // 
             // label10
             // 
@@ -486,18 +486,18 @@ namespace Archipelago
             // 
             // listBox1
             // 
-            this.listBox1.AllowDrop = true;
-            this.listBox1.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.listBox1.BackColor = System.Drawing.SystemColors.Control;
-            this.listBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.listBox1.Font = new System.Drawing.Font("Modern No. 20", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.ItemHeight = 17;
-            this.listBox1.Location = new System.Drawing.Point(940, 83);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(167, 68);
-            this.listBox1.TabIndex = 34;
-            this.listBox1.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
+            this.shipList.AllowDrop = true;
+            this.shipList.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.shipList.BackColor = System.Drawing.SystemColors.Control;
+            this.shipList.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.shipList.Font = new System.Drawing.Font("Modern No. 20", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.shipList.FormattingEnabled = true;
+            this.shipList.ItemHeight = 17;
+            this.shipList.Location = new System.Drawing.Point(940, 83);
+            this.shipList.Name = "listBox1";
+            this.shipList.Size = new System.Drawing.Size(167, 68);
+            this.shipList.TabIndex = 34;
+            this.shipList.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
             // 
             // button8
             // 
@@ -518,7 +518,7 @@ namespace Archipelago
             // ShipCargoPopup
             // 
             this.ShipCargoPopup.Controls.Add(this.button10);
-            this.ShipCargoPopup.Controls.Add(this.button9);
+            this.ShipCargoPopup.Controls.Add(this.CloseButton);
             this.ShipCargoPopup.Controls.Add(this.label14);
             this.ShipCargoPopup.Controls.Add(this.label13);
             this.ShipCargoPopup.Controls.Add(this.label12);
@@ -536,17 +536,17 @@ namespace Archipelago
             this.button10.TabIndex = 4;
             this.button10.Text = "Load cargo";
             this.button10.UseVisualStyleBackColor = true;
-            this.button10.Click += new System.EventHandler(this.button10_Click_1);
+            this.button10.Click += new System.EventHandler(this.OpenCargoMenu);
             // 
             // button9
             // 
-            this.button9.Location = new System.Drawing.Point(12, 92);
-            this.button9.Name = "button9";
-            this.button9.Size = new System.Drawing.Size(75, 23);
-            this.button9.TabIndex = 3;
-            this.button9.Text = "Close";
-            this.button9.UseVisualStyleBackColor = true;
-            this.button9.Click += new System.EventHandler(this.button9_Click);
+            this.CloseButton.Location = new System.Drawing.Point(12, 92);
+            this.CloseButton.Name = "button9";
+            this.CloseButton.Size = new System.Drawing.Size(75, 23);
+            this.CloseButton.TabIndex = 3;
+            this.CloseButton.Text = "Close";
+            this.CloseButton.UseVisualStyleBackColor = true;
+            this.CloseButton.Click += new System.EventHandler(this.CloseShipCargoPopup);
             // 
             // label14
             // 
@@ -670,7 +670,7 @@ namespace Archipelago
             this.Controls.Add(this.LoadCargoMenu);
             this.Controls.Add(this.ShipCargoPopup);
             this.Controls.Add(this.button8);
-            this.Controls.Add(this.listBox1);
+            this.Controls.Add(this.shipList);
             this.Controls.Add(this.ClothResourceLabel);
             this.Controls.Add(this.MetalResourceLabel);
             this.Controls.Add(this.WoodResourceLabel);
@@ -678,10 +678,10 @@ namespace Archipelago
             this.Controls.Add(this.TeamLabel);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.button7);
-            this.Controls.Add(this.panel2);
-            this.Controls.Add(this.button5);
-            this.Controls.Add(this.panel1);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.MoveSpecificMenu);
+            this.Controls.Add(this.MoveSpecificButtpn);
+            this.Controls.Add(this.moveSettings);
+            this.Controls.Add(this.MoveButton);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
@@ -699,10 +699,10 @@ namespace Archipelago
             this.Text = "Archipelago";
             this.Shown += new System.EventHandler(this.Form2_Shown);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
-            this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
+            this.moveSettings.ResumeLayout(false);
+            this.moveSettings.PerformLayout();
+            this.MoveSpecificMenu.ResumeLayout(false);
+            this.MoveSpecificMenu.PerformLayout();
             this.ShipCargoPopup.ResumeLayout(false);
             this.ShipCargoPopup.PerformLayout();
             this.LoadCargoMenu.ResumeLayout(false);
@@ -727,16 +727,16 @@ namespace Archipelago
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button MoveButton;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.CheckedListBox checkedListBox1;
-        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Panel moveSettings;
+        private System.Windows.Forms.Button MoveSpecificButtpn;
+        private System.Windows.Forms.CheckedListBox ShipSelectBox;
+        private System.Windows.Forms.Panel MoveSpecificMenu;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Button button6;
         private System.Windows.Forms.Button button7;
@@ -746,13 +746,13 @@ namespace Archipelago
         private System.Windows.Forms.Label WoodResourceLabel;
         private System.Windows.Forms.Label MetalResourceLabel;
         private System.Windows.Forms.Label ClothResourceLabel;
-        private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.ListBox shipList;
         private System.Windows.Forms.Button button8;
         private System.Windows.Forms.Panel ShipCargoPopup;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.Button button9;
+        private System.Windows.Forms.Button CloseButton;
         private System.Windows.Forms.Button button10;
         private System.Windows.Forms.Panel LoadCargoMenu;
         private System.Windows.Forms.MaskedTextBox maskedTextBox3;
