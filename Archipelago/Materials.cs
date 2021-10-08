@@ -22,7 +22,7 @@ namespace Archipelago
             switch (shipType)
             {
                 case Ship.ShipType.Heavy:
-                    cloth = 3
+                    cloth = 3;
                     break;
                 case Ship.ShipType.Medium:
                     cloth = 1;
