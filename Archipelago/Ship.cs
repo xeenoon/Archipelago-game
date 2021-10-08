@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -231,5 +232,75 @@ namespace Archipelago
             return new Ship(ShipType.VeryFast, 15, 75, "Clipper");
         }
         //    Very Fast     //
+        internal static Ship RandomShip()
+        {
+            Random r = new Random();
+            switch (r.Next(1,25))
+            {
+                case 1:
+                    return CreateBrig();
+                case 2:
+                    return CreateRigger();
+                case 3:
+                    return CreateCarrack();
+                case 4:
+                    return CreateGalleon();
+                case 5:
+                    return Create4thRate();
+                case 6:
+                    return Create3rdRate();
+                case 7:
+                    return Create2ndRate();
+                case 8:
+                    return Create1stRate();
+                case 9:
+                    return CreateSloop();
+                case 10:
+                    return CreateSchooner();
+                case 11:
+                    return CreateCutter();
+                case 12:
+                    return CreateKetch();
+                case 13:
+                    return CreatePinnance();
+                case 14:
+                    return CreateSloopOfWar();
+                case 15:
+                    return CreateSnow();
+                case 16:
+                    return CreateWarGalleon();
+                case 17:
+                    return CreateBrigantine();
+                case 18:
+                    return CreateFrigate();
+                case 19:
+                    return CreateGalley();
+                case 20:
+                    return CreateCorvette();
+                case 21:
+                    return CreateXebec();
+                case 22:
+                    return CreateManOWar();
+                case 23:
+                    return CreateSteamCorvette();
+                case 24:
+                    return CreateClipper();
+                default:
+                    throw new Exception("Random value exceeded boundries");
+            }
+        }
+
+        internal static List<Point> Destinations(ShipType shipType, Point location)
+        {
+            List<Point> locations = new List<Point>();
+            for (int x = -(int)shipType; x < (int)shipType && x < 27; ++x)
+            {
+                for (int y = -(int)shipType; y < (int)shipType && y < 20; ++y)
+                {
+                    locations.Add( new Point(location.X + x,location.Y + y));
+                }
+            }
+            return locations;
+        }
     }
 }
