@@ -174,7 +174,7 @@ namespace Archipelago
                     justmoved = false; //We have not just moved
 
                     MoveButton.BackColor = Color.Goldenrod;
-                    MoveSpecificButtpn.BackColor = Color.Goldenrod; //Reset button colours
+                    MoveSpecificButton.BackColor = Color.Goldenrod; //Reset button colours
                     MoveSpecificSquare = false;
                     MoveSquare = false; //Reset move options
                     return; //Exit function
@@ -246,7 +246,7 @@ namespace Archipelago
                         {
                             s.moveNext = false; //Set the movenext to false
                         }
-                        MoveSpecificButtpn.BackColor = Color.Goldenrod; //Reset the button colour
+                        MoveSpecificButton.BackColor = Color.Goldenrod; //Reset the button colour
                         justmoved = true; //We have just moved some ships, so set that indicator to true
                     }
                 }
@@ -341,7 +341,7 @@ namespace Archipelago
                 justmoved = false;
 
                 MoveButton.BackColor = Color.Goldenrod;
-                MoveSpecificButtpn.BackColor = Color.Goldenrod; //Reset button colours
+                MoveSpecificButton.BackColor = Color.Goldenrod; //Reset button colours
                 MoveSpecificSquare = false;
                 MoveSquare = false; //Reset move options
             }
@@ -614,7 +614,7 @@ namespace Archipelago
             MoveSpecificSquare = true; //Modify move indicators
             
             MoveButton.BackColor = Color.Goldenrod;
-            MoveSpecificButtpn.BackColor = Color.AliceBlue; //Change button colours
+            MoveSpecificButton.BackColor = Color.AliceBlue; //Change button colours
 
             ShipSelectBox.Items.Clear(); //Remove all items from the ship select box, this ensures that we do not keep the items from the last select
             foreach (var s in selected.ships) //Iterate through all ships
