@@ -21,7 +21,7 @@ namespace Archipelago
         }
         public Move(Ship toMove, Point currentLocation, Point destination)
         {
-            this.toMove.Add(toMove);
+            this.toMove.Add(toMove); 
             this.currentLocation = currentLocation;
             this.destination = destination;
         }
