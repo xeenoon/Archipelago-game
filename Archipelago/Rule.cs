@@ -35,7 +35,7 @@ namespace Archipelago
                         var positions = Ship.Destinations(ship.shipType, square.location).Where(p => MainGameForm.CanMove(p.X, p.Y)); //Figure out the possible moves the ship cam make
                         foreach (var p in positions)
                         {
-                            if (MainGameForm.squares[p.X, p.Y].GetTeam() != hasTurn) //Can it attack?
+                            if (MainGameForm.squares[p.X, p.Y].GetTeam() != hasTurn && MainGameForm.squares[p.X, p.Y].GetTeam() != Team.None) //Can it attack?
                             {
                                 return true; //We can attack a square
                             }

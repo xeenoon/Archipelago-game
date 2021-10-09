@@ -42,7 +42,7 @@ namespace Archipelago
 
             foreach (var s in MainGameForm.squares)
             {
-                if (s.GetTeam() == MainGameForm.hasTurn)
+                if (s.GetShipTeams() == MainGameForm.hasTurn)
                 {
                     teamSquares.Add(s);
                 }

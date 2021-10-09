@@ -697,7 +697,7 @@ namespace Archipelago
 
             teamMaterials.Show(hasTurn); //Show the materials on the left side of the screen
         }
-
+        Team AIteam = Team.Green;
         private void EndTurn(object sender, EventArgs e)
         {
             switch (hasTurn)
@@ -751,6 +751,24 @@ namespace Archipelago
             if (hasTurn == Team.Pirate)
             {
                 EndTurn(new object(), new EventArgs());
+            }
+            if (hasTurn == AIteam)
+            {
+                AIMove();
+            }
+        }
+        public void AIMove()
+        {
+            if (Rule.AttackEverything.Condition()) //Is the condition for this rule satisfied?
+            {
+                foreach (var move in Rule.AttackEverything.Reaction()) 
+                {
+                    move.DoMove(); //Do the reaction that we need to do
+                }
+            }
+            else
+            {
+                Archipelago.Move.DoRandomMove(); //Just do a random move
             }
         }
         int iterations = 0;
