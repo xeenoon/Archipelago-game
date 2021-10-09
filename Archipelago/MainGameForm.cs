@@ -85,6 +85,9 @@ namespace Archipelago
                 case Team.Blue:
                     b = Brushes.Blue;
                     break;
+                case Team.Pirate:
+                    b = Brushes.Brown;
+                    break;
                 default:
                     throw new Exception();
             }
@@ -147,7 +150,7 @@ namespace Archipelago
                 return false; //You cannot move off the screen 
             }
             var greenCount = 0; //The amount of green pixels in a square
-            Bitmap asbitmap = new Bitmap(pictureBox1.Image);
+            Bitmap asbitmap = new Bitmap(pictureboxBitmap); //The original bitmap, not the highlighted bitmap
             for (int x = (int)(square_x * png_boxsize + png_left); x < (square_x * png_boxsize) + png_boxsize + png_left; ++x)
             {
                 for (int y = (int)(square_y * png_boxsize + png_top); y < (square_y * png_boxsize) + png_boxsize + png_top; ++y) //Iterate through pixels
@@ -759,7 +762,7 @@ namespace Archipelago
                 {
                     availableSquares.Add(s);
                 }
-                if (s.GetTeam() == Team.Pirate) //Are there pirate ships in the square
+                if (s.GetTeam() == Team.Pirate && !s.isPort) //Are there pirate ships in the square. If a pirate ship is in a port it will stay to defend it
                 {
                     pirateSquares.Add(s);
                 }
@@ -768,7 +771,8 @@ namespace Archipelago
             foreach (var square in pirateSquares)
             {
                 var ship = square.ships.FirstOrDefault();
-                Point destination = Ship.Destinations(ship.shipType, square.location).Shuffle().Where(p => squares[p.X, p.Y].team != Team.Pirate).FirstOrDefault(); //Select a random destination that does not have pirates in it
+                Point destination = Ship.Destinations(ship.shipType, square.location).Shuffle().Where(p => squares[p.X, p.Y].team != Team.Pirate && CanMove(p.X, p.Y)).FirstOrDefault(); 
+                //Select a random destination that does not have pirates in it and has water
                 square.ships.Remove(ship);
                 var destinationSquare = squares[destination.X, destination.Y];
                 destinationSquare.ships.Add(ship);
