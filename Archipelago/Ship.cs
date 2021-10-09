@@ -70,6 +70,22 @@ namespace Archipelago
             required = Materials.Generate(shipType, cannons, health);
             cargoCapacity = health / 2; //Cargo capacity does not dimish with ship health
         }
+
+        internal static Ship BuildShipInBudget(Materials materials)
+        {
+            if (CreateSloop().required > materials)
+            {
+                return null;
+            }
+
+            Ship result;
+            do
+            {
+                result = RandomShip();
+            } while (result.required > materials);
+            return result;
+        }
+
         public static Ship Create(string shipType)
         {
             switch (shipType)
