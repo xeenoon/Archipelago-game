@@ -12,14 +12,16 @@ namespace Archipelago
 {
     public partial class MainGameForm : Form
     {
-        Team hasTurn = Team.Red; //Hasturn is a type of team which shows what teams turn it is
+        public static Team hasTurn = Team.Red; //Hasturn is a type of team which shows what teams turn it is
         public TeamMaterials teamMaterials; //A way of determining the materials that the players whose turn it is has
-
+        public static MainGameForm currentForm;
         public MainGameForm()
         {
             InitializeComponent();
             pictureboxBitmap = new Bitmap(pictureBox1.Image);
             pictureBox1.Image = pictureboxBitmap; //Load the picture
+
+            currentForm = this; //Assign the current form to the form that is running
 
             label4.Visible = false;
             label5.Visible = false;
@@ -122,7 +124,7 @@ namespace Archipelago
             return baseMats * ratio;
         }
 
-        public Square[,] squares = new Square[horizontalSquares, verticalSquares];
+        public static Square[,] squares = new Square[horizontalSquares, verticalSquares];
 
         const int horizontalSquares = 29; //The amount of horizontal squares
         const int verticalSquares = 21; //The amount of vertical squares
@@ -142,8 +144,8 @@ namespace Archipelago
         {
             return new Point(topleft.X - s.Width / 2, topleft.Y - s.Height / 2); //Find the centre of a square
         }
-        Bitmap pictureboxBitmap; //The bitmap for the picturebox
-        private bool CanMove(int square_x, int square_y)//Determines if a square is allowed to be moved to. A ship cannot move to a square that is more than 90% green
+        static Bitmap pictureboxBitmap; //The bitmap for the picturebox
+        public static bool CanMove(int square_x, int square_y)//Determines if a square is allowed to be moved to. A ship cannot move to a square that is more than 90% green
         {
             if (square_x>=28)
             {
@@ -345,7 +347,7 @@ namespace Archipelago
         }
         Random r = new Random(); //The random class to be used when attacking
 
-        private void RunAttack(Square square)
+        public static void RunAttack(Square square)
         {
             while (square.ships.Select(s => s.team).Distinct().Count() >= 2) //While there are ships to attack and ships to defend
             {
@@ -354,7 +356,8 @@ namespace Archipelago
                 {
                     int totalCannons = square.ships.Where(s => s.team == team).Sum(s => s.cannons); //Find out how many total cannons their are on all of the teams ships
                     Ship ship = square.ships.First(p => p.team != team); //Select a ship to do damage to
-                    var damage = totalCannons * r.Next(1, 7); //Calculate damage done, random number from 1 inclusive to 7 exclusive
+                    var damage = totalCannons * currentForm.r.Next(1, 7); //Calculate damage done, random number from 1 inclusive to 7 exclusive
+                    //We have to use current form because this is a static function
                     ship.health -= damage; //Decrement ships health
                     MessageBox.Show(string.Format("Team {0} did {1} damage", team, damage), "FIGHT", MessageBoxButtons.OK); //Show damage data
                     if (ship.health <= 0) //Did the ship die
@@ -367,7 +370,8 @@ namespace Archipelago
             if (square.ships.Where(s => s.team == hasTurn).Count() >= 1 && square.isPort == true) //After we have determined the attacker has won, determine if the square is a port
             {
                 square.team = hasTurn; //Change the team of the port to the winning team
-                CreatePort(square.location.X, square.location.Y, hasTurn); //Change the colour indicator on the screen
+                currentForm.CreatePort(square.location.X, square.location.Y, hasTurn); //Change the colour indicator on the screen
+                //We have to use current form because this is a static function
             }
         }
 
