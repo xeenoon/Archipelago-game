@@ -13,7 +13,7 @@ namespace Archipelago
     public partial class MainGameForm : Form
     {
         public static Team hasTurn = Team.Red; //Hasturn is a type of team which shows what teams turn it is
-        public TeamMaterials teamMaterials; //A way of determining the materials that the players whose turn it is has
+        public static TeamMaterials teamMaterials; //A way of determining the materials that the players whose turn it is has
         public static MainGameForm currentForm;
         public MainGameForm()
         {

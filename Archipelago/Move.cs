@@ -49,7 +49,19 @@ namespace Archipelago
             } //Add all the ships on my team into the teamShips list
             if (teamSquares.Count() == 0)
             {
-
+                var ship = Ship.BuildShipInBudget(MainGameForm.teamMaterials.GetMaterials(MainGameForm.hasTurn)); //Build a random ship
+                if (ship != null) //Make sure we have enough materials to build the ship
+                {
+                    MainGameForm.teamMaterials.Pay(MainGameForm.hasTurn, ship.required); ///Pay for the ship
+                    ship.team = MainGameForm.hasTurn;
+                    foreach(var square in MainGameForm.squares)
+                    {
+                        if (square.isPort && square.team == MainGameForm.hasTurn) //Is the square a port owned by me?
+                        {
+                            square.ships.Add(ship); //Add the ship to the port
+                        }
+                    }
+                }
             }
             else
             {
