@@ -300,6 +300,7 @@ namespace Archipelago
                     locations.Add( new Point(location.X + x,location.Y + y));
                 }
             }
+            locations.RemoveAll(p=>p.X <0 || p.Y < 0 || p.X >= 27 || p.Y >= 20);
             return locations;
         }
     }
