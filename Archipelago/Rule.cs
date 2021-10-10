@@ -19,10 +19,12 @@ namespace Archipelago
         }
 
         //Default defined rules
-        public static Rule AttackEverything = new Rule(0, AnalysingFunctions.CanAttack, AnalysingFunctions.AttackFirst);
+        public static Rule AttackEverything = new Rule(0, RuleFunctions.CanAttack, RuleFunctions.AttackFirst);
+        public static Rule DefendPort = new Rule(0, RuleFunctions.IsEmptyPort, RuleFunctions.BuildShipInPort);
     }
-    public static class AnalysingFunctions
+    public static class RuleFunctions
     {
+        //Attack everything functions
         public static bool CanAttack()
         {
             Team hasTurn = MainGameForm.hasTurn;
@@ -45,7 +47,6 @@ namespace Archipelago
             }
             return false; //There is no ship of ours that can attack a square
         }
-
         public static List<Move> AttackFirst()
         {
             List<Move> movesToMake = new List<Move>();
@@ -69,7 +70,42 @@ namespace Archipelago
                 }
             }
             movesToMake.Consolidate();
-            return movesToMake; //There is no ship of ours that can attack a square
+            return movesToMake; //Return the moves
+        }
+
+        //Defend port functions
+        public static bool IsEmptyPort()
+        {
+            Team hasTurn = MainGameForm.hasTurn;
+            foreach (var square in MainGameForm.squares)
+            {
+                if (square.isPort && square.team == hasTurn) //Is it one of my ports
+                {
+                    if (square.ships.Count() == 0) //Are there no ships defending the port
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false; //All ports are defended
+        }
+        public static List<Move> BuildShipInPort()
+        {
+            List<Move> movesToMake = new List<Move>();
+            Team hasTurn = MainGameForm.hasTurn;
+            var ship = Ship.BuildShipInBudget(MainGameForm.teamMaterials.GetMaterials(hasTurn)); //Build a random ship
+            if (ship != null) //Make sure we have enough materials to build the ship
+            {
+                foreach (var square in MainGameForm.squares) 
+                {
+                    if (square.isPort == true && square.team == hasTurn) //Is it one of my ports
+                    {
+                        movesToMake.Add(new Move(square, ship)); //Add the move
+                        break; //We only want to build one ship in one of the ports
+                    }
+                }
+            }
+            return movesToMake;//Return the moves
         }
     }
 }

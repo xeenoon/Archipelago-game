@@ -793,18 +793,28 @@ namespace Archipelago
         }
         public void AIMove()
         {
+            bool hasmoved = false;
             if (Rule.AttackEverything.Condition()) //Is the condition for this rule satisfied?
             {
-                foreach (var move in Rule.AttackEverything.Reaction()) 
+                foreach (var move in Rule.AttackEverything.Reaction())
                 {
                     move.DoMove(); //Do the reaction that we need to do
                 }
+                hasmoved = true;
             }
-            else
+            if (Rule.DefendPort.Condition()) //Is the condition for this rule satisfied
+            {
+                foreach (var move in Rule.DefendPort.Reaction())
+                {
+                    move.DoMove(); //Do the reaction that we need to do
+                }
+                hasmoved = true;
+            }
+            if (!hasmoved) 
             {
                 Archipelago.Move.DoRandomMove(); //Just do a random move
+                RepaintShipPicture();// Repaint the picture
             }
-            RepaintShipPicture();// Repaint the picture
         }
         int iterations = 0;
         private void PirateMoves()
