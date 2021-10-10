@@ -13,6 +13,9 @@ namespace Archipelago
         public Point currentLocation;
         public Point destination;
 
+        public Square port;
+        public Ship shipToBuild;
+
         public Move(List<Ship> toMove, Point currentLocation, Point destination)
         {
             this.toMove = toMove;
@@ -25,6 +28,11 @@ namespace Archipelago
             this.currentLocation = currentLocation;
             this.destination = destination;
         }
+        public Move(Square port, Ship shipToBuild)
+        {
+            this.port = port;
+            this.shipToBuild = shipToBuild;
+        }
 
         public void DoMove()
         {
@@ -34,6 +42,12 @@ namespace Archipelago
                 MainGameForm.squares[destination.X, destination.Y].ships.Add(ship); //Add the ship to its new destination
                 MainGameForm.RunAttack(MainGameForm.squares[destination.X, destination.Y]); //Attack the square
                 ship.hasMoved = false; //The ship has now moved, and cannot move again until the next turn
+            }
+            if (shipToBuild != null) //Is there a ship to build
+            {
+                port.ships.Add(shipToBuild);
+                MainGameForm.teamMaterials.Pay(MainGameForm.hasTurn, shipToBuild.required); ///Pay for the ship
+                shipToBuild.team = MainGameForm.hasTurn; //Set the ships team
             }
         }
         public static void DoRandomMove()
