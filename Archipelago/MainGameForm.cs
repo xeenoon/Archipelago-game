@@ -577,8 +577,29 @@ namespace Archipelago
                 }
                 else
                 {
-                    PointF closest = MoveTowards(selectCache.location, selected.location, (int)ship.shipType+0.45f); //Calculate the closest point the ship can move too
-                    squares[(int)(Math.Floor(closest.X)), (int)(Math.Floor(closest.Y))].ships.Add(ship); //Calculate which square this lies in, then move the ship there
+                    int distanceShipMoves = (int)ship.shipType + 1; //We start with +1 since we decrement at the start of the 'do' function
+                    Point closestReal;
+                    do {
+                        distanceShipMoves--; //Decrement ship moves so that each time we cant move somewhere, we move one square less
+                        PointF closest = MoveTowards(selectCache.location, selected.location, distanceShipMoves + 0.45f); //Calculate the closest point the ship can move too
+                        closestReal = new Point((int)(Math.Floor(closest.X)), (int)(Math.Floor(closest.Y)));
+                    } while(!CanMove(closestReal.X, closestReal.Y)); //If we cannot move to the square, try again except move one square less
+                    if (distanceShipMoves == 0) //Can we not even move one square?
+                    {
+                        ship.hasMoved = false; //This ship will not move this turn
+                        MessageBox.Show("Cannot move directly through land. Please choose a different direction", "Error"); //Notify the user
+                        
+                        MoveSquare = false; //Reset move settings
+                        MoveButton.BackColor = Color.Goldenrod; //Change button colour
+
+                        moveSettings.Visible = false; //Make the move menu invisible
+                        OnSquareClick(selected.location.X, selected.location.Y); //Run onsquare click
+                        RepaintShipPicture();
+
+                        return; //Exit the function
+                    }
+
+                    squares[closestReal.X, closestReal.Y].ships.Add(ship); //Calculate which square this lies in, then move the ship there
                 }
 
                 selectCache.ships.Remove(ship); //Remove the ship from the previous swuare
@@ -766,13 +787,13 @@ namespace Archipelago
                 foreach (var move in Rule.AttackEverything.Reaction()) 
                 {
                     move.DoMove(); //Do the reaction that we need to do
-                    RepaintShipPicture();// Repaint the picture
                 }
             }
             else
             {
                 Archipelago.Move.DoRandomMove(); //Just do a random move
             }
+            RepaintShipPicture();// Repaint the picture
         }
         int iterations = 0;
         private void PirateMoves()
