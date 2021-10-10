@@ -588,6 +588,8 @@ namespace Archipelago
 
             moveSettings.Visible = false; //Make the move menu invisible
             OnSquareClick(selected.location.X, selected.location.Y); //Run onsquare click
+
+            RepaintShipPicture();
         }
 
         private PointF MoveTowards(Point origin, Point dest, float distance) //Moves from one point to another for a distance
@@ -764,6 +766,7 @@ namespace Archipelago
                 foreach (var move in Rule.AttackEverything.Reaction()) 
                 {
                     move.DoMove(); //Do the reaction that we need to do
+                    RepaintShipPicture();// Repaint the picture
                 }
             }
             else
