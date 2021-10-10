@@ -343,6 +343,11 @@ namespace Archipelago
             MoveSpecificButton.BackColor = Color.Goldenrod; //Reset button colours
             MoveSpecificSquare = false;
             MoveSquare = false; //Reset move options
+
+            if(selectCache != null && selectCache != selected) //Make sure we are not going to do an operation on a null variable, also ensure we have not selected the square we selected last time
+            {
+                selectCache.orange = false; //The previously selected square should no longer be orange
+            }
         }
         Random r = new Random(); //The random class to be used when attacking
 
@@ -501,7 +506,7 @@ namespace Archipelago
             {
                 for (int y = (int)(square_y * png_boxsize + png_top); y < (square_y * png_boxsize) + png_boxsize + png_top; ++y) //Iterate through all pixels
                 {
-                    Color original = result.GetPixel(x, y); //Get the colour of the pixel
+                    Color original = pictureboxBitmap.GetPixel(x, y); //Get the colour of the pixel
 
                     if (original.R > 120 && original.G > 150 && original.B > 120 && (original.R < 170 || original.B > 170) && ((original.B > original.G) || original.B > 160)) //Is it blue?
                     {
@@ -516,6 +521,8 @@ namespace Archipelago
 
         private void HighlightSquare(int square_x, int square_y, Filter filter)
         {
+            squares[square_x, square_y].red = true;
+
             Bitmap result = new Bitmap(pictureBox1.Image); //Create a bitmap based off the picture
 
             for (int x = (int)(square_x * png_boxsize + png_left); x < (square_x * png_boxsize) + png_boxsize + png_left; ++x)
@@ -557,6 +564,8 @@ namespace Archipelago
                     result.SetPixel(x, y, pictureboxBitmap.GetPixel(x, y)); //Change the colour of the pixel to the original pixels colour
                 }
             }
+            squares[square_x, square_y].red = false;
+            squares[square_x, square_y].orange = false;
 
             pictureBox1.Image = result; //Replace the image with the unfiltered result
         }
@@ -593,6 +602,7 @@ namespace Archipelago
                         MoveButton.BackColor = Color.Goldenrod; //Change button colour
 
                         moveSettings.Visible = false; //Make the move menu invisible
+                        selectCache.orange = false; //The last selected square should not be orange
                         OnSquareClick(selected.location.X, selected.location.Y); //Run onsquare click
                         RepaintShipPicture();
 
@@ -645,13 +655,13 @@ namespace Archipelago
                     if (!s.red) 
                     {
                         HighlightSquare(s.location.X, s.location.Y, new Filter(100, -100, -100)); //Highlight square with a red filter (increases red by 100, decreases everything else by 100)
-                        s.red = true;
                     }
 
                     if (s.red && s.orange)
                     {
-                        HighlightSquare(s.location.X, s.location.Y, new Filter(100, -100, -100)); //Highlight square with a red filter (increases red by 100, decreases everything else by 100)
+                        HighlightSquare(s.location.X, s.location.Y); //Highlight square with a orange filter
                     }
+                    s.red = true;
                 }
                 else
                 {
@@ -661,7 +671,7 @@ namespace Archipelago
                     }
                     if (s.red && s.orange)
                     {
-                        HighlightSquare(s.location.X, s.location.Y, new Filter(100, -100, -100)); //Highlight square with a red filter (increases red by 100, decreases everything else by 100)
+                        HighlightSquare(s.location.X, s.location.Y); //Highlight square with a orange filter
                     }
                     s.red = false;
                 }
@@ -778,6 +788,7 @@ namespace Archipelago
             if (hasTurn == AIteam)
             {
                 AIMove();
+                EndTurn(new object(), new EventArgs());
             }
         }
         public void AIMove()

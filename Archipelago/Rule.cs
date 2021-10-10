@@ -59,7 +59,7 @@ namespace Archipelago
                         var positions = Ship.Destinations(ship.shipType, square.location).Where(p => MainGameForm.CanMove(p.X, p.Y)); //Figure out the possible moves the ship cam make
                         foreach (var p in positions)
                         {
-                            if (MainGameForm.squares[p.X, p.Y].GetTeam() != hasTurn) //Can it attack?
+                            if (MainGameForm.squares[p.X, p.Y].GetTeam() != hasTurn && MainGameForm.squares[p.X, p.Y].GetTeam() != Team.None) //Can it attack?
                             {
                                 movesToMake.Add(new Move(ship, square.location, p)); //Add the move to the list
                                 break; //We do not want one ship to have multiple moves, so just add this one
