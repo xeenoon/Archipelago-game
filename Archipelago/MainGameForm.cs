@@ -959,6 +959,7 @@ namespace Archipelago
         {
             if (shipList.SelectedIndex == -1 || selected.isPort == false) //Nothing is selected or we are not at a port
             {
+                shipList.SelectedIndex = -1; //Deselect all items
                 return; //If nothing is selected, just return
             }
             //When the select index is changed, a new ship has been selected
