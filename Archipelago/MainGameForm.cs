@@ -1038,15 +1038,20 @@ namespace Archipelago
 
         private void button12_Click(object sender, EventArgs e)
         {
-            if (teamMaterials.GetMaterials(hasTurn).wood >= 2000*(selected.level/2))
+            int cost = (int)(2000 * (((float)selected.level) / 2f)); //Casting as float to force decimal math, formula used to slowly increase the price of a port
+            var yesno = MessageBox.Show(string.Format("Upgrade port to level {0} for {1} wood?", selected.level+1, cost), "Upgrade port", MessageBoxButtons.YesNo);
+            if (yesno == DialogResult.Yes)
             {
-                teamMaterials.Pay(hasTurn, new Materials(2000 * (selected.level / 2), 0, 0));
-                selected.UpgradePort();
-                LevelText.Text = "Level: " + selected.level;
-            }
-            else
-            {
-                MessageBox.Show("Not enough materials");
+                if (teamMaterials.GetMaterials(hasTurn).wood >= cost) 
+                {
+                    teamMaterials.Pay(hasTurn, new Materials(cost, 0, 0)); //Pay for the port
+                    selected.UpgradePort(); //Upgrade the port
+                    LevelText.Text = "Level: " + selected.level;
+                }
+                else
+                {
+                    MessageBox.Show("Not enough materials");
+                }
             }
         }
     }
