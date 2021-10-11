@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -55,7 +56,6 @@ namespace Archipelago
                     squares[x, y] = new Square(x, y); //add a square
                 }
             }
-            
             CreatePort(4, 2, Team.Red);
             CreatePort(11, 14, Team.Green);
             CreatePort(21, 5, Team.Black);
@@ -93,6 +93,7 @@ namespace Archipelago
                 default:
                     throw new Exception();
             }
+            //CanMovePopulate(); Only to be used if repopulating squareValidity. Just copy and paste from txt file. Change username in Filepath to your own username
             g.FillEllipse(b, new Rectangle(CentreOf(ConvertLocationToReal(new Point(x, y)), new Size(35, 35)), new Size(35, 35)));
             squares[x, y].isPort = true;
             squares[x, y].team = t;
@@ -100,7 +101,7 @@ namespace Archipelago
         }
         private Materials CalculatedGenerated(int square_x, int square_y)
         {
-            Materials baseMats = new Materials(100, 20, 3);
+            Materials baseMats = new Materials(200, 20, 3);
             float blueCount=0;
             float greenCount=0;
             for (int x = (int)(square_x * png_boxsize + png_left); x < (square_x * png_boxsize) + png_boxsize + png_left; ++x)
@@ -144,33 +145,82 @@ namespace Archipelago
             return new Point(topleft.X - s.Width / 2, topleft.Y - s.Height / 2); //Find the centre of a square
         }
         static Bitmap pictureboxBitmap; //The bitmap for the picturebox
-        public static bool CanMove(int square_x, int square_y)//Determines if a square is allowed to be moved to. A ship cannot move to a square that is more than 90% green
-        {
-            if (square_x>=28)
-            {
-                return false; //You cannot move off the screen 
-            }
-            var greenCount = 0; //The amount of green pixels in a square
-            Bitmap asbitmap = new Bitmap(pictureboxBitmap); //The original bitmap, not the highlighted bitmap
-            for (int x = (int)(square_x * png_boxsize + png_left); x < (square_x * png_boxsize) + png_boxsize + png_left; ++x)
-            {
-                for (int y = (int)(square_y * png_boxsize + png_top); y < (square_y * png_boxsize) + png_boxsize + png_top; ++y) //Iterate through pixels
-                {
-                    Color original = asbitmap.GetPixel(x, y); //Get the colour of the pixel
 
-                    if (original.R > 120 && original.G > 150 && original.B > 120 && (original.R < 170 || original.B > 170) && ((original.B > original.G) || original.B > 160))//Is the square green?
+        public static bool[,] squareValidity = new bool[,] {
+            { true , true , true , true , true , true , true , true , true , true , true , true , true , true , true , true , true , true , true , true , true  },
+            { true , true , true , true , true , true , true , true , true , true , true , true , true , false, false, true , true , true , true , true , true  },
+            { true , false, false, true , true , true , true , true , true , true , true , true , true , false, false, true , true , true , true , true , true  },
+            { true , true , false, false, true , true , false, true , true , true , true , true , false, false, true , true , true , true , true , true , true  },
+            { true , true , true , true , false, true , true , true , true , true , true , false, false, true , true , true , true , true , true , true , true  },
+            { true , true , true , true , true , true , true , true , true , true , true , false, true , true , true , true , true , true , true , true , true  },
+            { true , true , true , true , true , false, true , true , true , true , false, false, false, false, false, false, false, true , true , true , true  },
+            { true , true , true , true , true , true , true , true , true , true , true , false, false, false, false, false, false, true , true , true , true  },
+            { true , true , true , true , true , true , true , true , true , true , true , true , false, false, false, true , true , true , true , true , true  },
+            { true , true , true , true , true , true , true , true , true , true , true , true , true , false, false, true , true , true , true , false, true  },
+            { true , true , true , true , true , true , true , true , true , true , true , true , true , false, false, true , true , true , true , true , true  },
+            { true , true , true , true , true , true , false, false, true , true , true , true , true , false, true , true , true , false, false, true , true  },
+            { true , true , true , true , true , true , true , true , true , true , true , true , true , true , true , true , true , true , false, true , true  },
+            { true , true , true , true , true , true , true , true , true , true , true , true , true , true , true , true , true , true , true , true , true  },
+            { true , true , true , false, true , true , false, true , true , true , true , true , true , true , true , true , true , true , true , true , true  },
+            { true , true , true , true , false, false, false, true , true , true , true , true , true , true , true , true , true , true , true , true , true  },
+            { true , true , true , true , true , false, true , true , true , true , true , true , true , true , true , true , true , true , true , true , true  },
+            { true , false, true , true , true , false, true , true , true , true , true , true , true , true , true , true , true , true , true , true , true  },
+            { true , false, true , true , true , false, true , true , true , true , true , true , true , true , true , true , true , true , true , true , true  },
+            { true , true , true , true , false, true , true , true , true , true , true , true , true , true , true , true , true , true , true , true , true  },
+            { true , true , true , true , false, true , true , true , true , true , true , true , true , true , true , true , true , true , true , true , true  },
+            { true , true , true , true , true , true , true , true , true , false, true , true , true , true , true , true , true , true , false, true , true  },
+            { true , true , true , true , true , true , true , true , true , true , true , true , true , true , true , true , true , true , true , true , true  },
+            { true , true , false, false, true , true , true , true , true , true , true , true , true , true , false, true , true , true , true , true , true  },
+            { true , true , true , true , true , true , true , true , true , true , true , true , true , true , true , false, false, false, true , true , true  },
+            { true , true , true , true , true , true , true , true , true , false, false, true , true , true , true , true , false, true , true , true , true  },
+            { true , true , true , true , true , false, true , true , false, true , true , true , true , true , true , true , true , true , true , true , true  },
+            { true , true , true , true , true , true , true , true , true , true , true , true , true , true , true , true , true , true , true , true , true  },
+        };
+        public static void CanMovePopulate()//Determines if a square is allowed to be moved to. A ship cannot move to a square that is more than 90% green
+        {
+            string Filepath = @"C:\Users\chris\Downloads\writeme.txt";
+            string result = "public static bool[,] squareValidity = new bool[,] { ";
+            for (int square_x = 0; square_x < horizontalSquares-1; square_x++)
+            {
+                string toadd = "{";
+                for (int square_y = 0; square_y < verticalSquares; square_y++)
+                {
+                    var greenCount = 0; //The amount of green pixels in a square
+                    Bitmap asbitmap = pictureboxBitmap; //The original bitmap, not the highlighted bitmap
+                    for (int x = (int)(square_x * png_boxsize + png_left); x < (square_x * png_boxsize) + png_boxsize + png_left; ++x)
                     {
-                        greenCount++;//Increment the green count
+                        for (int y = (int)(square_y * png_boxsize + png_top); y < (square_y * png_boxsize) + png_boxsize + png_top; ++y) //Iterate through pixels
+                        {
+                            Color original = asbitmap.GetPixel(x, y); //Get the colour of the pixel
+
+                            if (original.R > 120 && original.G > 150 && original.B > 120 && (original.R < 170 || original.B > 170) && ((original.B > original.G) || original.B > 160))//Is the square green?
+                            {
+                                greenCount++;//Increment the green count
+                            }
+                        }
+                    }
+                    //total == 4761
+                    //10% = 476
+                    if (greenCount >= 476)
+                    {
+                        toadd += "true ,";
+                    }
+                    else
+                    {
+                        toadd += "false,";
                     }
                 }
+                toadd = toadd.Substring(0,toadd.Length-1);
+                toadd += "},\n";
+                result += toadd;
             }
-            //total == 4761
-            //10% = 476
-            if (greenCount >= 476)
-            {
-                return true; //We can move to this square
-            }
-            return false; //We cannot move to this square
+            result = result.Substring(0,result.Length-1); //Remove last character
+            result += "};";
+            File.WriteAllText(Filepath, result);
+        } //This function is only used to write text to a file. Should not be referenced in code
+        public static bool CanMove(int square_x, int square_y)
+        {
+            return squareValidity[square_x, square_y];
         }
         bool justmoved; //Did we just move something? Relative to OnSquareClick(), Should not be referenced elsewhere, unless function relates to moving
         private void OnSquareClick(int xpos, int ypos)
@@ -987,7 +1037,7 @@ namespace Archipelago
     {
         /**
          * A class for storing incremental changes in colour
-         * Contains an R, B, and G value which will decrement or increment a different color
+         * Contains an R, B, and G value which will decrement or increment a different color value
          * */
         public int R;
         public int G;
