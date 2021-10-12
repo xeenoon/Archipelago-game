@@ -29,7 +29,7 @@ namespace Archipelago
         }
         public ShipType shipType;
         public int cannons;
-        public int health;
+        public int health;private int maxhealth;
         public string name;
         public bool moveNext;
         public Team team = Team.None;
@@ -66,6 +66,7 @@ namespace Archipelago
             this.shipType = shipType;
             this.cannons = cannons;
             this.health = health;
+            health = maxhealth;
             this.name = name;
             required = Materials.Generate(shipType, cannons, health);
             cargoCapacity = health / 2; //Cargo capacity does not dimish with ship health
