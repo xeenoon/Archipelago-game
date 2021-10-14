@@ -37,6 +37,8 @@ namespace Archipelago
 
             button12.Visible = false;
 
+            
+
             ManufactureFast.Visible = false;
             ManufactureLabel.Visible = false;
             ManufactureMedium.Visible = false;
@@ -146,7 +148,7 @@ namespace Archipelago
 
         const int png_boxsize = 69;//The original size of the box
 
-        Square selected; //The current selected square
+        public static Square selected; //The current selected square
         Square selectCache; //The previously selected square
         public Point ConvertLocationToReal(Point p)
         {
@@ -239,7 +241,7 @@ namespace Archipelago
             return squareValidity[square_x, square_y];
         }
         bool justmoved; //Did we just move something? Relative to OnSquareClick(), Should not be referenced elsewhere, unless function relates to moving
-        private void OnSquareClick(int xpos, int ypos)
+        public void OnSquareClick(int xpos, int ypos)
         {
             TeamLabel.Text = ""; //Reset team label
 
@@ -1053,6 +1055,24 @@ namespace Archipelago
                     MessageBox.Show("Not enough materials");
                 }
             }
+        }
+
+        private void LoadCargoMenu_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void RepairBtn_Click(object sender, EventArgs e)
+        {
+            
+            selectedShip.Repair(teamMaterials.GetMaterials(hasTurn));
+            
+            
+        }
+
+        private void label19_Click(object sender, EventArgs e)
+        {
+
         }
     }
     public struct Filter

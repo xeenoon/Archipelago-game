@@ -56,9 +56,41 @@ namespace Archipelago
         /// <summary>
         /// used to bring back health
         /// </summary>
-        public static void Repair()
+        public void Repair(Materials funds)
         {
+            //checks if you already are at max health
+            if (maxhealth == health)
+            {
+                MessageBox.Show("This ship is already at max health");
+                return;
+            }
+            
+            //how much health is lost
+            int RqrdHealth = maxhealth - health;
 
+            //finds based off of the wood:health rate how much wood is needed
+            int wood_needed =Materials.HealthToWood(RqrdHealth);
+
+            //checks the amount wood you have
+            if (funds.wood< wood_needed)
+            {
+                MessageBox.Show("you don't have enough wood");
+                return;
+            }
+
+            
+            var response =MessageBox.Show($"do you want to pay {wood_needed} wood for {RqrdHealth} health","Repairs",MessageBoxButtons.YesNo);
+            if(response == DialogResult.No)
+            {
+                return;
+            }
+            //transaction
+            funds.Pay(new Materials(wood_needed, 0, 0));
+
+            //sets your health to max
+            health = maxhealth;
+
+            MainGameForm.currentForm.OnSquareClick(MainGameForm.selected.location.X, MainGameForm.selected.location.Y);
         }
 
         private Ship(ShipType shipType, int cannons, int health, string name)
@@ -66,7 +98,7 @@ namespace Archipelago
             this.shipType = shipType;
             this.cannons = cannons;
             this.health = health;
-            health = maxhealth;
+            maxhealth = health;
             this.name = name;
             required = Materials.Generate(shipType, cannons, health);
             cargoCapacity = health / 2; //Cargo capacity does not dimish with ship health
