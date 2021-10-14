@@ -148,7 +148,7 @@ namespace Archipelago
 
         const int png_boxsize = 69;//The original size of the box
 
-        Square selected; //The current selected square
+        public static Square selected; //The current selected square
         Square selectCache; //The previously selected square
         public Point ConvertLocationToReal(Point p)
         {
@@ -241,7 +241,7 @@ namespace Archipelago
             return squareValidity[square_x, square_y];
         }
         bool justmoved; //Did we just move something? Relative to OnSquareClick(), Should not be referenced elsewhere, unless function relates to moving
-        private void OnSquareClick(int xpos, int ypos)
+        public void OnSquareClick(int xpos, int ypos)
         {
             TeamLabel.Text = ""; //Reset team label
 
