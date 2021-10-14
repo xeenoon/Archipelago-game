@@ -143,6 +143,12 @@ namespace Archipelago
                 } //Add all possible ship types to the list of ships
             }
         }
+
+        internal Ship Copy()
+        {
+            return new Ship(shipType, cannons, health, name) {team = team};
+        }
+
         private Ship(ShipType shipType, int cannons, int health, string name)
         {
             this.shipType = shipType;
@@ -406,9 +412,9 @@ namespace Archipelago
         internal static List<Point> Destinations(ShipType shipType, Point location)
         {
             List<Point> locations = new List<Point>();
-            for (int x = -(int)shipType; x < (int)shipType && x < 27; ++x)
+            for (int x = -(int)shipType; x <= (int)shipType && x < 27; ++x)
             {
-                for (int y = -(int)shipType; y < (int)shipType && y < 20; ++y)
+                for (int y = -(int)shipType; y <= (int)shipType && y < 20; ++y)
                 {
                     locations.Add( new Point(location.X + x,location.Y + y));
                 }

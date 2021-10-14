@@ -63,6 +63,51 @@ namespace Archipelago
             }
         }
 
+        internal static float WinningChance(Square attackingSquare, Square targetSquare)
+        {
+            Random r = new Random();
+            List<bool> results = new List<bool>();
+            for (int i = 0; i < 20; ++i) 
+            {
+                List<Ship> simulatedShips = new List<Ship>();
+                foreach (var ship in attackingSquare.ships)
+                {
+                    simulatedShips.Add(ship.Copy());
+                }
+                foreach (var ship in targetSquare.ships)
+                {
+                    simulatedShips.Add(ship.Copy());
+                } //Add a copy of all ships to the simulated ships list
+
+                while (simulatedShips.Select(s => s.team).Distinct().Count() >= 2) //While there are ships to attack and ships to defend
+                {
+                    var teams = simulatedShips.Select(s => s.team).Distinct().ToList(); //What teams are in the square
+                    foreach (var team in teams) //Iterate through the teams in the square
+                    {
+                        int totalCannons = simulatedShips.Where(s => s.team == team).Sum(s => s.cannons); //Find out how many total cannons their are on all of the teams ships
+                        Ship ship = simulatedShips.First(p => p.team != team); //Select a ship to do damage to
+                        var damage = totalCannons * r.Next(1, 7); //Calculate damage done, random number from 1 inclusive to 7 exclusive
+                                                                  //We have to use current form because this is a static function
+                        ship.health -= damage; //Decrement ships health
+                        if (ship.health <= 0) //Did the ship die
+                        {
+                            simulatedShips.Remove(ship); //Remove the ship from the square
+                        }
+                    }
+                }
+                if (simulatedShips[0].team == attackingSquare.GetTeam())
+                {
+                    results.Add(true); //Attacking square won, so add to the results table
+                }
+                if (simulatedShips[0].team == targetSquare.GetTeam())
+                {
+                    results.Add(false); //Defending square won, so add to the results table
+                }
+            }
+            int amountWrong = results.Where(b => b == false).Count();
+            return 1f / (amountWrong+1); //Return the count of things we got wrong as a percentage
+        }
+
         internal Team GetShipTeams()
         {
             Team result = Team.None;

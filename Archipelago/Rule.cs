@@ -37,11 +37,12 @@ namespace Archipelago
                 {
                     if (ship.team ==hasTurn) //Is it on my team?
                     {
-                        var positions = Ship.Destinations(ship.shipType, square.location).Where(p => MainGameForm.CanMove(p.X, p.Y)); //Figure out the possible moves the ship cam make
+                        var positions = Ship.Destinations(ship.shipType, square.location).Where(p => MainGameForm.CanMove(p.X, p.Y)).ToList(); //Figure out the possible moves the ship cam make
                         foreach (var p in positions)
                         {
-                            var targetTeam = MainGameForm.squares[p.X, p.Y].GetTeam();
-                            if (targetTeam != hasTurn && targetTeam != Team.None && targetTeam != Team.Pirate) //Can it attack, and never attack a pirate
+                            var target = MainGameForm.squares[p.X, p.Y];
+                            var targetTeam = target.GetTeam();
+                            if (targetTeam != hasTurn && targetTeam != Team.None && Square.WinningChance(square, target) > 0.7f) //Can it attack, and is it worth attacking?
                             {
                                 return true; //We can attack a square
                             }
@@ -64,7 +65,9 @@ namespace Archipelago
                         var positions = Ship.Destinations(ship.shipType, square.location).Where(p => MainGameForm.CanMove(p.X, p.Y)); //Figure out the possible moves the ship cam make
                         foreach (var p in positions)
                         {
-                            if (MainGameForm.squares[p.X, p.Y].GetTeam() != hasTurn && MainGameForm.squares[p.X, p.Y].GetTeam() != Team.None) //Can it attack?
+                            var target = MainGameForm.squares[p.X, p.Y];
+                            var targetTeam = target.GetTeam();
+                            if (targetTeam != hasTurn && targetTeam != Team.None && Square.WinningChance(square, target) > 0.7f) //Can it attack, and is it worth attacking?
                             {
                                 movesToMake.Add(new Move(ship, square.location, p)); //Add the move to the list
                                 break; //We do not want one ship to have multiple moves, so just add this one
