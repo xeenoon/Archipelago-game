@@ -92,7 +92,7 @@ namespace Archipelago
             // 
             this.pictureBox1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(172, 7);
+            this.pictureBox1.Location = new System.Drawing.Point(172, 0);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(762, 528);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -256,7 +256,7 @@ namespace Archipelago
             this.label7.TabIndex = 16;
             this.label7.Text = "Very fast";
             // 
-            // button1
+            // MoveButton
             // 
             this.MoveButton.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.MoveButton.AutoEllipsis = true;
@@ -264,7 +264,7 @@ namespace Archipelago
             this.MoveButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.MoveButton.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.MoveButton.Location = new System.Drawing.Point(940, 227);
-            this.MoveButton.Name = "button1";
+            this.MoveButton.Name = "MoveButton";
             this.MoveButton.Size = new System.Drawing.Size(75, 23);
             this.MoveButton.TabIndex = 17;
             this.MoveButton.Text = "Move";
@@ -330,7 +330,7 @@ namespace Archipelago
             this.label8.TabIndex = 18;
             this.label8.Text = "Some ships cannot move the specified distance.";
             // 
-            // panel1
+            // moveSettings
             // 
             this.moveSettings.Controls.Add(this.label8);
             this.moveSettings.Controls.Add(this.button3);
@@ -338,11 +338,11 @@ namespace Archipelago
             this.moveSettings.Controls.Add(this.label2);
             this.moveSettings.Controls.Add(this.button2);
             this.moveSettings.Location = new System.Drawing.Point(410, 216);
-            this.moveSettings.Name = "panel1";
+            this.moveSettings.Name = "moveSettings";
             this.moveSettings.Size = new System.Drawing.Size(328, 98);
             this.moveSettings.TabIndex = 23;
             // 
-            // button5
+            // MoveSpecificButton
             // 
             this.MoveSpecificButton.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.MoveSpecificButton.AutoEllipsis = true;
@@ -350,14 +350,14 @@ namespace Archipelago
             this.MoveSpecificButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.MoveSpecificButton.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.MoveSpecificButton.Location = new System.Drawing.Point(1021, 227);
-            this.MoveSpecificButton.Name = "button5";
+            this.MoveSpecificButton.Name = "MoveSpecificButton";
             this.MoveSpecificButton.Size = new System.Drawing.Size(86, 23);
             this.MoveSpecificButton.TabIndex = 24;
             this.MoveSpecificButton.Text = "Move specific";
             this.MoveSpecificButton.UseVisualStyleBackColor = false;
             this.MoveSpecificButton.Click += new System.EventHandler(this.MoveSpecificSquareButtonClick);
             // 
-            // checkedListBox1
+            // ShipSelectBox
             // 
             this.ShipSelectBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.ShipSelectBox.CheckOnClick = true;
@@ -369,18 +369,18 @@ namespace Archipelago
             "Steam corvette",
             "Steam corvette"});
             this.ShipSelectBox.Location = new System.Drawing.Point(4, 28);
-            this.ShipSelectBox.Name = "checkedListBox1";
+            this.ShipSelectBox.Name = "ShipSelectBox";
             this.ShipSelectBox.Size = new System.Drawing.Size(100, 77);
             this.ShipSelectBox.TabIndex = 25;
             this.ShipSelectBox.ThreeDCheckBoxes = true;
             // 
-            // panel2
+            // MoveSpecificMenu
             // 
             this.MoveSpecificMenu.Controls.Add(this.button6);
             this.MoveSpecificMenu.Controls.Add(this.label9);
             this.MoveSpecificMenu.Controls.Add(this.ShipSelectBox);
             this.MoveSpecificMenu.Location = new System.Drawing.Point(520, 196);
-            this.MoveSpecificMenu.Name = "panel2";
+            this.MoveSpecificMenu.Name = "MoveSpecificMenu";
             this.MoveSpecificMenu.Size = new System.Drawing.Size(107, 138);
             this.MoveSpecificMenu.TabIndex = 26;
             // 
@@ -486,7 +486,7 @@ namespace Archipelago
             this.ClothResourceLabel.TabIndex = 33;
             this.ClothResourceLabel.Text = "Cloth:";
             // 
-            // listBox1
+            // shipList
             // 
             this.shipList.AllowDrop = true;
             this.shipList.Anchor = System.Windows.Forms.AnchorStyles.Right;
@@ -496,7 +496,7 @@ namespace Archipelago
             this.shipList.FormattingEnabled = true;
             this.shipList.ItemHeight = 17;
             this.shipList.Location = new System.Drawing.Point(940, 83);
-            this.shipList.Name = "listBox1";
+            this.shipList.Name = "shipList";
             this.shipList.Size = new System.Drawing.Size(167, 68);
             this.shipList.TabIndex = 34;
             this.shipList.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
@@ -540,10 +540,10 @@ namespace Archipelago
             this.button10.UseVisualStyleBackColor = true;
             this.button10.Click += new System.EventHandler(this.OpenCargoMenu);
             // 
-            // button9
+            // CloseButton
             // 
             this.CloseButton.Location = new System.Drawing.Point(12, 92);
-            this.CloseButton.Name = "button9";
+            this.CloseButton.Name = "CloseButton";
             this.CloseButton.Size = new System.Drawing.Size(75, 23);
             this.CloseButton.TabIndex = 3;
             this.CloseButton.Text = "Close";

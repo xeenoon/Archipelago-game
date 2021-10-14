@@ -38,11 +38,11 @@ namespace Archipelago
 
         public bool hasMoved;
         public int cargoCapacity;
-        public Materials loaded = new Materials(0,0,0);
+        public Materials loaded = new Materials(0, 0, 0);
 
         public bool LoadMaterials(Materials m)
         {
-            if ((m.GetWeight() +loaded.GetWeight())<=cargoCapacity) //Is there capacity for the materials to be loaded
+            if ((m.GetWeight() + loaded.GetWeight()) <= cargoCapacity) //Is there capacity for the materials to be loaded
             {
                 loaded += m; //Add the materials
                 return true; //The materials have been successfully loaded
@@ -58,7 +58,95 @@ namespace Archipelago
         /// </summary>
         public static void Repair()
         {
+            //Does the player have enough materials
+            //Pay for materials using the HealthToWood();
+            //Replenish health
+        }
+        public static void Setup()
+        {
+            for (int i = 1; i < 25; ++i)
+            {
+                switch (i)
+                {
+                    case 1:
+                        AllShips.Add(CreateBrig());
+                        break;
+                    case 2:
+                        AllShips.Add(CreateRigger());
+                        break;
+                    case 3:
+                        AllShips.Add(CreateCarrack());
+                        break;
+                    case 4:
+                        AllShips.Add(CreateGalleon());
+                        break;
+                    case 5:
+                        AllShips.Add(Create4thRate());
+                        break;
+                    case 6:
+                        AllShips.Add(Create3rdRate());
+                        break;
+                    case 7:
+                        AllShips.Add(Create2ndRate());
+                        break;
+                    case 8:
+                        AllShips.Add(Create1stRate());
+                        break;
+                    case 9:
+                        AllShips.Add(CreateSloop());
+                        break;
+                    case 10:
+                        AllShips.Add(CreateSchooner());
+                        break;
+                    case 11:
+                        AllShips.Add(CreateCutter());
+                        break;
+                    case 12:
+                        AllShips.Add(CreateKetch());
+                        break;
+                    case 13:
+                        AllShips.Add(CreatePinnance());
+                        break;
+                    case 14:
+                        AllShips.Add(CreateSloopOfWar());
+                        break;
+                    case 15:
+                        AllShips.Add(CreateSnow());
+                        break;
+                    case 16:
+                        AllShips.Add(CreateWarGalleon());
+                        break;
+                    case 17:
+                        AllShips.Add(CreateBrigantine());
+                        break;
+                    case 18:
+                        AllShips.Add(CreateFrigate());
+                        break;
+                    case 19:
+                        AllShips.Add(CreateGalley());
+                        break;
+                    case 20:
+                        AllShips.Add(CreateCorvette());
+                        break;
+                    case 21:
+                        AllShips.Add(CreateXebec());
+                        break;
+                    case 22:
+                        AllShips.Add(CreateManOWar());
+                        break;
+                    case 23:
+                        AllShips.Add(CreateSteamCorvette());
+                        break;
+                    case 24:
+                        AllShips.Add(CreateClipper());
+                        break;
+                } //Add all possible ship types to the list of ships
+            }
+        }
 
+        internal Ship Copy()
+        {
+            return new Ship(shipType, cannons, health, name) {team = team};
         }
 
         private Ship(ShipType shipType, int cannons, int health, string name)
@@ -71,7 +159,7 @@ namespace Archipelago
             cargoCapacity = health / 2; //Cargo capacity does not dimish with ship health
         }
 
-        internal static Ship BuildShipInBudget(Materials materials)
+        internal static Ship BuildShipInBudget(Materials materials, ShipType shipType = ShipType.None)
         {
             if (CreateSloop().required > materials)
             {
@@ -82,8 +170,22 @@ namespace Archipelago
             do
             {
                 result = RandomShip();
-            } while (result.required > materials);
+            } while (result.required > materials && (shipType == ShipType.None || result.shipType == shipType)); //Do we have the required materials and does the ship fir the specifications
             return result;
+        }
+        static List<Ship> AllShips = new List<Ship>();
+
+        internal static Ship BuildBiggestShipInBudget(Materials materials, ShipType shipType)
+        {
+            var fittingShips = AllShips.Where(s=>s.shipType == shipType).OrderByDescending(m=>m.required.wood).ToList(); //Get all ships of my shiptype, then order them so that the most expensive ones are at the top
+            foreach (var ship in fittingShips)
+            {
+                if (ship.required < materials) //Can we afford to build it
+                {
+                    return ship; //This is the most expensive ship, return it
+                }
+            }
+            return null; //We cannot build a ship with our current resources
         }
 
         public static Ship Create(string shipType)
@@ -170,6 +272,7 @@ namespace Archipelago
         {
             return new Ship(ShipType.Heavy, 100, 1500, "2nd rate");
         }
+
         public static Ship Create1stRate()
         {
             return new Ship(ShipType.Heavy, 120, 2000, "1st rate");
@@ -309,9 +412,9 @@ namespace Archipelago
         internal static List<Point> Destinations(ShipType shipType, Point location)
         {
             List<Point> locations = new List<Point>();
-            for (int x = -(int)shipType; x < (int)shipType && x < 27; ++x)
+            for (int x = -(int)shipType; x <= (int)shipType && x < 27; ++x)
             {
-                for (int y = -(int)shipType; y < (int)shipType && y < 20; ++y)
+                for (int y = -(int)shipType; y <= (int)shipType && y < 20; ++y)
                 {
                     locations.Add( new Point(location.X + x,location.Y + y));
                 }
