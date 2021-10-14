@@ -93,8 +93,8 @@ namespace Archipelago
             // 
             this.pictureBox1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(229, 9);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(4);
+            this.pictureBox1.Location = new System.Drawing.Point(172, 0);
+
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(1016, 650);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -277,10 +277,11 @@ namespace Archipelago
             this.MoveButton.BackColor = System.Drawing.Color.Goldenrod;
             this.MoveButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.MoveButton.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.MoveButton.Location = new System.Drawing.Point(1253, 279);
-            this.MoveButton.Margin = new System.Windows.Forms.Padding(4);
+
+            this.MoveButton.Location = new System.Drawing.Point(940, 227);
             this.MoveButton.Name = "MoveButton";
-            this.MoveButton.Size = new System.Drawing.Size(100, 28);
+            this.MoveButton.Size = new System.Drawing.Size(75, 23);
+
             this.MoveButton.TabIndex = 17;
             this.MoveButton.Text = "Move";
             this.MoveButton.UseVisualStyleBackColor = false;
@@ -357,10 +358,11 @@ namespace Archipelago
             this.moveSettings.Controls.Add(this.button4);
             this.moveSettings.Controls.Add(this.label2);
             this.moveSettings.Controls.Add(this.button2);
-            this.moveSettings.Location = new System.Drawing.Point(547, 266);
-            this.moveSettings.Margin = new System.Windows.Forms.Padding(4);
+
+            this.moveSettings.Location = new System.Drawing.Point(410, 216);
             this.moveSettings.Name = "moveSettings";
-            this.moveSettings.Size = new System.Drawing.Size(437, 121);
+            this.moveSettings.Size = new System.Drawing.Size(328, 98);
+
             this.moveSettings.TabIndex = 23;
             // 
             // MoveSpecificButton
@@ -370,10 +372,11 @@ namespace Archipelago
             this.MoveSpecificButton.BackColor = System.Drawing.Color.Goldenrod;
             this.MoveSpecificButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.MoveSpecificButton.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.MoveSpecificButton.Location = new System.Drawing.Point(1361, 279);
-            this.MoveSpecificButton.Margin = new System.Windows.Forms.Padding(4);
+
+            this.MoveSpecificButton.Location = new System.Drawing.Point(1021, 227);
             this.MoveSpecificButton.Name = "MoveSpecificButton";
-            this.MoveSpecificButton.Size = new System.Drawing.Size(115, 28);
+            this.MoveSpecificButton.Size = new System.Drawing.Size(86, 23);
+
             this.MoveSpecificButton.TabIndex = 24;
             this.MoveSpecificButton.Text = "Move specific";
             this.MoveSpecificButton.UseVisualStyleBackColor = false;
@@ -390,10 +393,11 @@ namespace Archipelago
             "Steam corvette",
             "Steam corvette",
             "Steam corvette"});
-            this.ShipSelectBox.Location = new System.Drawing.Point(5, 34);
-            this.ShipSelectBox.Margin = new System.Windows.Forms.Padding(4);
+
+            this.ShipSelectBox.Location = new System.Drawing.Point(4, 28);
             this.ShipSelectBox.Name = "ShipSelectBox";
-            this.ShipSelectBox.Size = new System.Drawing.Size(133, 87);
+            this.ShipSelectBox.Size = new System.Drawing.Size(100, 77);
+
             this.ShipSelectBox.TabIndex = 25;
             this.ShipSelectBox.ThreeDCheckBoxes = true;
             // 
@@ -402,10 +406,11 @@ namespace Archipelago
             this.MoveSpecificMenu.Controls.Add(this.button6);
             this.MoveSpecificMenu.Controls.Add(this.label9);
             this.MoveSpecificMenu.Controls.Add(this.ShipSelectBox);
-            this.MoveSpecificMenu.Location = new System.Drawing.Point(693, 241);
-            this.MoveSpecificMenu.Margin = new System.Windows.Forms.Padding(4);
+
+            this.MoveSpecificMenu.Location = new System.Drawing.Point(520, 196);
             this.MoveSpecificMenu.Name = "MoveSpecificMenu";
-            this.MoveSpecificMenu.Size = new System.Drawing.Size(143, 170);
+            this.MoveSpecificMenu.Size = new System.Drawing.Size(107, 138);
+
             this.MoveSpecificMenu.TabIndex = 26;
             // 
             // button6
@@ -527,11 +532,12 @@ namespace Archipelago
             this.shipList.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.shipList.Font = new System.Drawing.Font("Modern No. 20", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.shipList.FormattingEnabled = true;
-            this.shipList.ItemHeight = 21;
-            this.shipList.Location = new System.Drawing.Point(1253, 102);
-            this.shipList.Margin = new System.Windows.Forms.Padding(4);
+
+            this.shipList.ItemHeight = 17;
+            this.shipList.Location = new System.Drawing.Point(940, 83);
             this.shipList.Name = "shipList";
-            this.shipList.Size = new System.Drawing.Size(223, 84);
+            this.shipList.Size = new System.Drawing.Size(167, 68);
+
             this.shipList.TabIndex = 34;
             this.shipList.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
             // 
@@ -591,10 +597,11 @@ namespace Archipelago
             // 
             // CloseButton
             // 
-            this.CloseButton.Location = new System.Drawing.Point(16, 139);
-            this.CloseButton.Margin = new System.Windows.Forms.Padding(4);
+
+            this.CloseButton.Location = new System.Drawing.Point(12, 92);
             this.CloseButton.Name = "CloseButton";
-            this.CloseButton.Size = new System.Drawing.Size(100, 28);
+            this.CloseButton.Size = new System.Drawing.Size(75, 23);
+
             this.CloseButton.TabIndex = 3;
             this.CloseButton.Text = "Close";
             this.CloseButton.UseVisualStyleBackColor = true;

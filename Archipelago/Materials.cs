@@ -55,7 +55,7 @@ namespace Archipelago
                 result += 100;
                 if (health < 200)
                 {
-                    result += (health - 100);
+                    result += (health - 50);
                 }
             }
             if (health > 200)

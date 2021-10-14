@@ -22,6 +22,8 @@ namespace Archipelago
             pictureboxBitmap = new Bitmap(pictureBox1.Image);
             pictureBox1.Image = pictureboxBitmap; //Load the picture
 
+            Ship.Setup();//Setup the ships
+
             currentForm = this; //Assign the current form to the form that is running
 
             label4.Visible = false;
@@ -140,8 +142,8 @@ namespace Archipelago
 
         public static Square[,] squares = new Square[horizontalSquares, verticalSquares];
 
-        const int horizontalSquares = 29; //The amount of horizontal squares
-        const int verticalSquares = 21; //The amount of vertical squares
+        public const int horizontalSquares = 29; //The amount of horizontal squares
+        public const int verticalSquares = 21; //The amount of vertical squares
 
         const int png_top = 35;
         const int png_left = 35; //Offsets
@@ -861,28 +863,17 @@ namespace Archipelago
         }
         public void AIMove()
         {
-            bool hasmoved = false;
-            if (Rule.AttackEverything.Condition()) //Is the condition for this rule satisfied?
+            foreach (var rule in Rule.rules)
             {
-                foreach (var move in Rule.AttackEverything.Reaction())
+                if (rule.Condition()) //Is the condition of the rule satisfied
                 {
-                    move.DoMove(); //Do the reaction that we need to do
+                    foreach (var move in rule.Reaction())
+                    {
+                        move.DoMove();
+                    }//Do the required reaction
                 }
-                hasmoved = true;
             }
-            if (Rule.DefendPort.Condition()) //Is the condition for this rule satisfied
-            {
-                foreach (var move in Rule.DefendPort.Reaction())
-                {
-                    move.DoMove(); //Do the reaction that we need to do
-                }
-                hasmoved = true;
-            }
-            if (!hasmoved) 
-            {
-                Archipelago.Move.DoRandomMove(); //Just do a random move
-                RepaintShipPicture();// Repaint the picture
-            }
+            RepaintShipPicture();// Repaint the picture
         }
         int iterations = 0;
         private void PirateMoves()
