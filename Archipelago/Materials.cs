@@ -42,7 +42,7 @@ namespace Archipelago
             return wood + metal*2 + cloth;
         }
 
-        public static int HealthToWood(int health)
+        private static int HealthToWood(int health)
         {
             //A decremental formula where the first 100 hp costs 100 wood, the next 100 hp costs 75 wood...
             int result = 0;
