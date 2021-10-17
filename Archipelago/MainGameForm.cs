@@ -862,7 +862,7 @@ namespace Archipelago
 
             MessageBox.Show(hasTurn.ToString() + " teams turn", hasTurn.ToString(), MessageBoxButtons.OK); //Signify which teams turn is next
             OnSquareClick(0,0); //Deselct the previously selected square by the player who had a turn before
-        //    pictureBox1.Image = pictureboxBitmap; //Reset the picturebox1 bitmap
+
             HighlightSquare(0,0); //Highlight the selected square
             RepaintShipPicture(); //Repaint the image to include ports and highlights
 
