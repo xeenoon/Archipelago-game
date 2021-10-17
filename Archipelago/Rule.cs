@@ -198,7 +198,7 @@ namespace Archipelago
                                 //The enemy has a vulnerable port
                                 if (targetSquare.isPort && targetSquare.ships.Where(s=>s.shipType == Ship.ShipType.VeryFast).Count() == 0) //Is it one of our ports, and are there not already any verfast ships
                                 {
-                                    new Move(targetSquare, Ship.CreateSteamCorvette()).DoMove(); //Build a steam corvette
+                                    new Move(targetSquare, Ship.BuildFastestShipInBudget(MainGameForm.teamMaterials.GetMaterials(hasTurn))).DoMove(); //Build the fastest ship we can
                                     //Do not add this move to the movesToMake because the operations after this line require data from the newly built ship
                                 }
                                 var ship = targetSquare.ships.OrderByDescending(s=>s.shipType).FirstOrDefault(); //Get the fastest ship in the square

@@ -188,7 +188,18 @@ namespace Archipelago
             }
             return null; //We cannot build a ship with our current resources
         }
-
+        internal static Ship BuildFastestShipInBudget(Materials materials)
+        {
+            var fittingShips = AllShips.OrderByDescending(s=>s.shipType).ThenBy(s=>s.required.wood).ToList(); //Order ships so that the fastest ships are at the top
+            foreach (var ship in fittingShips)
+            {
+                if (ship.required < materials) //Can we afford to build it
+                {
+                    return ship; //This is fastest, most expensive ship, return it
+                }
+            }
+            return null; //We cannot build a ship with our current resources
+        }
         public static Ship Create(string shipType)
         {
             switch (shipType)
