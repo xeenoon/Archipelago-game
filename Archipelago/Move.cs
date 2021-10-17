@@ -48,6 +48,7 @@ namespace Archipelago
                 port.ships.Add(shipToBuild);
                 MainGameForm.teamMaterials.Pay(MainGameForm.hasTurn, shipToBuild.required); ///Pay for the ship
                 shipToBuild.team = MainGameForm.hasTurn; //Set the ships team
+                shipToBuild.canAttack = false; //Ship cannot move on the same turn it was built
             }
         }
         public static void DoRandomMove()

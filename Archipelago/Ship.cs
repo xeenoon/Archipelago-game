@@ -174,6 +174,7 @@ namespace Archipelago
             return result;
         }
         static List<Ship> AllShips = new List<Ship>();
+        public bool canAttack=true;
 
         internal static Ship BuildBiggestShipInBudget(Materials materials, ShipType shipType)
         {
