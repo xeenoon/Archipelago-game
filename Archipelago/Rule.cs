@@ -26,6 +26,7 @@ namespace Archipelago
         public static Rule AttackEverything = new Rule(0, RuleFunctions.CanAttack, RuleFunctions.AttackFirst);
         public static Rule DefendPort = new Rule(0, RuleFunctions.IsVulnerablePort, RuleFunctions.BuildShipInPort);
         public static Rule AttackPort = new Rule(0, RuleFunctions.VulnerableEnemyPort, RuleFunctions.AttackEnemyPort);
+        public static Rule BuildPort = new Rule(0, RuleFunctions.HasMaterials, RuleFunctions.BuildPort);
     }
     public static class RuleFunctions
     {
@@ -219,6 +220,73 @@ namespace Archipelago
                 }
             }
             return movesToMake;//Return the moves
+        }
+
+        //Build port functions
+        public static bool HasMaterials()
+        {
+            bool hasfirstRate = false;
+            foreach (var s in MainGameForm.squares)
+            {
+                if(s.isPort && s.ships.Where(ship=>ship.name == "1st rate").Count() != 0) //Do we have a first rate in port
+                {
+                    hasfirstRate = true;
+                }
+            }
+            if (hasfirstRate)
+            {
+                if (MainGameForm.teamMaterials.GetMaterials(MainGameForm.hasTurn).wood >= 1000) //Do we have enough materials to build a port
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                var firstRate = Ship.Create("1st rate");
+                if (MainGameForm.teamMaterials.GetMaterials(MainGameForm.hasTurn) > (firstRate.required+new Materials(1000,0,0))) //Do we have enough materials to build a first rate and a port?
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+        public static List<Move> BuildPort()
+        {
+            List<Move> result = new List<Move>();
+            List<Square> ports = new List<Square>();
+            foreach (var s in MainGameForm.squares)
+            {
+                if (s.isPort&&s.team == MainGameForm.hasTurn) //Is it our port
+                {
+                    ports.Add(s); //Add it too the list
+                }
+            }
+            var firstRatePort = ports.Where(p=>p.ships.Count(s=>s.name == "1st rate")>=1).FirstOrDefault(); //Find the port with a firstrate ship
+            var firstRate = Ship.Create("1st rate");
+            if (firstRatePort == null) //Are there no first rate ports?
+            {
+                ports[0].ships.Add(firstRate); //Build a ship in the first port we see
+                MainGameForm.teamMaterials.Pay(MainGameForm.hasTurn, firstRate.required); //Pay for the ship
+                firstRatePort = ports[0]; //Assign the port to the firstratePort
+            }
+            else //We already have a first rate in port
+            {
+                firstRate = firstRatePort.ships.FirstOrDefault(s=>s.name == "1st rate"); //Find the first rate ship
+            }
+            result.Add(new Move(new Materials(1000,0,0), firstRate)); //Load the cargo into the first rate
+
+            Point current = firstRatePort.location;
+            var destination = Ship.Destinations(Ship.ShipType.Heavy, current).Where(p=>MainGameForm.CanMove(p.X, p.Y)).OrderByDescending(p=>MainGameForm.CalculatedGenerated(p.X, p.Y).wood).FirstOrDefault(); //Put the square witht the highest generated amount at the top
+            result.Add(new Move(firstRate, current, destination)); //Move the ship to the destination
+            result.Add(new Move(MainGameForm.squares[destination.X, destination.Y])); //Build the port at the destination
+            return result;
         }
     }
 }

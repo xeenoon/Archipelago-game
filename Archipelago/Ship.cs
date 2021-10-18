@@ -200,9 +200,9 @@ namespace Archipelago
             }
             return null; //We cannot build a ship with our current resources
         }
-        public static Ship Create(string shipType)
+        public static Ship Create(string shipName)
         {
-            switch (shipType)
+            switch (shipName)
             {
                 case "Brig":
                     return CreateBrig();

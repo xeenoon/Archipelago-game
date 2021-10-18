@@ -67,14 +67,13 @@ namespace Archipelago
             CreatePort(11, 14, Team.Green);
             CreatePort(21, 5 , Team.Black);
             CreatePort(22, 18, Team.Blue);
-
             moveSettings.Visible = false;
             MoveSpecificMenu.Visible = false;
-
+            OnSquareClick(0,0); //Highlight the top left square
             teamMaterials = new TeamMaterials(WoodResourceLabel, MetalResourceLabel, ClothResourceLabel, new Materials(1000, 100, 12), new Materials(1000, 100, 12), new Materials(1000, 100, 12), new Materials(1000, 100, 12));
             //Set the starting materials for each player
         }
-        public void CreatePort(int x, int y, Team t)
+        public static void CreatePort(int x, int y, Team t)
         {
             var g = Graphics.FromImage(pictureboxBitmap); //Get the graphics from the bitmap
             Brush b; //Define the brush
@@ -109,9 +108,10 @@ namespace Archipelago
             squares[x, y].isPort = true;
             squares[x, y].team = t;
 
-            RepaintShipPicture(); //Repaint the picture to include the newly highlighted bitmap
+            currentForm.RepaintShipPicture(); //Repaint the picture to include the newly highlighted bitmap
+            currentForm.OnSquareClick(x, y); //Highlight the port
         }
-        private Materials CalculatedGenerated(int square_x, int square_y)
+        public static Materials CalculatedGenerated(int square_x, int square_y)
         {
             Materials baseMats = new Materials(200, 20, 3);
             float blueCount=0;
@@ -152,11 +152,11 @@ namespace Archipelago
 
         Square selected; //The current selected square
         Square selectCache; //The previously selected square
-        public Point ConvertLocationToReal(Point p)
+        public static Point ConvertLocationToReal(Point p)
         {
             return new Point(p.X * png_boxsize + png_left + (png_boxsize / 2), p.Y * png_boxsize + png_top + (png_boxsize / 2)); //Converts a squares position to a form position
         }
-        public Point CentreOf(Point topleft, Size s)
+        public static Point CentreOf(Point topleft, Size s)
         {
             return new Point(topleft.X - s.Width / 2, topleft.Y - s.Height / 2); //Find the centre of a square
         }
@@ -477,7 +477,7 @@ namespace Archipelago
             if (square.ships.Where(s => s.team == hasTurn).Count() >= 1 && square.isPort == true) //After we have determined the attacker has won, determine if the square is a port
             {
                 square.team = hasTurn; //Change the team of the port to the winning team
-                currentForm.CreatePort(square.location.X, square.location.Y, hasTurn); //Change the colour indicator on the screen
+                CreatePort(square.location.X, square.location.Y, hasTurn); //Change the colour indicator on the screen
                 //We have to use current form because this is a static function
             }
         }
