@@ -112,7 +112,7 @@ namespace Archipelago
                     {
                         for (int y = down4; y < up4; ++y) //Go from the furtherest down to the furtherest up
                         {
-                            if (MainGameForm.squares[x,y].ships.Count() != 0) //Is there 1 or more ships in the square
+                            if (MainGameForm.squares[x,y].ships.Count() != 0 && MainGameForm.squares[x,y].GetTeam() != MainGameForm.hasTurn) //Is there 1 or more ships in the square and are they not mine
                             {
                                 vulnerablePorts.Add(square);
                                 result =  true; //A ship is within moving distance of our port
@@ -342,7 +342,7 @@ namespace Archipelago
                 if (MainGameForm.teamMaterials.GetMaterials(MainGameForm.hasTurn).wood>s.Value) //Can we afford it?
                 {
                     MainGameForm.teamMaterials.Pay(MainGameForm.hasTurn, new Materials(s.Value, 0, 0)); //Pay for the port
-                    result.Add(new Move(s.Key, s.Key.level)); //Add the move to upgrade the port
+                    result.Add(new Move(s.Key, s.Key.level+1)); //Add the move to upgrade the port
                 }
             }
             return result;
