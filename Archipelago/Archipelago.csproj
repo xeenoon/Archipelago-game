@@ -148,8 +148,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Maps\Archipelago.png" />
-    <Content Include="Maps\Archipelago2.png" />
+    <Folder Include="Maps\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

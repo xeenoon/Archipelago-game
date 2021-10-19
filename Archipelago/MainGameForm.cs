@@ -19,6 +19,7 @@ namespace Archipelago
         public MainGameForm()
         {
             InitializeComponent();
+
             pictureboxBitmap = new Bitmap(pictureBox1.Image);
             pictureBox1.Image = pictureboxBitmap; //Load the picture
 
@@ -208,8 +209,14 @@ namespace Archipelago
             { true , true , true , true , true , false, true , true , false, true , true , true , true , true , true , true , true , true , true , true , true  },
             { true , true , true , true , true , true , true , true , true , true , true , true , true , true , true , true , true , true , true , true , true  },
         };
+ //     public List<bool[,]> squareValidityFromFile()
+ //     {
+ //         //Iterate through the strings using string parsing techniques
+ //         //This will get you a list of bool[,]
+ //     }
         public static void CanMovePopulate()//Determines if a square is allowed to be moved to. A ship cannot move to a square that is more than 90% green
         {
+            
             string Filepath = @"C:\Users\chris\Downloads\writeme.txt";
             string result = "public static bool[,] squareValidity = new bool[,] { ";
             for (int square_x = 0; square_x < horizontalSquares-1; square_x++)
@@ -248,7 +255,7 @@ namespace Archipelago
             }
             result = result.Substring(0,result.Length-1); //Remove last character
             result += "};";
-            File.WriteAllText(Filepath, result);
+            File.WriteAllText(Filepath, File.ReadAllText(Filepath)+"\n"+result);
         } //This function is only used to write text to a file. Should not be referenced in code
         public static bool CanMove(int square_x, int square_y)
         {

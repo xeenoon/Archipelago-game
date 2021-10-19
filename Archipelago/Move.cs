@@ -19,7 +19,10 @@ namespace Archipelago
         public Square portToBuild;
 
         public Materials cargoToLoad;
-        public Ship shipForCargo;        
+        public Ship shipForCargo;
+
+        public Square upgradePortSquare;
+        public int newLevel;
 
         public Move(List<Ship> toMove, Point currentLocation, Point destination)
         {
@@ -46,6 +49,11 @@ namespace Archipelago
         public Move(Square portToBuild)
         {
             this.portToBuild = portToBuild;
+        }
+        public Move(Square upgradePortSquare, int newLevel)
+        {
+            this.upgradePortSquare = upgradePortSquare;
+            this.newLevel = newLevel;
         }
         public void DoMove()
         {
@@ -75,6 +83,10 @@ namespace Archipelago
                     throw new Exception("Cannot load required cargo. Move line 76"); //Handle errors
                 }
                 MainGameForm.teamMaterials.Pay(MainGameForm.hasTurn, cargoToLoad); ///Pay for the cargo
+            }
+            if (upgradePortSquare != null)
+            {
+                upgradePortSquare.level = newLevel; //Upgrade the port
             }
         }
         public static void DoRandomMove()
