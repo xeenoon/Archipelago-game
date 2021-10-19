@@ -99,6 +99,7 @@ namespace Archipelago
             // 
             this.comboBox1.AllowDrop = true;
             this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox1.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.Items.AddRange(new object[] {
             "None",
@@ -106,13 +107,14 @@ namespace Archipelago
             "Human"});
             this.comboBox1.Location = new System.Drawing.Point(209, 49);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(121, 21);
+            this.comboBox1.Size = new System.Drawing.Size(121, 27);
             this.comboBox1.TabIndex = 5;
             // 
             // comboBox2
             // 
             this.comboBox2.AllowDrop = true;
             this.comboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox2.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.comboBox2.FormattingEnabled = true;
             this.comboBox2.Items.AddRange(new object[] {
             "None",
@@ -120,13 +122,14 @@ namespace Archipelago
             "Human"});
             this.comboBox2.Location = new System.Drawing.Point(209, 89);
             this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(121, 21);
+            this.comboBox2.Size = new System.Drawing.Size(121, 27);
             this.comboBox2.TabIndex = 6;
             // 
             // comboBox3
             // 
             this.comboBox3.AllowDrop = true;
             this.comboBox3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox3.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.comboBox3.FormattingEnabled = true;
             this.comboBox3.Items.AddRange(new object[] {
             "None",
@@ -134,13 +137,14 @@ namespace Archipelago
             "Human"});
             this.comboBox3.Location = new System.Drawing.Point(209, 129);
             this.comboBox3.Name = "comboBox3";
-            this.comboBox3.Size = new System.Drawing.Size(121, 21);
+            this.comboBox3.Size = new System.Drawing.Size(121, 27);
             this.comboBox3.TabIndex = 7;
             // 
             // comboBox4
             // 
             this.comboBox4.AllowDrop = true;
             this.comboBox4.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox4.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.comboBox4.FormattingEnabled = true;
             this.comboBox4.Items.AddRange(new object[] {
             "None",
@@ -148,7 +152,7 @@ namespace Archipelago
             "Human"});
             this.comboBox4.Location = new System.Drawing.Point(209, 167);
             this.comboBox4.Name = "comboBox4";
-            this.comboBox4.Size = new System.Drawing.Size(121, 21);
+            this.comboBox4.Size = new System.Drawing.Size(121, 27);
             this.comboBox4.TabIndex = 8;
             // 
             // button1
