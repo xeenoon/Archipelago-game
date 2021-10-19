@@ -65,7 +65,7 @@ namespace Archipelago
             }
             if (portToBuild != null) //Are we building a port?
             {
-                MainGameForm.CreatePort(portToBuild.location.X, portToBuild.location.Y, MainGameForm.hasTurn); //Build the port
+                MainGameForm.currentForm.CreatePort(portToBuild.location.X, portToBuild.location.Y, MainGameForm.hasTurn); //Build the port
                 portToBuild.Buy(new Materials(1000,0,0)); //Pay for the port
             }
             if (cargoToLoad != null) //Are we loading cargo
