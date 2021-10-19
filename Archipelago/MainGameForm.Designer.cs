@@ -63,7 +63,7 @@ namespace Archipelago
             this.MetalResourceLabel = new System.Windows.Forms.Label();
             this.ClothResourceLabel = new System.Windows.Forms.Label();
             this.shipList = new System.Windows.Forms.ListBox();
-            this.button8 = new System.Windows.Forms.Button();
+            this.BuildPortButton = new System.Windows.Forms.Button();
             this.ShipCargoPopup = new System.Windows.Forms.Panel();
             this.button10 = new System.Windows.Forms.Button();
             this.CloseButton = new System.Windows.Forms.Button();
@@ -501,21 +501,21 @@ namespace Archipelago
             this.shipList.TabIndex = 34;
             this.shipList.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
             // 
-            // button8
+            // BuildPortButton
             // 
-            this.button8.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.button8.AutoEllipsis = true;
-            this.button8.BackColor = System.Drawing.Color.Cyan;
-            this.button8.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.button8.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button8.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.button8.Location = new System.Drawing.Point(976, 465);
-            this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(99, 23);
-            this.button8.TabIndex = 35;
-            this.button8.Text = "Build port";
-            this.button8.UseVisualStyleBackColor = false;
-            this.button8.Click += new System.EventHandler(this.BuildPortButtonClick);
+            this.BuildPortButton.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.BuildPortButton.AutoEllipsis = true;
+            this.BuildPortButton.BackColor = System.Drawing.Color.Cyan;
+            this.BuildPortButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.BuildPortButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BuildPortButton.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.BuildPortButton.Location = new System.Drawing.Point(976, 465);
+            this.BuildPortButton.Name = "BuildPortButton";
+            this.BuildPortButton.Size = new System.Drawing.Size(99, 23);
+            this.BuildPortButton.TabIndex = 35;
+            this.BuildPortButton.Text = "Build port";
+            this.BuildPortButton.UseVisualStyleBackColor = false;
+            this.BuildPortButton.Click += new System.EventHandler(this.BuildPortButtonClick);
             // 
             // ShipCargoPopup
             // 
@@ -700,7 +700,7 @@ namespace Archipelago
             this.Controls.Add(this.label18);
             this.Controls.Add(this.LoadCargoMenu);
             this.Controls.Add(this.ShipCargoPopup);
-            this.Controls.Add(this.button8);
+            this.Controls.Add(this.BuildPortButton);
             this.Controls.Add(this.shipList);
             this.Controls.Add(this.ClothResourceLabel);
             this.Controls.Add(this.MetalResourceLabel);
@@ -778,7 +778,7 @@ namespace Archipelago
         private System.Windows.Forms.Label MetalResourceLabel;
         private System.Windows.Forms.Label ClothResourceLabel;
         private System.Windows.Forms.ListBox shipList;
-        private System.Windows.Forms.Button button8;
+        private System.Windows.Forms.Button BuildPortButton;
         private System.Windows.Forms.Panel ShipCargoPopup;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Label label13;

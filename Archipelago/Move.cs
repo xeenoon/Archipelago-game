@@ -16,6 +16,11 @@ namespace Archipelago
         public Square port;
         public Ship shipToBuild;
 
+        public Square portToBuild;
+
+        public Materials cargoToLoad;
+        public Ship shipForCargo;        
+
         public Move(List<Ship> toMove, Point currentLocation, Point destination)
         {
             this.toMove = toMove;
@@ -33,7 +38,15 @@ namespace Archipelago
             this.port = port;
             this.shipToBuild = shipToBuild;
         }
-
+        public Move(Materials cargoToLoad, Ship shipForCargo)
+        {
+            this.cargoToLoad = cargoToLoad;
+            this.shipForCargo = shipForCargo;
+        }
+        public Move(Square portToBuild)
+        {
+            this.portToBuild = portToBuild;
+        }
         public void DoMove()
         {
             foreach (var ship in toMove)
@@ -48,6 +61,20 @@ namespace Archipelago
                 port.ships.Add(shipToBuild);
                 MainGameForm.teamMaterials.Pay(MainGameForm.hasTurn, shipToBuild.required); ///Pay for the ship
                 shipToBuild.team = MainGameForm.hasTurn; //Set the ships team
+                shipToBuild.canAttack = false; //Ship cannot move on the same turn it was built
+            }
+            if (portToBuild != null) //Are we building a port?
+            {
+                MainGameForm.CreatePort(portToBuild.location.X, portToBuild.location.Y, MainGameForm.hasTurn); //Build the port
+                portToBuild.Buy(new Materials(1000,0,0)); //Pay for the port
+            }
+            if (cargoToLoad != null) //Are we loading cargo
+            {
+                if (!shipForCargo.LoadMaterials(cargoToLoad)) //Load the cargo
+                {
+                    throw new Exception("Cannot load required cargo. Move line 76"); //Handle errors
+                }
+                MainGameForm.teamMaterials.Pay(MainGameForm.hasTurn, cargoToLoad); ///Pay for the cargo
             }
         }
         public static void DoRandomMove()

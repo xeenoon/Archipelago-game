@@ -39,6 +39,8 @@ namespace Archipelago
 
             button12.Visible = false;
 
+            BuildPortButton.Visible = false;
+
             ManufactureFast.Visible = false;
             ManufactureLabel.Visible = false;
             ManufactureMedium.Visible = false;
@@ -65,14 +67,13 @@ namespace Archipelago
             CreatePort(11, 14, Team.Green);
             CreatePort(21, 5 , Team.Black);
             CreatePort(22, 18, Team.Blue);
-
             moveSettings.Visible = false;
             MoveSpecificMenu.Visible = false;
-
+            OnSquareClick(0,0); //Highlight the top left square
             teamMaterials = new TeamMaterials(WoodResourceLabel, MetalResourceLabel, ClothResourceLabel, new Materials(1000, 100, 12), new Materials(1000, 100, 12), new Materials(1000, 100, 12), new Materials(1000, 100, 12));
             //Set the starting materials for each player
         }
-        public void CreatePort(int x, int y, Team t)
+        public static void CreatePort(int x, int y, Team t)
         {
             var g = Graphics.FromImage(pictureboxBitmap); //Get the graphics from the bitmap
             Brush b; //Define the brush
@@ -107,9 +108,10 @@ namespace Archipelago
             squares[x, y].isPort = true;
             squares[x, y].team = t;
 
-            RepaintShipPicture(); //Repaint the picture to include the newly highlighted bitmap
+            currentForm.RepaintShipPicture(); //Repaint the picture to include the newly highlighted bitmap
+            currentForm.OnSquareClick(x, y); //Highlight the port
         }
-        private Materials CalculatedGenerated(int square_x, int square_y)
+        public static Materials CalculatedGenerated(int square_x, int square_y)
         {
             Materials baseMats = new Materials(200, 20, 3);
             float blueCount=0;
@@ -150,16 +152,32 @@ namespace Archipelago
 
         public static Square selected; //The current selected square
         Square selectCache; //The previously selected square
-        public Point ConvertLocationToReal(Point p)
+        public static Point ConvertLocationToReal(Point p)
         {
             return new Point(p.X * png_boxsize + png_left + (png_boxsize / 2), p.Y * png_boxsize + png_top + (png_boxsize / 2)); //Converts a squares position to a form position
         }
-        public Point CentreOf(Point topleft, Size s)
+        public static Point CentreOf(Point topleft, Size s)
         {
             return new Point(topleft.X - s.Width / 2, topleft.Y - s.Height / 2); //Find the centre of a square
         }
         static Bitmap pictureboxBitmap; //The bitmap for the picturebox
+        public bool CanBuildPort(int square_x, int square_y)
+        {
+            Bitmap asbitmap = pictureboxBitmap; //The original bitmap, not the highlighted bitmap
+            for (int x = (int)(square_x * png_boxsize + png_left); x < (square_x * png_boxsize) + png_boxsize + png_left; ++x)
+            {
+                for (int y = (int)(square_y * png_boxsize + png_top); y < (square_y * png_boxsize) + png_boxsize + png_top; ++y) //Iterate through pixels
+                {
+                    Color original = asbitmap.GetPixel(x, y); //Get the colour of the pixel
 
+                    if (original.R > 120 && original.G > 150 && original.B > 120 && (original.R < 170 || original.B > 170) && ((original.B > original.G) || original.B > 160))//Is the square green?
+                    {
+                        return true; //There is at least one green pixel in the square
+                    }
+                }
+            }
+            return false; //There are no green squares in the square
+        }
         public static bool[,] squareValidity = new bool[,] {
             { true , true , true , true , true , true , true , true , true , true , true , true , true , true , true , true , true , true , true , true , true  },
             { true , true , true , true , true , true , true , true , true , true , true , true , true , false, false, true , true , true , true , true , true  },
@@ -263,7 +281,9 @@ namespace Archipelago
                     var distance = Math.Sqrt(Math.Pow(xpos - selected.location.X, 2) + Math.Pow(ypos - selected.location.Y, 2)) - 0.45; //Calculate distance. -0.45 allows for diagonal movement
                     foreach (var ship in selected.ships) //Iterate through all ships in square
                     {
-                        if ((int)ship.shipType < distance && !ship.hasMoved) //Is the ship unable to move the required distance and has it not already been moved this turn
+                        if ((int)ship.shipType < distance && !ship.hasMoved)
+                        //Is the ship unable to move the required distance
+                        //Has it not already moved this turn
                         {
                             moveSettings.Visible = true; //Set the movesettings panel visible
                             selectCache = squares[selected.location.X, selected.location.Y]; //Make the previously selected square the selected square
@@ -273,9 +293,11 @@ namespace Archipelago
                         }
                     }
                     List<Ship> replaceList = new List<Ship>(); //Since later on we clear the ships in the square, we need to figure out which ships stay in the square and store them in a list to be added back later
+                    bool enemies = (squares[xpos, ypos].GetTeam() != Team.None && squares[xpos, ypos].GetTeam() != hasTurn);
                     foreach (var ship in selected.ships) //Iterate through ships
                     {
-                        if (ship.hasMoved) //Has the ship moved this turn?
+                        if (ship.hasMoved || (enemies ^ ship.canAttack)) //Has the ship moved this turn
+                                                                          //Or if it cannot attack, make sure it is not going to move to a square with enemies in it
                         {
                             replaceList.Add(ship); //Add it to the cache list
                             continue; //Continue to the next iteration
@@ -297,7 +319,11 @@ namespace Archipelago
                     var distance = Math.Sqrt(Math.Pow(xpos - selected.location.X, 2) + Math.Pow(ypos - selected.location.Y, 2)) - 0.45f; //Calculate the distance betwen the two squares
                     foreach (var ship in selected.ships.Where(s => s.moveNext)) //Iterate through the ships in the square that have been selected to be moved
                     {
-                        if ((int)ship.shipType < distance && !ship.hasMoved) //Is the ship unable to move the distance and has it not already been moved
+                        bool enemies = (squares[xpos, ypos].GetTeam() != Team.None && squares[xpos, ypos].GetTeam() != hasTurn);
+                        if ((int)ship.shipType < distance && !ship.hasMoved && !(enemies ^ ship.canAttack))
+                            //Is the ship unable to move the required distance
+                            //Has it not already moved this turn
+                            //If it cannot attack, make sure it is not going to move to a square with enemies in it
                         {
                             moveSettings.Visible = true; //Show the movesettings menu
                             selectCache = squares[selected.location.X, selected.location.Y]; //cache the selected squares
@@ -412,7 +438,16 @@ namespace Archipelago
             MoveSpecificSquare = false;
             MoveSquare = false; //Reset move options
 
-            if(selectCache != null && selectCache != selected) //Make sure we are not going to do an operation on a null variable, also ensure we have not selected the square we selected last time
+            if (selected.ships.Count() != 0 && selected.isPort == false && CanBuildPort(selected.location.X, selected.location.Y))
+            {
+                BuildPortButton.Visible = true;
+            }
+            else
+            {
+                BuildPortButton.Visible = false;
+            }
+
+            if (selectCache != null && selectCache != selected) //Make sure we are not going to do an operation on a null variable, also ensure we have not selected the square we selected last time
             {
                 selectCache.orange = false; //The previously selected square should no longer be orange
             }
@@ -442,7 +477,7 @@ namespace Archipelago
             if (square.ships.Where(s => s.team == hasTurn).Count() >= 1 && square.isPort == true) //After we have determined the attacker has won, determine if the square is a port
             {
                 square.team = hasTurn; //Change the team of the port to the winning team
-                currentForm.CreatePort(square.location.X, square.location.Y, hasTurn); //Change the colour indicator on the screen
+                CreatePort(square.location.X, square.location.Y, hasTurn); //Change the colour indicator on the screen
                 //We have to use current form because this is a static function
             }
         }
@@ -505,6 +540,7 @@ namespace Archipelago
                 shipList.Items.Add(s.name + "  " + s.health); //Add the ship to shiplist
                 teamMaterials.Pay(hasTurn, s.required); //Pay the required materials for the new ship
                 selected.ships.Add(s); //Add the ship to the square
+                s.canAttack = false; //Ship cannot move on the same turn it was built
             }
             else
             {
@@ -658,7 +694,7 @@ namespace Archipelago
                     Point closestReal;
                     do {
                         distanceShipMoves--; //Decrement ship moves so that each time we cant move somewhere, we move one square less
-                        PointF closest = MoveTowards(selectCache.location, selected.location, distanceShipMoves + 0.45f); //Calculate the closest point the ship can move too
+                        PointF closest = selectCache.location.MoveTowards(selected.location, distanceShipMoves + 0.45f); //Calculate the closest point the ship can move too
                         closestReal = new Point((int)(Math.Floor(closest.X)), (int)(Math.Floor(closest.Y)));
                     } while(!CanMove(closestReal.X, closestReal.Y)); //If we cannot move to the square, try again except move one square less
                     if (distanceShipMoves == 0) //Can we not even move one square?
@@ -689,25 +725,6 @@ namespace Archipelago
             OnSquareClick(selected.location.X, selected.location.Y); //Run onsquare click
 
             RepaintShipPicture();
-        }
-
-        private PointF MoveTowards(Point origin, Point dest, float distance) //Moves from one point to another for a distance
-        {
-            var vector = new PointF(dest.X - origin.X, dest.Y - origin.Y); //Calculate vector
-            var length = Math.Sqrt(vector.X * vector.X + vector.Y * vector.Y); //Determine length
-            var unitVector = new PointF(vector.X / (float)length, vector.Y / (float)length); //relative vector
-            PointF result = new PointF((float)(origin.X + unitVector.X * distance), (float)(origin.Y + unitVector.Y * distance)); //Result point
-            double xdiff = Math.Abs(dest.X - origin.X);
-            double ydiff = Math.Abs(dest.Y - origin.Y); 
-            if (xdiff <= distance / 2)
-            {
-                result.X = dest.X;
-            }
-            if (ydiff <= distance / 2)
-            {
-                result.Y = dest.Y;
-            }//Settle differences
-            return result;
         }
 
         private void RepaintShipPicture()
@@ -822,16 +839,30 @@ namespace Archipelago
                     hasTurn = Team.Red;
                     break;
             } //Change which team will have a turn next
+            bool unitsLeft=false;
             foreach (var square in squares)
             {
                 foreach (var ship in square.ships) //Iterate through all ships in all squares
                 {
                     ship.hasMoved = false; //They all have not moved on this turn, so set their hasmoved variable to false
+                    ship.canAttack = true; //On their next turn, all ships should be allowed to attack
+                }
+                if (square.GetTeam() == hasTurn)
+                {
+                    unitsLeft = true;
                 }
             }
+            if (unitsLeft == false) //Has the player been eliminated
+            {
+                EndTurn(sender, e);
+                return; //End the turn automatically and do not bother showing the messagebox
+
+            }
+            BuildPortButton.Visible = false;
+
             MessageBox.Show(hasTurn.ToString() + " teams turn", hasTurn.ToString(), MessageBoxButtons.OK); //Signify which teams turn is next
             OnSquareClick(0,0); //Deselct the previously selected square by the player who had a turn before
-        //    pictureBox1.Image = pictureboxBitmap; //Reset the picturebox1 bitmap
+
             HighlightSquare(0,0); //Highlight the selected square
             RepaintShipPicture(); //Repaint the image to include ports and highlights
 
@@ -844,7 +875,16 @@ namespace Archipelago
                     total += s.generates; //Increment the amount of materials the player has
                 }
             }
-            MessageBox.Show(string.Format("Your ports generated you {0} wood, {1} metal, {2} cloth", total.wood, total.metal, total.cloth), "New materials", MessageBoxButtons.OK); //Show data in a messagebox
+            LoadCargoMenu.Visible = false;
+            ShipCargoPopup.Visible = false;
+            MoveSpecificMenu.Visible = false;
+            moveSettings.Visible = false;
+            //Hide all open panels
+
+            if (hasTurn != Team.Pirate)
+            {
+                MessageBox.Show(string.Format("Your ports generated you {0} wood, {1} metal, {2} cloth", total.wood, total.metal, total.cloth), "New materials", MessageBoxButtons.OK); //Show data in a messagebox
+            }
             teamMaterials.AddMaterials(hasTurn, total); //Add the materials to the teamMaterials
 
             teamMaterials.Show(hasTurn); //Show the materials on the left side of the screen
@@ -924,9 +964,9 @@ namespace Archipelago
             }
             else
             {
-                if (selected.isPort)
+                if (selected.isPort || !CanBuildPort(selected.location.X, selected.location.Y))
                 {
-                    return; //Do not build a port here if there already is one
+                    return; //Do not build a port here if there already is one, or if there are no green pixels in the square
                 }
 
                 var response = MessageBox.Show("Build level 1 port for 1000 wood?", "Build port", MessageBoxButtons.YesNo);

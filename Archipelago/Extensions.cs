@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -43,6 +44,25 @@ namespace Archipelago
             }//Remove all the moves that are suposed to be removed
             moves.AddRange(addThis); //Add the moves that are supposed to be added
             //Since this is an extension method this will modify the 'moves' being used externally
+        }
+
+        public static PointF MoveTowards(this Point origin, Point dest, float distance) //Moves from one point to another for a distance
+        {
+            var vector = new PointF(dest.X - origin.X, dest.Y - origin.Y); //Calculate vector
+            var length = Math.Sqrt(vector.X * vector.X + vector.Y * vector.Y); //Determine length
+            var unitVector = new PointF(vector.X / (float)length, vector.Y / (float)length); //relative vector
+            PointF result = new PointF((float)(origin.X + unitVector.X * distance), (float)(origin.Y + unitVector.Y * distance)); //Result point
+            double xdiff = Math.Abs(dest.X - origin.X);
+            double ydiff = Math.Abs(dest.Y - origin.Y);
+            if (xdiff <= distance / 2)
+            {
+                result.X = dest.X;
+            }
+            if (ydiff <= distance / 2)
+            {
+                result.Y = dest.Y;
+            }//Settle differences
+            return result;
         }
     }
 }
