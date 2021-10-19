@@ -48,11 +48,9 @@ namespace Archipelago
 
         private void StartFFAMatch(object sender, EventArgs e)
         {
-            roundPictureBox1.Visible = false;
-            roundPictureBox2.Visible = false;
-            roundPictureBox3.Visible = false;
-
-
+            this.Hide();
+            AIChooserForm aIChooserForm = new AIChooserForm();
+            aIChooserForm.ShowDialog();
         }
     }
 }

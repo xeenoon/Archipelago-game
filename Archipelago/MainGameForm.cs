@@ -13,7 +13,7 @@ namespace Archipelago
 {
     public partial class MainGameForm : Form
     {
-        public static Team hasTurn = Team.Red; //Hasturn is a type of team which shows what teams turn it is
+        public static Team hasTurn = Team.None; //Hasturn is a type of team which shows what teams turn it is
         public static TeamMaterials teamMaterials; //A way of determining the materials that the players whose turn it is has
         public static MainGameForm currentForm;
         public MainGameForm(Team playerTeams, Team AiTeams)
@@ -811,20 +811,7 @@ namespace Archipelago
 
         private void Form2_Shown(object sender, EventArgs e)
         {
-            MessageBox.Show("Red teams turn", "Red", MessageBoxButtons.OK); //Signify that red will start
-            Materials total = new Materials(0, 0, 0); //The amount of materials the player earns at the start of the game
-
-            foreach (var s in squares) //Iterate through squares
-            {
-                if (s.isPort && s.team == hasTurn) //Go through each port owned by the player
-                {
-                    total += s.generates; //Increment the amount of materials the player has
-                }
-            }
-            MessageBox.Show(string.Format("Your ports generated you {0} wood, {1} metal, {2} cloth", total.wood, total.metal, total.cloth), "New materials", MessageBoxButtons.OK); //Show data in a messagebox
-            teamMaterials.AddMaterials(hasTurn, total); //Add the materials to the teamMaterials
-
-            teamMaterials.Show(hasTurn); //Show the materials on the left side of the screen
+            EndTurn(new object(), new EventArgs()); //Since hasturn = team.none, endturn will start reds turn
         }
         Team AIteam = Team.Green;
         private void EndTurn(object sender, EventArgs e)
@@ -832,7 +819,8 @@ namespace Archipelago
             switch (hasTurn)
             {
                 case Team.None:
-                    throw new Exception("Team cannot be none");
+                    hasTurn = Team.Red;
+                    break;
                 case Team.Red:
                     hasTurn = Team.Green;
                     break;
