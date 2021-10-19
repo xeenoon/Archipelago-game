@@ -16,7 +16,7 @@ namespace Archipelago
         public static Team hasTurn = Team.Red; //Hasturn is a type of team which shows what teams turn it is
         public static TeamMaterials teamMaterials; //A way of determining the materials that the players whose turn it is has
         public static MainGameForm currentForm;
-        public MainGameForm()
+        public MainGameForm(Team playerTeams, Team AiTeams)
         {
             InitializeComponent();
             pictureboxBitmap = new Bitmap(pictureBox1.Image);
@@ -61,12 +61,23 @@ namespace Archipelago
                 }
             }
             //CanMovePopulate(); Only to be used if repopulating squareValidity. Just copy and paste from txt file. Change username in Filepath to your own username
-
-
-            CreatePort(4, 2  , Team.Red);
-            CreatePort(11, 14, Team.Green);
-            CreatePort(21, 5 , Team.Black);
-            CreatePort(22, 18, Team.Blue);
+            playerTeams |= AiTeams;
+            if ((playerTeams & Team.Red) == Team.Red) {
+                CreatePort(4, 2, Team.Red);
+            }
+            if ((playerTeams & Team.Green) == Team.Green)
+            {
+                CreatePort(11, 14, Team.Green);
+            }
+            if ((playerTeams & Team.Black) == Team.Black)
+            {
+                CreatePort(21, 5, Team.Black);
+            }
+            if ((playerTeams & Team.Blue) == Team.Blue)
+            {
+                CreatePort(22, 18, Team.Blue);
+            }
+            AIteam = AiTeams;
             moveSettings.Visible = false;
             MoveSpecificMenu.Visible = false;
             OnSquareClick(0,0); //Highlight the top left square

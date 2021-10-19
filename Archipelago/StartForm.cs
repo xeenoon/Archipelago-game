@@ -16,21 +16,43 @@ namespace Archipelago
         {
             InitializeComponent();
         }
-
-        private void roundPictureBox1_Paint(object sender, PaintEventArgs e)
+        private void TitlePaint(object sender, PaintEventArgs e)
         {
-            using (Font myFont = new Font("Old English Text MT", 30))
+            using (Font myFont = new Font("Old English Text MT", 50))
             {
-                e.Graphics.DrawString("Start", myFont, Brushes.Black, new Point(70, 0));
+                e.Graphics.DrawString("Battle for the archipelago!", myFont, Brushes.Black, new Point(50, 0));
+            }
+        }
+        private void FFA_Paint(object sender, PaintEventArgs e)
+        {
+            using (Font myFont = new Font("Modern .no 20", 30))
+            {
+                e.Graphics.DrawString("Start FFA match", myFont, Brushes.Black, new Point(15, 0));
+            }
+        }
+        private void Campaign_Paint(object sender, PaintEventArgs e)
+        {
+            using (Font myFont = new Font("Modern .no 20", 30))
+            {
+                e.Graphics.DrawString("Campaign", myFont, Brushes.Black, new Point(70, 0));
             }
         }
 
-        private void pictureBox1_Paint(object sender, PaintEventArgs e)
+        private void Training_Paint(object sender, PaintEventArgs e)
         {
-            using (Font myFont = new Font("Old English Text MT", 70))
+            using (Font myFont = new Font("Modern .no 20", 30))
             {
-                e.Graphics.DrawString("Archipelago", myFont, Brushes.Black, new Point(170, 0));
+                e.Graphics.DrawString("Training", myFont, Brushes.Black, new Point(90, 0));
             }
+        }
+
+        private void StartFFAMatch(object sender, EventArgs e)
+        {
+            roundPictureBox1.Visible = false;
+            roundPictureBox2.Visible = false;
+            roundPictureBox3.Visible = false;
+
+
         }
     }
 }
