@@ -43,6 +43,8 @@ namespace Archipelago
             comboBox2.SelectedIndex = 0;
             comboBox3.SelectedIndex = 0;
             comboBox4.SelectedIndex = 0;
+
+            pictureBox1.Image = Properties.Resources.Archipelago;
         }
 
         private void AIChooserForm_Paint(object sender, PaintEventArgs e)
@@ -102,6 +104,28 @@ namespace Archipelago
                     break;
             }
             MainGameForm m = new MainGameForm(playerTeams, AITeams);
+            m.ShowDialog();
+        }
+        int imagetype = 1;
+        private void button3_Click(object sender, EventArgs e)
+        {
+            if (imagetype == 1)
+            {
+                pictureBox1.Image = Properties.Resources.Archipelago2;
+                imagetype = 2;
+            }
+            else
+            {
+                pictureBox1.Image = Properties.Resources.Archipelago;
+                imagetype = 1;
+            }
+            this.Invalidate();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            StartForm m = new StartForm();
             m.ShowDialog();
         }
     }

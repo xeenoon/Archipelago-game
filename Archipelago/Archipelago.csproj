@@ -74,6 +74,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AIChooserForm1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AIChooserForm.resx</DependentUpon>
+    </Compile>
     <Compile Include="Extensions.cs" />
     <Compile Include="Move.cs" />
     <Compile Include="Rule.cs" />
@@ -111,9 +116,11 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AIChooserForm.resx">
       <DependentUpon>AIChooserForm.cs</DependentUpon>
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>AIChooserForm1.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -151,6 +158,8 @@
   <ItemGroup>
     <Content Include="Maps\Archipelago.png" />
     <Content Include="Maps\Archipelago2.png" />
+    <None Include="Resources\Archipelago2.png" />
+    <None Include="Resources\Archipelago.png" />
     <None Include="Resources\gradient %281%29.png" />
     <None Include="Resources\Summary.png" />
   </ItemGroup>

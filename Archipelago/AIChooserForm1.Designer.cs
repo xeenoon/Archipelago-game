@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Archipelago.Properties {
+namespace Archipelago {
     using System;
     
     
@@ -22,15 +22,13 @@ namespace Archipelago.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class Resources {
+    public partial class AIChooserForm {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Resources() {
-        }
         
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
@@ -39,7 +37,7 @@ namespace Archipelago.Properties {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Archipelago.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Archipelago.AIChooserForm", typeof(AIChooserForm).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -57,26 +55,6 @@ namespace Archipelago.Properties {
             }
             set {
                 resourceCulture = value;
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap Archipelago {
-            get {
-                object obj = ResourceManager.GetObject("Archipelago", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap Archipelago2 {
-            get {
-                object obj = ResourceManager.GetObject("Archipelago2", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
             }
         }
     }

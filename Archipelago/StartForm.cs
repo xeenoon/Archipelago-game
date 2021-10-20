@@ -30,14 +30,21 @@ namespace Archipelago
         {
             using (Font myFont = new Font("Old English Text MT", 50))
             {
-                e.Graphics.DrawString("Battle For The Archipelago!", myFont, Brushes.Black, new Point(5, 30));
+                e.Graphics.DrawString("Battle For The Archipelago!", myFont, Brushes.Black, new Point(5, 15));
+            }
+            if (button1.Visible == true) //Are we showing the campaign mode
+            {
+                using (Font myFont = new Font("Old English Text MT", 40))
+                {
+                    e.Graphics.DrawString("Campaign mode", myFont, Brushes.BlueViolet, new Point(250, 80));
+                }
             }
         }
         private void FFA_Paint(object sender, PaintEventArgs e)
         {
             using (Font myFont = new Font("Modern No. 20", 30))
             {
-                e.Graphics.DrawString("Start Match", myFont, Brushes.Black, new Point(65, 0));
+                e.Graphics.DrawString("Start Match", myFont, Brushes.Black, new Point(65, 5));
             }
         }
         private void Campaign_Paint(object sender, PaintEventArgs e)
