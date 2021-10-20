@@ -61,8 +61,11 @@ namespace Archipelago
             {
                 MainGameForm.squares[currentLocation.X, currentLocation.Y].ships.Remove(ship); //Remove the ship from its old destination
                 MainGameForm.squares[destination.X, destination.Y].ships.Add(ship); //Add the ship to its new destination
-                MainGameForm.RunAttack(MainGameForm.squares[destination.X, destination.Y]); //Attack the square
                 ship.hasMoved = false; //The ship has now moved, and cannot move again until the next turn
+            }
+            if (toMove.Count != 0)
+            {
+                MainGameForm.RunAttack(MainGameForm.squares[destination.X, destination.Y]); //Attack the square
             }
             if (shipToBuild != null) //Is there a ship to build
             {

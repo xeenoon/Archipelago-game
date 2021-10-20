@@ -66,6 +66,7 @@ namespace Archipelago
 
             CreatePort(4, 2  , Team.Red);
             CreatePort(11, 14, Team.Green);
+            squares[11, 14].generates = new Materials(5000,5000,5000);
             CreatePort(21, 5 , Team.Black);
             CreatePort(22, 18, Team.Blue);
             moveSettings.Visible = false;
@@ -304,7 +305,7 @@ namespace Archipelago
                     foreach (var ship in selected.ships) //Iterate through ships
                     {
                         if (ship.hasMoved || (enemies ^ ship.canAttack)) //Has the ship moved this turn
-                                                                          //Or if it cannot attack, make sure it is not going to move to a square with enemies in it
+                                                                         //Or if it cannot attack, make sure it is not going to move to a square with enemies in it
                         {
                             replaceList.Add(ship); //Add it to the cache list
                             continue; //Continue to the next iteration
@@ -928,7 +929,7 @@ namespace Archipelago
             foreach (var s in squares)
             {
                 ++iterations;
-                if (s.GetTeam() == Team.None)//Are the no ships in the square?
+                if (s.GetTeam() == Team.None && CanMove(s.location.X, s.location.Y))//Are the no ships in the square?
                 {
                     availableSquares.Add(s);
                 }
@@ -941,7 +942,7 @@ namespace Archipelago
             foreach (var square in pirateSquares)
             {
                 var ship = square.ships.FirstOrDefault();
-                Point destination = Ship.Destinations(ship.shipType, square.location).Shuffle().Where(p => squares[p.X, p.Y].team != Team.Pirate && CanMove(p.X, p.Y)).FirstOrDefault(); 
+                Point destination = Ship.Destinations(ship.shipType, square.location).Where(p => squares[p.X, p.Y].team != Team.Pirate && CanMove(p.X, p.Y)).ToList().RandomItem(); 
                 //Select a random destination that does not have pirates in it and has water
                 square.ships.Remove(ship);
                 var destinationSquare = squares[destination.X, destination.Y];
@@ -949,16 +950,7 @@ namespace Archipelago
                 RunAttack(destinationSquare);
             }
 
-            availableSquares = availableSquares.Shuffle();
-            Square pirateAddedSquare = new Square(new Point(-1,-1));
-            foreach (var s in availableSquares)
-            {
-                if (CanMove(s.location.X, s.location.Y)) //Can we move there
-                {
-                    pirateAddedSquare = s;
-                    break;
-                }
-            }
+            Square pirateAddedSquare = availableSquares.RandomItem();
             var shipToAdd = Ship.RandomShip();
             shipToAdd.team = Team.Pirate;
             pirateAddedSquare.ships.Add(shipToAdd);
