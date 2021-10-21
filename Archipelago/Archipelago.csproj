@@ -156,12 +156,8 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Maps\Archipelago.png" />
-    <Content Include="Maps\Archipelago2.png" />
     <None Include="Resources\Archipelago2.png" />
     <None Include="Resources\Archipelago.png" />
-    <None Include="Resources\gradient %281%29.png" />
-    <None Include="Resources\Summary.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
