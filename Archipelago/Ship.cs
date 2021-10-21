@@ -8,14 +8,15 @@ using System.Windows.Forms;
 
 namespace Archipelago
 {
+    [Flags]
     public enum Team
     {
-        None,
-        Red,
-        Green,
-        Black,
-        Blue,
-        Pirate,
+        None=0,
+        Red=1,
+        Green=2,
+        Black=4,
+        Blue=8,
+        Pirate=16,
     }
     public class Ship
     {
