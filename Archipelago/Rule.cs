@@ -23,13 +23,25 @@ namespace Archipelago
         public static List<Rule> rules = new List<Rule>(); 
 
         //Default defined rules
-        public static Rule AttackEverything = new Rule(0, RuleFunctions.CanAttack, RuleFunctions.AttackFirst);
-        public static Rule DefendPort = new Rule(0, RuleFunctions.IsVulnerablePort, RuleFunctions.BuildShipInPort);
-        public static Rule AttackPort = new Rule(0, RuleFunctions.VulnerableEnemyPort, RuleFunctions.AttackEnemyPort);
-        public static Rule BuildPort = new Rule(0, RuleFunctions.HasMaterials, RuleFunctions.BuildPort);
+        public static Rule AttackEverything = new Rule(0, RuleFunctions.CanAttack, RuleFunctions.AttackFirst); //Attack ships that get too close to port
+        public static Rule DefendPort = new Rule(1, RuleFunctions.IsVulnerablePort, RuleFunctions.BuildShipInPort); //Add a guard to port if an enemy is trying to attack
+        public static Rule AttackPort = new Rule(2, RuleFunctions.VulnerableEnemyPort, RuleFunctions.AttackEnemyPort); //Move a ship towards enemy port if it is empty
+
+        public static Rule BuildPort = new Rule(3, RuleFunctions.HasMaterials, RuleFunctions.BuildPort); //Build new port to gather more resources
+        public static Rule UpgradePort = new Rule(4, RuleFunctions.HasPortsAndMats, RuleFunctions.UpgradePorts); //Once we have built enough ports, start upgrading the ones we have
+
+        public static Rule PrepInvasion = new Rule(4, RuleFunctions.GeneratesEnough, RuleFunctions.Build_MOW); //Prepare invasion of enemy port
+        public static Rule Invade = new Rule(4, RuleFunctions.CanInvade, RuleFunctions.Invade); //Invade enemy port
     }
     public static class RuleFunctions
     {
+        static List<Square> vulnerablePorts = new List<Square>();
+        static Team mostVulnerable = Team.None;
+        static Square invasionPrepSquare;
+        static Square invasionForceSquare;
+        static Square invasionTarget;
+        static bool firstCalc = true;
+
         //Attack everything functions
         public static bool CanAttack()
         {
@@ -86,6 +98,9 @@ namespace Archipelago
         //Defend port functions
         public static bool IsVulnerablePort()
         {
+            vulnerablePorts = new List<Square>();
+
+            bool result = false;
             Team hasTurn = MainGameForm.hasTurn;
             foreach (var square in MainGameForm.squares)
             {
@@ -106,15 +121,16 @@ namespace Archipelago
                     {
                         for (int y = down4; y < up4; ++y) //Go from the furtherest down to the furtherest up
                         {
-                            if (MainGameForm.squares[x,y].ships.Count() != 0) //Is there 1 or more ships in the square
+                            if (MainGameForm.squares[x,y].ships.Count() != 0 && MainGameForm.squares[x,y].GetTeam() != MainGameForm.hasTurn) //Is there 1 or more ships in the square and are they not mine
                             {
-                                return true; //A ship is within moving distance of our port
+                                vulnerablePorts.Add(square);
+                                result =  true; //A ship is within moving distance of our port
                             }
                         }
                     }
                 }
             }
-            return false; //Ports are not in danger
+            return result; //Ports are not in danger
         }
         public static List<Move> BuildShipInPort()
         {
@@ -123,12 +139,11 @@ namespace Archipelago
             var ship = Ship.BuildBiggestShipInBudget(MainGameForm.teamMaterials.GetMaterials(hasTurn), Ship.ShipType.Heavy); //Build a random heavy ship
             if (ship != null) //Make sure we have enough materials to build the ship
             {
-                foreach (var square in MainGameForm.squares) 
+                foreach (var vulnerablePort in vulnerablePorts)
                 {
-                    if (square.isPort == true && square.team == hasTurn) //Is it one of my ports
+                    if (vulnerablePort.isPort == true && vulnerablePort.team == hasTurn) //Is it one of my ports
                     {
-                        movesToMake.Add(new Move(square, ship)); //Add the move
-                        break; //We only want to build one ship in one of the ports
+                        movesToMake.Add(new Move(vulnerablePort, ship)); //Add the move
                     }
                 }
             }
@@ -226,12 +241,21 @@ namespace Archipelago
         public static bool HasMaterials()
         {
             bool hasfirstRate = false;
+            Materials generates = new Materials(0,0,0);
             foreach (var s in MainGameForm.squares)
             {
-                if(s.isPort && s.ships.Where(ship=>ship.name == "1st rate").Count() != 0) //Do we have a first rate in port
+                if (s.isPort && s.team == MainGameForm.hasTurn) //Is it one of our ports
                 {
-                    hasfirstRate = true;
+                    if (s.ships.Where(ship => ship.name == "1st rate").Count() != 0) //Do we have a first rate in port
+                    {
+                        hasfirstRate = true;
+                    }
+                    generates += s.generates; //Increment total generates
                 }
+            }
+            if (generates.wood >= 500) //Are we generating in excess of 1000 wood?
+            {
+                return false; //At this point, we want to stop building ports and we want to start upgrading them!
             }
             if (hasfirstRate)
             {
@@ -286,6 +310,211 @@ namespace Archipelago
             var destination = Ship.Destinations(Ship.ShipType.Heavy, current).Where(p=>MainGameForm.CanMove(p.X, p.Y)).OrderByDescending(p=>MainGameForm.CalculatedGenerated(p.X, p.Y).wood).FirstOrDefault(); //Put the square witht the highest generated amount at the top
             result.Add(new Move(firstRate, current, destination)); //Move the ship to the destination
             result.Add(new Move(MainGameForm.squares[destination.X, destination.Y])); //Build the port at the destination
+            return result;
+        }
+
+        //Upgrade port functions
+        public static bool HasPortsAndMats()
+        {
+            Materials generates = new Materials(0, 0, 0);
+            foreach (var s in MainGameForm.squares)
+            {
+                if (s.isPort && s.team == MainGameForm.hasTurn) //Is it one of our ports
+                {
+                    generates += s.generates; //Increment total generates
+                }
+            }
+            if (generates.wood >= 500 && generates.wood < 3000) //Are we generating in excess of 1000 wood?
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        public static List<Move> UpgradePorts()
+        {
+            List<Move> result = new List<Move>();
+            Dictionary<Square, int> myports = new Dictionary<Square, int>();
+            foreach (var s in MainGameForm.squares)
+            {
+                if (s.isPort && s.team == MainGameForm.hasTurn) //Is it one of our ports
+                {
+                    myports.Add(s, (int)(2000 * (((float)s.level) / 2f))); //Casting as float to force decimal math, formula used to slowly increase the price of a port); 
+                    //Add it to the list!
+                }
+            }
+            var orderedByCost = myports.OrderByDescending(k=>k.Value).ToList(); //Get a list of all the squares, ordered by cost(value)
+            foreach (var s in orderedByCost) 
+            {
+                if (MainGameForm.teamMaterials.GetMaterials(MainGameForm.hasTurn).wood>s.Value) //Can we afford it?
+                {
+                    MainGameForm.teamMaterials.Pay(MainGameForm.hasTurn, new Materials(s.Value, 0, 0)); //Pay for the port
+                    result.Add(new Move(s.Key, s.Key.level+1)); //Add the move to upgrade the port
+                }
+            }
+            return result;
+        }
+        
+        //Prep invasion functions
+        public static bool GeneratesEnough()
+        {
+            Materials generates = new Materials(0, 0, 0);
+            foreach (var s in MainGameForm.squares)
+            {
+                if (s.isPort && s.team == MainGameForm.hasTurn) //Is it one of our ports
+                {
+                    generates += s.generates; //Increment total generates
+                }
+            }
+            if (generates.wood >= 3000) //Are we generating in excess of 3000 wood?
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        public static List<Move> Build_MOW()
+        {
+            List<Move> result = new List<Move>();
+            if (firstCalc)
+            {
+                Materials redGenerates = new Materials(0,0,0);
+                Materials greenGenerates = new Materials(0,0,0);
+                Materials blueGenerates = new Materials(0,0,0);
+                Materials blackGenerates = new Materials(0,0,0); //Assign generates variables
+
+                List<Square> redports = new List<Square>();
+                List<Square> blueports = new List<Square>();
+                List<Square> greenports = new List<Square>();
+                List<Square> blackports = new List<Square>();
+
+                List<Square> myports = new List<Square>();
+
+                foreach (var square in MainGameForm.squares) //Iterate through squares
+                {
+                    if (square.isPort) //Is it a port?
+                    {
+                        switch (square.team)
+                        {
+                            case Team.Red:
+                                redGenerates += square.generates;
+                                redports.Add(square);
+                                break;
+                            case Team.Green:
+                                greenGenerates += square.generates;
+                                greenports.Add(square);
+                                break;
+                            case Team.Blue:
+                                blueGenerates += square.generates;
+                                blueports.Add(square);
+                                break;
+                            case Team.Black:
+                                blackGenerates += square.generates;
+                                blackports.Add(square);
+                                break; //Adjust the amount each player generates accordingly
+                        }
+                        if (square.team == MainGameForm.hasTurn)
+                        {
+                            myports.Add(square);
+                        }
+                    }
+                }
+                Dictionary<Team, Materials> teammats = new Dictionary<Team, Materials>
+                {
+                    { Team.Red, redGenerates },
+                    { Team.Blue, blueGenerates },
+                    { Team.Black, blackGenerates },
+                    { Team.Green, greenGenerates }
+                }; //Assign a dictionary with the values of the team and the amount of materials they generate
+                //Would use class TeamMaterials, but it is not an IEnumerable
+                mostVulnerable = teammats.Where(t=>t.Key != MainGameForm.hasTurn).OrderBy(t=>t.Value.wood).ToList().FirstOrDefault().Key; //Find out which team generates the least amount of materials
+                List<Square> targetPorts = new List<Square>();
+                switch (mostVulnerable)
+                {
+                    case Team.Red:
+                        targetPorts = redports;
+                        break;
+                    case Team.Blue:
+                        targetPorts = blueports;
+                        break;
+                    case Team.Green:
+                        targetPorts = greenports;
+                        break;
+                    case Team.Black:
+                        targetPorts = blackports;
+                        break;
+                } //Assign the target ports to the target teams ports
+                double currentDistance = double.MaxValue;
+                foreach (var port in myports)
+                {
+                    foreach (var eport in targetPorts)
+                    {
+                        if (eport.location.DistanceTo(eport.location) < currentDistance)
+                        {
+                            invasionPrepSquare = port;
+                            invasionTarget = eport;
+                        } //Find the ports that are the closest together
+                        //Prepare invasion force in closest of our squares, move invasion force to closest of their squares/
+                    }
+                }
+                var invasionForceSquareLoc = invasionPrepSquare.location.MoveTowards(invasionTarget.location, 3).Round();
+                invasionForceSquare = MainGameForm.squares[invasionForceSquareLoc.X, invasionForceSquareLoc.Y];
+            }
+            if (invasionForceSquare.ships.Count() > 20) //Do we already have 20 ships in the invasion force square?
+            {
+                return result; //Return
+            }
+            bool stop = false;
+            do
+            {
+                Ship MOW = Ship.CreateManOWar();
+                MOW.team = MainGameForm.hasTurn; //Create the ship and put it on our team
+                if (MOW.required < MainGameForm.teamMaterials.GetMaterials(MainGameForm.hasTurn)) //Can we afford it?
+                {
+                    MainGameForm.teamMaterials.Pay(MainGameForm.hasTurn, MOW.required); //Pay for it
+                    invasionForceSquare.ships.Add(MOW); //Put it in the square
+                }
+                else
+                {
+                    stop = true; //We cannot afford this one or any more ones, so exit the loop
+                }
+            } while (!stop);
+            return result;
+        }
+
+        //Invade functions
+        public static bool CanInvade()
+        {
+            if (invasionForceSquare == null)
+            {
+                return false;
+            }
+            return invasionForceSquare.ships.Count() >= 20;
+        }
+        public static List<Move> Invade()
+        {
+            List<Move> result = new List<Move>();
+            var targetLocation = invasionForceSquare.location.MoveTowards(invasionTarget.location, 3).Round(); //Move towards the target port
+            var ships = new List<Ship>();
+            foreach (var s in invasionForceSquare.ships)
+            {
+                ships.Add(s); //Copy the shiplist to stop reference errors in Move.DoMove()
+            }
+
+            result.Add(new Move(ships, invasionForceSquare.location, targetLocation)); //Add the move
+            invasionForceSquare = MainGameForm.squares[targetLocation.X, targetLocation.Y]; //Reassign invasion force square to the square the invasion force is now in
+            if (invasionForceSquare == invasionTarget) //Have we successfully invaded the target square
+            {
+                mostVulnerable = Team.None;
+                invasionPrepSquare = null;
+                invasionForceSquare = null;
+                invasionTarget = null;
+                firstCalc = true; //Reset all the variables to do the calculation again
+            }
             return result;
         }
     }
