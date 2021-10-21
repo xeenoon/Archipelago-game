@@ -13,13 +13,26 @@ namespace Archipelago
 {
     public partial class MainGameForm : Form
     {
+        public enum MapType
+        {
+            SmallIslands,
+            Continents,
+        }
         public static Team hasTurn = Team.None; //Hasturn is a type of team which shows what teams turn it is
         public static TeamMaterials teamMaterials; //A way of determining the materials that the players whose turn it is has
         public static MainGameForm currentForm;
-        public MainGameForm(Team playerTeams, Team AiTeams)
+        public static MapType maptype = MapType.SmallIslands;
+        public MainGameForm(Team playerTeams, Team AiTeams, MapType maptype)
         {
             InitializeComponent();
-
+            MainGameForm.maptype = maptype;
+            if (maptype == MapType.SmallIslands) {
+                pictureBox1.Image = Properties.Resources.Archipelago2;
+            }
+            else
+            {
+                pictureBox1.Image = Properties.Resources.Archipelago;
+            }
             pictureboxBitmap = new Bitmap(pictureBox1.Image);
             pictureBox1.Image = pictureboxBitmap; //Load the picture
 
@@ -63,20 +76,41 @@ namespace Archipelago
             }
             //CanMovePopulate(); Only to be used if repopulating squareValidity. Just copy and paste from txt file. Change username in Filepath to your own username
             playerTeams |= AiTeams;
-            if ((playerTeams & Team.Red) == Team.Red) {
-                CreatePort(4, 2, Team.Red);
+            if (maptype == MapType.Continents) {
+                if ((playerTeams & Team.Red) == Team.Red) {
+                    CreatePort(4, 2, Team.Red);
+                }
+                if ((playerTeams & Team.Green) == Team.Green)
+                {
+                    CreatePort(11, 14, Team.Green);
+                }
+                if ((playerTeams & Team.Black) == Team.Black)
+                {
+                    CreatePort(21, 5, Team.Black);
+                }
+                if ((playerTeams & Team.Blue) == Team.Blue)
+                {
+                    CreatePort(22, 18, Team.Blue);
+                }
             }
-            if ((playerTeams & Team.Green) == Team.Green)
+            else
             {
-                CreatePort(11, 14, Team.Green);
-            }
-            if ((playerTeams & Team.Black) == Team.Black)
-            {
-                CreatePort(21, 5, Team.Black);
-            }
-            if ((playerTeams & Team.Blue) == Team.Blue)
-            {
-                CreatePort(22, 18, Team.Blue);
+                if ((playerTeams & Team.Red) == Team.Red)
+                {
+                    CreatePort(5, 2, Team.Red);
+                }
+                if ((playerTeams & Team.Green) == Team.Green)
+                {
+                    CreatePort(4, 18, Team.Green);
+                }
+                if ((playerTeams & Team.Black) == Team.Black)
+                {
+                    CreatePort(24, 4, Team.Black);
+                }
+                if ((playerTeams & Team.Blue) == Team.Blue)
+                {
+                    CreatePort(22, 17, Team.Blue);
+                }
             }
             AIteam = AiTeams;
             moveSettings.Visible = false;
@@ -190,7 +224,7 @@ namespace Archipelago
             }
             return false; //There are no green squares in the square
         }
-        public static bool[,] squareValidity = new bool[,] {
+        public static bool[,] ContinentValidity = new bool[,] {
             { true , true , true , true , true , true , true , true , true , true , true , true , true , true , true , true , true , true , true , true , true  },
             { true , true , true , true , true , true , true , true , true , true , true , true , true , false, false, true , true , true , true , true , true  },
             { true , false, false, true , true , true , true , true , true , true , true , true , true , false, false, true , true , true , true , true , true  },
@@ -220,11 +254,40 @@ namespace Archipelago
             { true , true , true , true , true , false, true , true , false, true , true , true , true , true , true , true , true , true , true , true , true  },
             { true , true , true , true , true , true , true , true , true , true , true , true , true , true , true , true , true , true , true , true , true  },
         };
- //     public List<bool[,]> squareValidityFromFile()
- //     {
- //         //Iterate through the strings using string parsing techniques
- //         //This will get you a list of bool[,]
- //     }
+        public static bool[,] IslandValidity = new bool[,] { 
+            {true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true },
+            {true ,true ,true ,true ,false,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,false,true ,true },
+            {true ,true ,true ,false,false,false,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,false,true ,true ,true },
+            {true ,true ,true ,true ,false,false,true ,true ,false,false,true ,true ,true ,true ,true ,true ,true ,false,false,true ,true },
+            {true ,true ,false,false,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true },
+            {true ,true ,true ,false,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true },
+            {true ,true ,true ,false,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,false,true },
+            {true ,true ,true ,false,false,true ,true ,true ,true ,true ,false,true ,true ,true ,true ,true ,true ,true ,false,true ,true },
+            {true ,true ,true ,false,true ,false,true ,true ,true ,true ,true ,true ,false,true ,true ,true ,true ,true ,true ,true ,true },
+            {true ,true ,true ,false,false,false,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true },
+            {true ,true ,true ,true ,true ,true ,true ,true ,true ,false,true ,true ,true ,true ,true ,true ,true ,true ,true ,false,true },
+            {true ,false,true ,true ,true ,true ,true ,true ,true ,false,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true },
+            {true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true },
+            {true ,false,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,false,true ,true ,true ,true ,true ,false,true ,true },
+            {true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,false,true ,true ,false,false,true ,true ,true ,true },
+            {false,true ,false,true ,true ,true ,true ,true ,true ,true ,true ,true ,false,true ,true ,false,false,true ,true ,true ,true },
+            {true ,true ,false,true ,true ,false,false,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true },
+            {true ,true ,false,true ,true ,true ,true ,true ,false,false,false,true ,true ,true ,true ,true ,true ,true ,true ,true ,true },
+            {true ,true ,true ,true ,true ,true ,true ,true ,true ,false,true ,true ,true ,true ,true ,false,true ,true ,true ,true ,true },
+            {true ,true ,true ,true ,true ,true ,false,true ,true ,true ,true ,true ,true ,true ,true ,false,true ,true ,true ,true ,true },
+            {true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true },
+            {true ,true ,true ,true ,true ,true ,true ,true ,false,true ,true ,true ,true ,true ,true ,true ,true ,true ,false,true ,true },
+            {true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true },
+            {true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,false,true ,true ,true ,true ,true ,true ,true ,true ,true ,true },
+            {true ,true ,true ,true ,true ,true ,true ,true ,true ,false,true ,true ,true ,true ,true ,true ,true ,true ,false,true ,true },
+            {true ,true ,true ,true ,true ,true ,true ,false,true ,true ,true ,true ,true ,true ,true ,true ,true ,false,true ,true ,true },
+            {true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true },
+            {true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true ,true },};
+        //     public List<bool[,]> squareValidityFromFile()
+        //     {
+        //         //Iterate through the strings using string parsing techniques
+        //         //This will get you a list of bool[,]
+        //     }
         public static void CanMovePopulate()//Determines if a square is allowed to be moved to. A ship cannot move to a square that is more than 90% green
         {
             
@@ -274,7 +337,14 @@ namespace Archipelago
             {
                 return false;
             }
-            return squareValidity[square_x, square_y];
+            if (maptype == MapType.SmallIslands)
+            {
+                return IslandValidity[square_x, square_y];
+            }
+            else
+            {
+                return ContinentValidity[square_x, square_y];
+            }
         }
         bool justmoved; //Did we just move something? Relative to OnSquareClick(), Should not be referenced elsewhere, unless function relates to moving
         public void OnSquareClick(int xpos, int ypos)
@@ -895,11 +965,11 @@ namespace Archipelago
 
             teamMaterials.Show(hasTurn); //Show the materials on the left side of the screen
 
-            if (hasTurn == Team.Pirate)
+            if ((hasTurn & Team.Pirate) == Team.Pirate)
             {
                 EndTurn(new object(), new EventArgs());
             }
-            if (hasTurn == AIteam)
+            if ((hasTurn & AIteam) == AIteam)
             {
                 AIMove();
                 EndTurn(new object(), new EventArgs());

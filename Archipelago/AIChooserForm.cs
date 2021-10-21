@@ -13,6 +13,7 @@ namespace Archipelago
 {
     public partial class AIChooserForm : Form
     {
+        MainGameForm.MapType mapType = MainGameForm.MapType.Continents;
         public AIChooserForm()
         {
             InitializeComponent();
@@ -103,21 +104,20 @@ namespace Archipelago
                     playerTeams |= Team.Blue;
                     break;
             }
-            MainGameForm m = new MainGameForm(playerTeams, AITeams);
+            MainGameForm m = new MainGameForm(playerTeams, AITeams, mapType);
             m.ShowDialog();
         }
-        int imagetype = 1;
         private void button3_Click(object sender, EventArgs e)
         {
-            if (imagetype == 1)
+            if (mapType == MainGameForm.MapType.Continents)
             {
                 pictureBox1.Image = Properties.Resources.Archipelago2;
-                imagetype = 2;
+                mapType = MainGameForm.MapType.SmallIslands;
             }
             else
             {
                 pictureBox1.Image = Properties.Resources.Archipelago;
-                imagetype = 1;
+                mapType = MainGameForm.MapType.Continents;
             }
             this.Invalidate();
         }
