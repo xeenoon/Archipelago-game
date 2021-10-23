@@ -965,11 +965,11 @@ namespace Archipelago
 
             teamMaterials.Show(hasTurn); //Show the materials on the left side of the screen
 
-            if ((hasTurn & Team.Pirate) == Team.Pirate)
+            if ((hasTurn & Team.Pirate) != Team.None)
             {
                 EndTurn(new object(), new EventArgs());
             }
-            if ((hasTurn & AIteam) == AIteam)
+            if ((hasTurn & AIteam) != Team.None)
             {
                 AIMove();
                 EndTurn(new object(), new EventArgs());
