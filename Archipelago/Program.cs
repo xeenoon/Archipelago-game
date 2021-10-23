@@ -16,7 +16,9 @@ namespace Archipelago
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            RuleFunctions.OnStart();
             Application.Run(new StartForm());
+
         }
     }
 }

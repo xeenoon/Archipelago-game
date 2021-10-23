@@ -134,5 +134,44 @@ namespace Archipelago
                 return result;
             }
         }
+
+        internal Square Closest(List<Square> enemyports)
+        {
+            double smallestDistance = double.MaxValue;
+            Square closestSquare = new Square(-1,-1);
+            foreach (var p in enemyports)
+            {
+                var distance = location.DistanceTo_D(p.location);
+                if (distance < smallestDistance) //Is this the closest port?
+                {
+                    smallestDistance = distance;
+                    closestSquare = p;
+                }
+            }
+            return closestSquare;
+        }
+
+        internal List<Ship> ShipsNearby(int distance)
+        {
+            if (location.X == -1 || location.Y == -1)
+            {
+                return new List<Ship>();
+            }
+            var result = new List<Ship>();
+            int left4 = location.X - 4 < 0 ? 0 : location.X - 4; //The furtherest left we can go
+            int down4 = location.Y - 4 < 0 ? 0 : location.Y - 4; //The furtherest right we can go
+
+            int right4 = location.X + 4 > MainGameForm.horizontalSquares - 1 ? MainGameForm.horizontalSquares - 1 : location.X + 4; //The furtherst right we can go
+            int up4 = location.Y + 4 > MainGameForm.verticalSquares ? MainGameForm.verticalSquares : location.Y + 4; //The furtherest up we can go
+
+            for (int x = left4; x < right4; ++x) //Go from the furtherest left to the furtherest right
+            {
+                for (int y = down4; y < up4; ++y) //Go from the furtherest down to the furtherest up
+                {
+                    result.AddRange(MainGameForm.squares[x,y].ships);
+                }
+            }
+            return result;
+        }
     }
 }
