@@ -8,14 +8,15 @@ using System.Windows.Forms;
 
 namespace Archipelago
 {
+    [Flags]
     public enum Team
     {
-        None,
-        Red,
-        Green,
-        Black,
-        Blue,
-        Pirate,
+        None=0,
+        Red=1,
+        Green=2,
+        Black=4,
+        Blue=8,
+        Pirate=16,
     }
     public class Ship
     {
@@ -29,7 +30,7 @@ namespace Archipelago
         }
         public ShipType shipType;
         public int cannons;
-        public int health;
+        public int health;private int maxhealth;
         public string name;
         public bool moveNext;
         public Team team = Team.None;
@@ -56,8 +57,43 @@ namespace Archipelago
         /// <summary>
         /// used to bring back health
         /// </summary>
-        public static void Repair()
+        public void Repair(Materials funds)
         {
+
+            //checks if you already are at max health
+            if (maxhealth == health)
+            {
+                MessageBox.Show("This ship is already at max health");
+                return;
+            }
+            
+            //how much health is lost
+            int RqrdHealth = maxhealth - health;
+
+            //finds based off of the wood:health rate how much wood is needed
+            int wood_needed =Materials.HealthToWood(RqrdHealth);
+
+            //checks the amount wood you have
+            if (funds.wood< wood_needed)
+            {
+                MessageBox.Show("you don't have enough wood");
+                return;
+            }
+
+            
+            var response =MessageBox.Show($"do you want to pay {wood_needed} wood for {RqrdHealth} health","Repairs",MessageBoxButtons.YesNo);
+            if(response == DialogResult.No)
+            {
+                return;
+            }
+            //transaction
+            funds.Pay(new Materials(wood_needed, 0, 0));
+
+            //sets your health to max
+            health = maxhealth;
+
+            MainGameForm.currentForm.OnSquareClick(MainGameForm.selected.location.X, MainGameForm.selected.location.Y);
+
             //Does the player have enough materials
             //Pay for materials using the HealthToWood();
             //Replenish health
@@ -154,6 +190,7 @@ namespace Archipelago
             this.shipType = shipType;
             this.cannons = cannons;
             this.health = health;
+            maxhealth = health;
             this.name = name;
             required = Materials.Generate(shipType, cannons, health);
             cargoCapacity = health / 2; //Cargo capacity does not dimish with ship health
