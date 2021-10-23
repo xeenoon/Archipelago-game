@@ -51,12 +51,13 @@ namespace Archipelago
             if (mlProcess == null)
             {
                 //                ProcessStartInfo info = new ProcessStartInfo(@"C:\Program Files\Archipelago\ArchipelagoML.exe");
-                ProcessStartInfo info = new ProcessStartInfo(@"C:\Users\chris\source\repos\MachineLearningExample\MachineLearningExampleML.ConsoleApp\bin\Debug\netcoreapp3.1\MachineLearningExampleML.ConsoleApp.exe");
-
-                info.UseShellExecute = false;
-                info.RedirectStandardOutput = true;
-                info.RedirectStandardInput = true;
-                info.CreateNoWindow = true;
+                ProcessStartInfo info = new ProcessStartInfo(@"C:\Program Files\Archipelago\ArchipelagoML.exe")
+                {
+                    UseShellExecute = false,
+                    RedirectStandardOutput = true,
+                    RedirectStandardInput = true,
+                    CreateNoWindow = true
+                };
 
                 mlProcess = Process.Start(info);
             }
