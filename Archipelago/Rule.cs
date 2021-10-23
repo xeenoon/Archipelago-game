@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -41,6 +43,39 @@ namespace Archipelago
         static Square invasionForceSquare;
         static Square invasionTarget;
         static bool firstCalc = true;
+
+        static Process mlProcess = null;
+
+        public static void OnStart()
+        {
+            if (mlProcess == null)
+            {
+                //                ProcessStartInfo info = new ProcessStartInfo(@"C:\Program Files\Archipelago\ArchipelagoML.exe");
+                ProcessStartInfo info = new ProcessStartInfo(@"C:\Users\chris\source\repos\MachineLearningExample\MachineLearningExampleML.ConsoleApp\bin\Debug\netcoreapp3.1\MachineLearningExampleML.ConsoleApp.exe");
+
+                info.UseShellExecute = false;
+                info.RedirectStandardOutput = true;
+                info.RedirectStandardInput = true;
+                info.CreateNoWindow = true;
+
+                mlProcess = Process.Start(info);
+            }
+        }
+        public static float MLPredict(ModelInput m)
+        {
+            if (mlProcess == null)
+            {
+                return 0;
+            }
+
+            mlProcess.StandardInput.WriteLine(m.ToString());
+            string output = mlProcess.StandardOutput.ReadLine();
+
+            return float.Parse(output);
+
+        }
+
+        
 
         //Attack everything functions
         public static bool CanAttack()
@@ -111,22 +146,10 @@ namespace Archipelago
                         continue; //Ignore it, we only ever need one guard
                     }
                     //Record the positions of everything that is close enough to move to us
-                    int left4  = square.location.X - 4 < 0 ? 0 : square.location.X - 4; //The furtherest left we can go
-                    int down4 = square.location.Y - 4 < 0 ? 0 : square.location.Y - 4; //The furtherest right we can go
-
-                    int right4 = square.location.X + 4 > MainGameForm.horizontalSquares-1 ? MainGameForm.horizontalSquares-1: square.location.X + 4; //The furtherst right we can go
-                    int up4    = square.location.Y + 4 > MainGameForm.verticalSquares ? MainGameForm.verticalSquares : square.location.Y + 4; //The furtherest up we can go
-
-                    for (int x = left4; x < right4; ++x) //Go from the furtherest left to the furtherest right
+                    var nearby = square.ShipsNearby(4);
+                    if (nearby.Where(s=>s.team != hasTurn).Count() >= 1)
                     {
-                        for (int y = down4; y < up4; ++y) //Go from the furtherest down to the furtherest up
-                        {
-                            if (MainGameForm.squares[x,y].ships.Count() != 0 && MainGameForm.squares[x,y].GetTeam() != MainGameForm.hasTurn) //Is there 1 or more ships in the square and are they not mine
-                            {
-                                vulnerablePorts.Add(square);
-                                result =  true; //A ship is within moving distance of our port
-                            }
-                        }
+                        return true;
                     }
                 }
             }
@@ -387,10 +410,15 @@ namespace Archipelago
                 Materials blueGenerates = new Materials(0,0,0);
                 Materials blackGenerates = new Materials(0,0,0); //Assign generates variables
 
-                List<Square> redports = new List<Square>();
-                List<Square> blueports = new List<Square>();
-                List<Square> greenports = new List<Square>();
-                List<Square> blackports = new List<Square>();
+                Square redport   = new Square(-1, -1);
+                Square blueport  = new Square(-1, -1);
+                Square greenport = new Square(-1, -1);
+                Square blackport = new Square(-1, -1);
+
+                Square m_redport = new Square(-1, -1);
+                Square m_blueport = new Square(-1, -1);
+                Square m_greenport = new Square(-1, -1);
+                Square m_blackport = new Square(-1, -1);
 
                 List<Square> myports = new List<Square>();
 
@@ -398,68 +426,129 @@ namespace Archipelago
                 {
                     if (square.isPort) //Is it a port?
                     {
-                        switch (square.team)
-                        {
-                            case Team.Red:
-                                redGenerates += square.generates;
-                                redports.Add(square);
-                                break;
-                            case Team.Green:
-                                greenGenerates += square.generates;
-                                greenports.Add(square);
-                                break;
-                            case Team.Blue:
-                                blueGenerates += square.generates;
-                                blueports.Add(square);
-                                break;
-                            case Team.Black:
-                                blackGenerates += square.generates;
-                                blackports.Add(square);
-                                break; //Adjust the amount each player generates accordingly
-                        }
                         if (square.team == MainGameForm.hasTurn)
                         {
                             myports.Add(square);
                         }
                     }
                 }
-                Dictionary<Team, Materials> teammats = new Dictionary<Team, Materials>
+                float redDist   = float.MaxValue;
+                float greenDist = float.MaxValue;
+                float blueDist  = float.MaxValue;
+                float blackDist = float.MaxValue;
+                foreach (var square in MainGameForm.squares) //Iterate through squares
                 {
-                    { Team.Red, redGenerates },
-                    { Team.Blue, blueGenerates },
-                    { Team.Black, blackGenerates },
-                    { Team.Green, greenGenerates }
-                }; //Assign a dictionary with the values of the team and the amount of materials they generate
-                //Would use class TeamMaterials, but it is not an IEnumerable
-                mostVulnerable = teammats.Where(t=>t.Key != MainGameForm.hasTurn).OrderBy(t=>t.Value.wood).ToList().FirstOrDefault().Key; //Find out which team generates the least amount of materials
-                List<Square> targetPorts = new List<Square>();
+                    if (square.isPort) //Is it a port?
+                    {
+                        var myport = new Square(-1,-1);
+                        var distance = 0f;
+                        myport = square.Closest(myports); //Get the closest one of our ports to their port
+                        distance = myport.location.DistanceTo_F(square.location);
+                        switch (square.team)
+                        {
+                            case Team.Red:
+                                redGenerates += square.generates;
+                                if (distance < redDist)
+                                {
+                                    redDist = distance;
+                                    redport = square;
+                                    m_redport = myport;
+                                } //Make distance the smallest distance if it is smaller
+                                break;
+                            case Team.Green:
+                                greenGenerates += square.generates;
+                                if (distance < greenDist)
+                                {
+                                    greenDist = distance;
+                                    greenport = square;
+                                    m_greenport = myport;
+                                } //Make distance the smallest distance if it is smaller
+                                break;
+                            case Team.Blue:
+                                blueGenerates += square.generates;
+                                if (distance < blueDist)
+                                {
+                                    blueDist = distance;
+                                    blueport = square;
+                                    m_blueport = myport;
+                                } //Make distance the smallest distance if it is smaller
+                                break;
+                            case Team.Black:
+                                blackGenerates += square.generates;
+                                if (distance < blackDist)
+                                {
+                                    blackDist = distance;
+                                    blackport = square;
+                                    m_blackport = myport;
+                                } //Make distance the smallest distance if it is smaller
+                                break; //Adjust the amount each player generates accordingly
+                        }
+                    }
+                }
+                Dictionary<Team, float> teamscores = new Dictionary<Team, float>();
+                if (redport.location.X >= 0)
+                {
+                    List<Ship> redShips = redport.ShipsNearby(4);
+                    ModelInput redData = new ModelInput()
+                    {
+                        Wood = redGenerates.wood, //Get reds wood
+                        Distance = redDist, //get the distance between our closest port and reds port
+                        _4hp = redShips.Sum(s => s.health),
+                        _4can = redShips.Sum(s => s.cannons),
+                    }; //Use machine learning library to create a modelinput
+                    teamscores.Add(Team.Red, MLPredict(redData));
+                }
+                if (blueport.location.X >= 0)
+                {
+                    List<Ship> blueShips = blueport.ShipsNearby(4);
+                    ModelInput blueData = new ModelInput()
+                    {
+                        Wood = blueGenerates.wood, //Get blues wood
+                        Distance = blueDist, //get the distance between our closest port and blues port
+                        _4hp = blueShips.Sum(s => s.health),
+                        _4can = blueShips.Sum(s => s.cannons),
+                    }; //Use machine learning library to create a modelinput
+                    teamscores.Add(Team.Blue, MLPredict(blueData));
+                }
+                if (greenport.location.X >= 0)
+                {
+                    List<Ship> greenShips = greenport.ShipsNearby(4);
+                    ModelInput greenData = new ModelInput()
+                    {
+                        Wood = greenGenerates.wood, //Get greens wood
+                        Distance = greenDist, //get the distance between our closest port and greens port
+                        _4hp = greenShips.Sum(s => s.health),
+                        _4can = greenShips.Sum(s => s.cannons),
+                    }; //Use machine learning library to create a modelinput
+                    teamscores.Add(Team.Green, MLPredict(greenData));
+                }
+                if (blackport.location.X >= 0) {
+                    List<Ship> blackShips = blackport.ShipsNearby(4);
+                    ModelInput blackData = new ModelInput()
+                    {
+                        Wood = blackGenerates.wood, //Get blacks wood
+                        Distance = blackDist, //get the distance between our closest port and blacks port
+                        _4hp = blackShips.Sum(s => s.health),
+                        _4can = blackShips.Sum(s => s.cannons),
+                    }; //Use machine learning library to create a modelinput
+                    teamscores.Add(Team.Black, MLPredict(blackData));
+                }
+                mostVulnerable = teamscores.Where(t=>t.Key != MainGameForm.hasTurn).OrderBy(t=>t.Value).FirstOrDefault().Key; //Get the most vulnerable player using the scores calculated earlier
                 switch (mostVulnerable)
                 {
                     case Team.Red:
-                        targetPorts = redports;
-                        break;
-                    case Team.Blue:
-                        targetPorts = blueports;
+                        invasionPrepSquare = m_redport;
+                        invasionTarget = redport;
                         break;
                     case Team.Green:
-                        targetPorts = greenports;
-                        break;
+                        invasionPrepSquare = m_greenport;
+                        invasionTarget = redport; break;
                     case Team.Black:
-                        targetPorts = blackports;
-                        break;
-                } //Assign the target ports to the target teams ports
-                double currentDistance = double.MaxValue;
-                foreach (var port in myports)
-                {
-                    foreach (var eport in targetPorts)
-                    {
-                        if (eport.location.DistanceTo(eport.location) < currentDistance)
-                        {
-                            invasionPrepSquare = port;
-                            invasionTarget = eport;
-                        } //Find the ports that are the closest together
-                        //Prepare invasion force in closest of our squares, move invasion force to closest of their squares/
-                    }
+                        invasionPrepSquare = m_blackport;
+                        invasionTarget = blackport; break;
+                    case Team.Blue:
+                        invasionPrepSquare = m_blueport;
+                        invasionTarget = blueport; break;
                 }
                 var invasionForceSquareLoc = invasionPrepSquare.location.MoveTowards(invasionTarget.location, 3).Round();
                 invasionForceSquare = MainGameForm.squares[invasionForceSquareLoc.X, invasionForceSquareLoc.Y];
@@ -516,6 +605,19 @@ namespace Archipelago
                 firstCalc = true; //Reset all the variables to do the calculation again
             }
             return result;
+        }
+
+    }
+    public class ModelInput
+    {
+        public int Wood;
+        public float Distance;
+        public int _4hp;
+        public int _4can;
+
+        public override string ToString()
+        {
+            return string.Format("{0},{1},{2},{3}", Wood, Distance, _4hp, _4can);
         }
     }
 }

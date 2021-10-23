@@ -65,9 +65,13 @@ namespace Archipelago
             return result;
         }
 
-        public static double DistanceTo(this Point origin, Point dest)
+        public static double DistanceTo_D(this Point origin, Point dest)
         {
             return Math.Sqrt(Math.Pow(origin.X - dest.X, 2) + Math.Pow(origin.Y - dest.Y, 2));
+        }
+        public static float DistanceTo_F(this Point origin, Point dest)
+        {
+            return (float)Math.Sqrt(Math.Pow(origin.X - dest.X, 2) + Math.Pow(origin.Y - dest.Y, 2));
         }
 
         public static Point Round(this PointF pos)
