@@ -110,7 +110,7 @@ namespace Archipelago
             this.label1.Location = new System.Drawing.Point(17, 7);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(127, 25);
-            this.label1.TabIndex = 1;
+            this.label1.TabIndex = 0;
             this.label1.Tag = "headFont";
             this.label1.Text = "Square data";
             // 
@@ -122,7 +122,7 @@ namespace Archipelago
             this.ShipsList.Location = new System.Drawing.Point(7, 62);
             this.ShipsList.Name = "ShipsList";
             this.ShipsList.Size = new System.Drawing.Size(48, 18);
-            this.ShipsList.TabIndex = 2;
+            this.ShipsList.TabIndex = 3;
             this.ShipsList.Tag = "labelFont";
             this.ShipsList.Text = "Ships:";
             // 
@@ -134,7 +134,7 @@ namespace Archipelago
             this.label3.Location = new System.Drawing.Point(7, 150);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(48, 18);
-            this.label3.TabIndex = 3;
+            this.label3.TabIndex = 5;
             this.label3.Tag = "labelFont";
             this.label3.Text = "Cargo:";
             // 
@@ -146,7 +146,7 @@ namespace Archipelago
             this.ManufactureLabel.Location = new System.Drawing.Point(4, 278);
             this.ManufactureLabel.Name = "ManufactureLabel";
             this.ManufactureLabel.Size = new System.Drawing.Size(94, 18);
-            this.ManufactureLabel.TabIndex = 4;
+            this.ManufactureLabel.TabIndex = 10;
             this.ManufactureLabel.Tag = "labelFont";
             this.ManufactureLabel.Text = "Manufacture:";
             // 
@@ -166,7 +166,7 @@ namespace Archipelago
             this.ManufactureHeavy.Location = new System.Drawing.Point(87, 305);
             this.ManufactureHeavy.Name = "ManufactureHeavy";
             this.ManufactureHeavy.Size = new System.Drawing.Size(19, 21);
-            this.ManufactureHeavy.TabIndex = 9;
+            this.ManufactureHeavy.TabIndex = 12;
             this.ManufactureHeavy.SelectedIndexChanged += new System.EventHandler(this.BuildShip);
             // 
             // ManufactureMedium
@@ -185,7 +185,7 @@ namespace Archipelago
             this.ManufactureMedium.Location = new System.Drawing.Point(87, 336);
             this.ManufactureMedium.Name = "ManufactureMedium";
             this.ManufactureMedium.Size = new System.Drawing.Size(19, 21);
-            this.ManufactureMedium.TabIndex = 10;
+            this.ManufactureMedium.TabIndex = 14;
             this.ManufactureMedium.SelectedIndexChanged += new System.EventHandler(this.BuildShip);
             // 
             // ManufactureFast
@@ -202,7 +202,7 @@ namespace Archipelago
             this.ManufactureFast.Location = new System.Drawing.Point(87, 367);
             this.ManufactureFast.Name = "ManufactureFast";
             this.ManufactureFast.Size = new System.Drawing.Size(19, 21);
-            this.ManufactureFast.TabIndex = 11;
+            this.ManufactureFast.TabIndex = 16;
             this.ManufactureFast.SelectedIndexChanged += new System.EventHandler(this.BuildShip);
             // 
             // ManufactureVeryFast
@@ -215,7 +215,7 @@ namespace Archipelago
             this.ManufactureVeryFast.Location = new System.Drawing.Point(87, 398);
             this.ManufactureVeryFast.Name = "ManufactureVeryFast";
             this.ManufactureVeryFast.Size = new System.Drawing.Size(19, 21);
-            this.ManufactureVeryFast.TabIndex = 12;
+            this.ManufactureVeryFast.TabIndex = 18;
             this.ManufactureVeryFast.SelectedIndexChanged += new System.EventHandler(this.BuildShip);
             // 
             // label4
@@ -226,7 +226,7 @@ namespace Archipelago
             this.label4.Location = new System.Drawing.Point(28, 308);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(48, 18);
-            this.label4.TabIndex = 13;
+            this.label4.TabIndex = 11;
             this.label4.Tag = "shipTypeFont";
             this.label4.Text = "Heavy";
             // 
@@ -238,7 +238,7 @@ namespace Archipelago
             this.label5.Location = new System.Drawing.Point(15, 339);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(61, 18);
-            this.label5.TabIndex = 14;
+            this.label5.TabIndex = 13;
             this.label5.Tag = "shipTypeFont";
             this.label5.Text = "Medium";
             // 
@@ -262,7 +262,7 @@ namespace Archipelago
             this.label7.Location = new System.Drawing.Point(9, 401);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(67, 18);
-            this.label7.TabIndex = 16;
+            this.label7.TabIndex = 17;
             this.label7.Tag = "shipTypeFont";
             this.label7.Text = "Very fast";
             // 
@@ -276,7 +276,7 @@ namespace Archipelago
             this.MoveButton.Location = new System.Drawing.Point(4, 227);
             this.MoveButton.Name = "MoveButton";
             this.MoveButton.Size = new System.Drawing.Size(75, 23);
-            this.MoveButton.TabIndex = 17;
+            this.MoveButton.TabIndex = 7;
             this.MoveButton.Tag = "moveButton";
             this.MoveButton.Text = "Move";
             this.MoveButton.UseVisualStyleBackColor = false;
@@ -366,7 +366,7 @@ namespace Archipelago
             this.MoveSpecificButton.Location = new System.Drawing.Point(85, 227);
             this.MoveSpecificButton.Name = "MoveSpecificButton";
             this.MoveSpecificButton.Size = new System.Drawing.Size(86, 23);
-            this.MoveSpecificButton.TabIndex = 24;
+            this.MoveSpecificButton.TabIndex = 8;
             this.MoveSpecificButton.Tag = "moveButton";
             this.MoveSpecificButton.Text = "Move specific";
             this.MoveSpecificButton.UseVisualStyleBackColor = false;
@@ -434,7 +434,7 @@ namespace Archipelago
             this.button7.Location = new System.Drawing.Point(37, 492);
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(111, 33);
-            this.button7.TabIndex = 27;
+            this.button7.TabIndex = 21;
             this.button7.Tag = "headButton";
             this.button7.Text = "End turn";
             this.button7.UseVisualStyleBackColor = false;
@@ -448,7 +448,7 @@ namespace Archipelago
             this.label10.Location = new System.Drawing.Point(7, 39);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(47, 18);
-            this.label10.TabIndex = 28;
+            this.label10.TabIndex = 1;
             this.label10.Tag = "labelFont";
             this.label10.Text = "Team:";
             // 
@@ -460,8 +460,8 @@ namespace Archipelago
             this.TeamLabel.Location = new System.Drawing.Point(45, 39);
             this.TeamLabel.Name = "TeamLabel";
             this.TeamLabel.Size = new System.Drawing.Size(0, 18);
-            this.TeamLabel.TabIndex = 29;
-            this.TeamLabel.Tag = "labelFont";
+            this.TeamLabel.TabIndex = 2;
+            this.TeamLabel.Tag = "dataFont";
             // 
             // label11
             // 
@@ -518,7 +518,7 @@ namespace Archipelago
             this.shipList.Location = new System.Drawing.Point(7, 83);
             this.shipList.Name = "shipList";
             this.shipList.Size = new System.Drawing.Size(167, 68);
-            this.shipList.TabIndex = 34;
+            this.shipList.TabIndex = 4;
             this.shipList.Tag = "labelFont";
             this.shipList.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
             // 
@@ -533,7 +533,7 @@ namespace Archipelago
             this.BuildPortButton.Location = new System.Drawing.Point(37, 465);
             this.BuildPortButton.Name = "BuildPortButton";
             this.BuildPortButton.Size = new System.Drawing.Size(111, 23);
-            this.BuildPortButton.TabIndex = 35;
+            this.BuildPortButton.TabIndex = 20;
             this.BuildPortButton.Tag = "labelButton";
             this.BuildPortButton.Text = "Build port";
             this.BuildPortButton.UseVisualStyleBackColor = false;
@@ -688,7 +688,7 @@ namespace Archipelago
             this.label18.Location = new System.Drawing.Point(7, 168);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(55, 54);
-            this.label18.TabIndex = 38;
+            this.label18.TabIndex = 6;
             this.label18.Tag = "labelFont";
             this.label18.Text = "0 wood\r\n0 metal\r\n0 cloth\r\n";
             // 
@@ -703,7 +703,7 @@ namespace Archipelago
             this.button12.Location = new System.Drawing.Point(37, 435);
             this.button12.Name = "button12";
             this.button12.Size = new System.Drawing.Size(111, 26);
-            this.button12.TabIndex = 39;
+            this.button12.TabIndex = 19;
             this.button12.Tag = "labelButton";
             this.button12.Text = "Upgrade port";
             this.button12.UseVisualStyleBackColor = false;
@@ -717,7 +717,7 @@ namespace Archipelago
             this.LevelText.Location = new System.Drawing.Point(7, 256);
             this.LevelText.Name = "LevelText";
             this.LevelText.Size = new System.Drawing.Size(47, 18);
-            this.LevelText.TabIndex = 40;
+            this.LevelText.TabIndex = 9;
             this.LevelText.Tag = "labelFont";
             this.LevelText.Text = "Level:";
             // 
@@ -768,6 +768,8 @@ namespace Archipelago
             this.Controls.Add(this.MoveSpecificMenu);
             this.Controls.Add(this.moveSettings);
             this.Controls.Add(this.pictureBox1);
+            this.MaximizeBox = false;
+            this.MaximumSize = new System.Drawing.Size(1070, 567);
             this.MinimumSize = new System.Drawing.Size(1070, 567);
             this.Name = "MainGameForm";
             this.Text = "Archipelago";

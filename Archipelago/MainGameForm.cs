@@ -1231,6 +1231,7 @@ namespace Archipelago
                         control.Left = ManufactureHeavy.Left - control.Width - 5;
                         break;
                     case "labelFont":
+                    case "dataFont":
                         control.Font = labelFont;
                         control.Left = 4;
                         break;
