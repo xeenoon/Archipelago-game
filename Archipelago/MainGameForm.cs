@@ -1152,6 +1152,122 @@ namespace Archipelago
                 }
             }
         }
+
+        private void MainGameForm_Resize(object sender, EventArgs e)
+        {
+            const int labelHeightSml = 30;
+            const int labelHeightMed = 35;
+            const int labelHeightBig = 40;
+            const int leftColWidthSml = 118;
+            const int leftColWidthMed = 135;
+            const int leftColWidthBig = 150;
+            const int rightColWidthSml = 200;
+            const int rightColWidthMed = 250;
+            const int rightColWidthBig = 300;
+
+            Font labelFontSml = new Font("Modern No. 20", 12);
+            Font labelFontMed = new Font("Modern No. 20", 14);
+            Font labelFontBig = new Font("Modern No. 20", 18);
+
+            Font headFontSml = new Font("Modern No. 20", 14);
+            Font headFontMed = new Font("Modern No. 20", 18);
+            Font headFontBig = new Font("Modern No. 20", 20);
+
+
+            Font labelFont = labelFontSml;
+            Font headFont = headFontSml;
+            int labelHeight = labelHeightSml;
+
+            int buttonPad = 37;
+
+            if (this.Width < 1300)
+            {
+                labelFont = labelFontSml;
+                headFont = headFontSml;
+                labelHeight = labelHeightSml;
+
+//                buttonPad = 37;
+
+                pictureBox1.Left = leftColWidthSml;
+                rightPanel.Width = rightColWidthSml;
+
+            }
+            else if (this.Width < 1600)
+            {
+                labelFont = labelFontMed;
+                headFont = headFontMed;
+                labelHeight = labelHeightMed;
+                pictureBox1.Left = leftColWidthMed;
+                rightPanel.Width = rightColWidthMed;
+            }
+            else 
+            {
+                labelFont = labelFontBig;
+                headFont = headFontBig;
+                labelHeight = labelHeightBig;
+                pictureBox1.Left = leftColWidthBig;
+                rightPanel.Width = rightColWidthBig;
+            }
+            pictureBox1.Width = this.Width - pictureBox1.Left - rightPanel.Width;
+            rightPanel.Left = this.Width - rightPanel.Width;
+            shipList.Width = rightPanel.Width - shipList.Left;
+
+            MetalResourceLabel.Top = WoodResourceLabel.Top + labelHeight;
+            ClothResourceLabel.Top = WoodResourceLabel.Top + labelHeight * 2;
+
+
+            label11.Font = headFont;
+            WoodResourceLabel.Font = labelFont;
+            MetalResourceLabel.Font = labelFont;
+            ClothResourceLabel.Font = labelFont;
+
+            Button[] buttons = { button7, button12, BuildPortButton };
+            foreach(Control control in rightPanel.Controls)
+            {                
+                switch (control.Tag)
+                {
+                    case "shipTypeFont":
+                        control.Font = labelFont;
+                        control.Left = ManufactureHeavy.Left - control.Width - 5;
+                        break;
+                    case "labelFont":
+                        control.Font = labelFont;
+                        control.Left = 4;
+                        break;
+                    case "headFont":
+                        control.Font = headFont;
+                        control.Left = 15;
+                        break;
+                    case "labelButton":
+                        control.Font = labelFont;
+                        control.Left = buttonPad;
+                        control.Width = rightPanel.Width - buttonPad * 2;
+                        break;
+                    case "headButton":
+                        control.Font = headFont;
+                        control.Left = buttonPad;
+                        control.Width = rightPanel.Width - buttonPad * 2;
+                        break;
+                }
+            }
+
+            TeamLabel.Left = label10.Left + label10.Width + 5;
+
+       //     foreach (var button in buttons)
+       //     {
+       //         button.Left = buttonPad;
+       //         button.Width = rightPanel.Width - buttonPad * 2;
+       //         switch (button.Tag)
+       //         {
+       //             case "labelFont":
+       //                 button.Font = labelFont;
+       //                 break;
+       //             case "headFont":
+       //                 button.Font = headFont;
+       //                 break;
+       //         }
+       //     }
+        }
     }
     public struct Filter
     {

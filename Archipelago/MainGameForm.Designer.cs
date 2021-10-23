@@ -81,22 +81,22 @@ namespace Archipelago
             this.label18 = new System.Windows.Forms.Label();
             this.button12 = new System.Windows.Forms.Button();
             this.LevelText = new System.Windows.Forms.Label();
+            this.rightPanel = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.moveSettings.SuspendLayout();
             this.MoveSpecificMenu.SuspendLayout();
             this.ShipCargoPopup.SuspendLayout();
             this.LoadCargoMenu.SuspendLayout();
+            this.rightPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
             this.pictureBox1.Location = new System.Drawing.Point(118, 0);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(762, 528);
+            this.pictureBox1.Size = new System.Drawing.Size(756, 528);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
@@ -104,51 +104,55 @@ namespace Archipelago
             // 
             // label1
             // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label1.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Modern No. 20", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(896, 7);
+            this.label1.Location = new System.Drawing.Point(17, 7);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(127, 25);
             this.label1.TabIndex = 1;
+            this.label1.Tag = "headFont";
             this.label1.Text = "Square data";
             // 
             // ShipsList
             // 
-            this.ShipsList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.ShipsList.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.ShipsList.AutoSize = true;
             this.ShipsList.Font = new System.Drawing.Font("Modern No. 20", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ShipsList.Location = new System.Drawing.Point(886, 62);
+            this.ShipsList.Location = new System.Drawing.Point(7, 62);
             this.ShipsList.Name = "ShipsList";
             this.ShipsList.Size = new System.Drawing.Size(48, 18);
             this.ShipsList.TabIndex = 2;
+            this.ShipsList.Tag = "labelFont";
             this.ShipsList.Text = "Ships:";
             // 
             // label3
             // 
-            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label3.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Modern No. 20", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(886, 150);
+            this.label3.Location = new System.Drawing.Point(7, 150);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(48, 18);
             this.label3.TabIndex = 3;
+            this.label3.Tag = "labelFont";
             this.label3.Text = "Cargo:";
             // 
             // ManufactureLabel
             // 
-            this.ManufactureLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.ManufactureLabel.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.ManufactureLabel.AutoSize = true;
             this.ManufactureLabel.Font = new System.Drawing.Font("Modern No. 20", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ManufactureLabel.Location = new System.Drawing.Point(883, 278);
+            this.ManufactureLabel.Location = new System.Drawing.Point(4, 278);
             this.ManufactureLabel.Name = "ManufactureLabel";
             this.ManufactureLabel.Size = new System.Drawing.Size(94, 18);
             this.ManufactureLabel.TabIndex = 4;
+            this.ManufactureLabel.Tag = "labelFont";
             this.ManufactureLabel.Text = "Manufacture:";
             // 
             // ManufactureHeavy
             // 
-            this.ManufactureHeavy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.ManufactureHeavy.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.ManufactureHeavy.FormattingEnabled = true;
             this.ManufactureHeavy.Items.AddRange(new object[] {
             "Brig",
@@ -159,7 +163,7 @@ namespace Archipelago
             "3rd rate",
             "2nd rate",
             "1st rate"});
-            this.ManufactureHeavy.Location = new System.Drawing.Point(966, 305);
+            this.ManufactureHeavy.Location = new System.Drawing.Point(87, 305);
             this.ManufactureHeavy.Name = "ManufactureHeavy";
             this.ManufactureHeavy.Size = new System.Drawing.Size(19, 21);
             this.ManufactureHeavy.TabIndex = 9;
@@ -167,7 +171,7 @@ namespace Archipelago
             // 
             // ManufactureMedium
             // 
-            this.ManufactureMedium.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.ManufactureMedium.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.ManufactureMedium.FormattingEnabled = true;
             this.ManufactureMedium.Items.AddRange(new object[] {
             "Sloop",
@@ -178,7 +182,7 @@ namespace Archipelago
             "Sloop of war",
             "Snow",
             "War Galleon"});
-            this.ManufactureMedium.Location = new System.Drawing.Point(966, 336);
+            this.ManufactureMedium.Location = new System.Drawing.Point(87, 336);
             this.ManufactureMedium.Name = "ManufactureMedium";
             this.ManufactureMedium.Size = new System.Drawing.Size(19, 21);
             this.ManufactureMedium.TabIndex = 10;
@@ -186,7 +190,7 @@ namespace Archipelago
             // 
             // ManufactureFast
             // 
-            this.ManufactureFast.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.ManufactureFast.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.ManufactureFast.FormattingEnabled = true;
             this.ManufactureFast.Items.AddRange(new object[] {
             "Brigantine",
@@ -195,7 +199,7 @@ namespace Archipelago
             "Corvette",
             "Xebec",
             "Man O War"});
-            this.ManufactureFast.Location = new System.Drawing.Point(966, 367);
+            this.ManufactureFast.Location = new System.Drawing.Point(87, 367);
             this.ManufactureFast.Name = "ManufactureFast";
             this.ManufactureFast.Size = new System.Drawing.Size(19, 21);
             this.ManufactureFast.TabIndex = 11;
@@ -203,12 +207,12 @@ namespace Archipelago
             // 
             // ManufactureVeryFast
             // 
-            this.ManufactureVeryFast.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.ManufactureVeryFast.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.ManufactureVeryFast.FormattingEnabled = true;
             this.ManufactureVeryFast.Items.AddRange(new object[] {
             "Steam Corvette",
             "Clipper"});
-            this.ManufactureVeryFast.Location = new System.Drawing.Point(966, 398);
+            this.ManufactureVeryFast.Location = new System.Drawing.Point(87, 398);
             this.ManufactureVeryFast.Name = "ManufactureVeryFast";
             this.ManufactureVeryFast.Size = new System.Drawing.Size(19, 21);
             this.ManufactureVeryFast.TabIndex = 12;
@@ -216,59 +220,64 @@ namespace Archipelago
             // 
             // label4
             // 
-            this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.label4.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Modern No. 20", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(907, 308);
+            this.label4.Location = new System.Drawing.Point(28, 308);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(48, 18);
             this.label4.TabIndex = 13;
+            this.label4.Tag = "shipTypeFont";
             this.label4.Text = "Heavy";
             // 
             // label5
             // 
-            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.label5.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Modern No. 20", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(894, 339);
+            this.label5.Location = new System.Drawing.Point(15, 339);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(61, 18);
             this.label5.TabIndex = 14;
+            this.label5.Tag = "shipTypeFont";
             this.label5.Text = "Medium";
             // 
             // label6
             // 
-            this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.label6.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Modern No. 20", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(919, 370);
+            this.label6.Location = new System.Drawing.Point(40, 370);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(36, 18);
             this.label6.TabIndex = 15;
+            this.label6.Tag = "shipTypeFont";
             this.label6.Text = "Fast";
             // 
             // label7
             // 
-            this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.label7.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Modern No. 20", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(888, 401);
+            this.label7.Location = new System.Drawing.Point(9, 401);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(67, 18);
             this.label7.TabIndex = 16;
+            this.label7.Tag = "shipTypeFont";
             this.label7.Text = "Very fast";
             // 
             // MoveButton
             // 
-            this.MoveButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.MoveButton.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.MoveButton.AutoEllipsis = true;
             this.MoveButton.BackColor = System.Drawing.Color.Goldenrod;
             this.MoveButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.MoveButton.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.MoveButton.Location = new System.Drawing.Point(883, 227);
+            this.MoveButton.Location = new System.Drawing.Point(4, 227);
             this.MoveButton.Name = "MoveButton";
             this.MoveButton.Size = new System.Drawing.Size(75, 23);
             this.MoveButton.TabIndex = 17;
+            this.MoveButton.Tag = "moveButton";
             this.MoveButton.Text = "Move";
             this.MoveButton.UseVisualStyleBackColor = false;
             this.MoveButton.Click += new System.EventHandler(this.MoveButtonClick);
@@ -349,15 +358,16 @@ namespace Archipelago
             // 
             // MoveSpecificButton
             // 
-            this.MoveSpecificButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.MoveSpecificButton.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.MoveSpecificButton.AutoEllipsis = true;
             this.MoveSpecificButton.BackColor = System.Drawing.Color.Goldenrod;
             this.MoveSpecificButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.MoveSpecificButton.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.MoveSpecificButton.Location = new System.Drawing.Point(964, 227);
+            this.MoveSpecificButton.Location = new System.Drawing.Point(85, 227);
             this.MoveSpecificButton.Name = "MoveSpecificButton";
             this.MoveSpecificButton.Size = new System.Drawing.Size(86, 23);
             this.MoveSpecificButton.TabIndex = 24;
+            this.MoveSpecificButton.Tag = "moveButton";
             this.MoveSpecificButton.Text = "Move specific";
             this.MoveSpecificButton.UseVisualStyleBackColor = false;
             this.MoveSpecificButton.Click += new System.EventHandler(this.MoveSpecificSquareButtonClick);
@@ -415,40 +425,43 @@ namespace Archipelago
             // 
             // button7
             // 
-            this.button7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.button7.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.button7.AutoEllipsis = true;
             this.button7.BackColor = System.Drawing.Color.LimeGreen;
             this.button7.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.button7.Font = new System.Drawing.Font("Modern No. 20", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button7.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.button7.Location = new System.Drawing.Point(922, 492);
+            this.button7.Location = new System.Drawing.Point(37, 492);
             this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(99, 33);
+            this.button7.Size = new System.Drawing.Size(111, 33);
             this.button7.TabIndex = 27;
+            this.button7.Tag = "headButton";
             this.button7.Text = "End turn";
             this.button7.UseVisualStyleBackColor = false;
             this.button7.Click += new System.EventHandler(this.EndTurn);
             // 
             // label10
             // 
-            this.label10.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label10.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("Modern No. 20", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(886, 39);
+            this.label10.Location = new System.Drawing.Point(7, 39);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(47, 18);
             this.label10.TabIndex = 28;
+            this.label10.Tag = "labelFont";
             this.label10.Text = "Team:";
             // 
             // TeamLabel
             // 
-            this.TeamLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.TeamLabel.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.TeamLabel.AutoSize = true;
             this.TeamLabel.Font = new System.Drawing.Font("Modern No. 20", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TeamLabel.Location = new System.Drawing.Point(924, 39);
+            this.TeamLabel.Location = new System.Drawing.Point(45, 39);
             this.TeamLabel.Name = "TeamLabel";
             this.TeamLabel.Size = new System.Drawing.Size(0, 18);
             this.TeamLabel.TabIndex = 29;
+            this.TeamLabel.Tag = "labelFont";
             // 
             // label11
             // 
@@ -468,6 +481,7 @@ namespace Archipelago
             this.WoodResourceLabel.Name = "WoodResourceLabel";
             this.WoodResourceLabel.Size = new System.Drawing.Size(54, 18);
             this.WoodResourceLabel.TabIndex = 31;
+            this.WoodResourceLabel.Tag = "labelFont|48|0";
             this.WoodResourceLabel.Text = "Wood: ";
             // 
             // MetalResourceLabel
@@ -478,6 +492,7 @@ namespace Archipelago
             this.MetalResourceLabel.Name = "MetalResourceLabel";
             this.MetalResourceLabel.Size = new System.Drawing.Size(49, 18);
             this.MetalResourceLabel.TabIndex = 32;
+            this.MetalResourceLabel.Tag = "labelFont|48|1";
             this.MetalResourceLabel.Text = "Metal:";
             // 
             // ClothResourceLabel
@@ -488,35 +503,38 @@ namespace Archipelago
             this.ClothResourceLabel.Name = "ClothResourceLabel";
             this.ClothResourceLabel.Size = new System.Drawing.Size(47, 18);
             this.ClothResourceLabel.TabIndex = 33;
+            this.ClothResourceLabel.Tag = "labelFont|48|2";
             this.ClothResourceLabel.Text = "Cloth:";
             // 
             // shipList
             // 
             this.shipList.AllowDrop = true;
-            this.shipList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.shipList.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.shipList.BackColor = System.Drawing.SystemColors.Control;
             this.shipList.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.shipList.Font = new System.Drawing.Font("Modern No. 20", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.shipList.FormattingEnabled = true;
             this.shipList.ItemHeight = 17;
-            this.shipList.Location = new System.Drawing.Point(886, 83);
+            this.shipList.Location = new System.Drawing.Point(7, 83);
             this.shipList.Name = "shipList";
             this.shipList.Size = new System.Drawing.Size(167, 68);
             this.shipList.TabIndex = 34;
+            this.shipList.Tag = "labelFont";
             this.shipList.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
             // 
             // BuildPortButton
             // 
-            this.BuildPortButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.BuildPortButton.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.BuildPortButton.AutoEllipsis = true;
             this.BuildPortButton.BackColor = System.Drawing.Color.Cyan;
             this.BuildPortButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.BuildPortButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BuildPortButton.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.BuildPortButton.Location = new System.Drawing.Point(922, 465);
+            this.BuildPortButton.Location = new System.Drawing.Point(37, 465);
             this.BuildPortButton.Name = "BuildPortButton";
-            this.BuildPortButton.Size = new System.Drawing.Size(99, 23);
+            this.BuildPortButton.Size = new System.Drawing.Size(111, 23);
             this.BuildPortButton.TabIndex = 35;
+            this.BuildPortButton.Tag = "labelButton";
             this.BuildPortButton.Text = "Build port";
             this.BuildPortButton.UseVisualStyleBackColor = false;
             this.BuildPortButton.Click += new System.EventHandler(this.BuildPortButtonClick);
@@ -664,81 +682,97 @@ namespace Archipelago
             // 
             // label18
             // 
-            this.label18.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label18.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label18.AutoSize = true;
             this.label18.Font = new System.Drawing.Font("Modern No. 20", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label18.Location = new System.Drawing.Point(886, 168);
+            this.label18.Location = new System.Drawing.Point(7, 168);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(55, 54);
             this.label18.TabIndex = 38;
+            this.label18.Tag = "labelFont";
             this.label18.Text = "0 wood\r\n0 metal\r\n0 cloth\r\n";
             // 
             // button12
             // 
-            this.button12.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.button12.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.button12.AutoEllipsis = true;
             this.button12.BackColor = System.Drawing.Color.Yellow;
             this.button12.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button12.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button12.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.button12.Location = new System.Drawing.Point(916, 435);
+            this.button12.Location = new System.Drawing.Point(37, 435);
             this.button12.Name = "button12";
             this.button12.Size = new System.Drawing.Size(111, 26);
             this.button12.TabIndex = 39;
+            this.button12.Tag = "labelButton";
             this.button12.Text = "Upgrade port";
             this.button12.UseVisualStyleBackColor = false;
             this.button12.Click += new System.EventHandler(this.button12_Click);
             // 
             // LevelText
             // 
-            this.LevelText.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.LevelText.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.LevelText.AutoSize = true;
             this.LevelText.Font = new System.Drawing.Font("Modern No. 20", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LevelText.Location = new System.Drawing.Point(886, 256);
+            this.LevelText.Location = new System.Drawing.Point(7, 256);
             this.LevelText.Name = "LevelText";
             this.LevelText.Size = new System.Drawing.Size(47, 18);
             this.LevelText.TabIndex = 40;
+            this.LevelText.Tag = "labelFont";
             this.LevelText.Text = "Level:";
+            // 
+            // rightPanel
+            // 
+            this.rightPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.rightPanel.Controls.Add(this.label1);
+            this.rightPanel.Controls.Add(this.LevelText);
+            this.rightPanel.Controls.Add(this.ShipsList);
+            this.rightPanel.Controls.Add(this.button12);
+            this.rightPanel.Controls.Add(this.label3);
+            this.rightPanel.Controls.Add(this.label18);
+            this.rightPanel.Controls.Add(this.ManufactureLabel);
+            this.rightPanel.Controls.Add(this.ManufactureHeavy);
+            this.rightPanel.Controls.Add(this.ManufactureMedium);
+            this.rightPanel.Controls.Add(this.BuildPortButton);
+            this.rightPanel.Controls.Add(this.ManufactureFast);
+            this.rightPanel.Controls.Add(this.shipList);
+            this.rightPanel.Controls.Add(this.ManufactureVeryFast);
+            this.rightPanel.Controls.Add(this.label4);
+            this.rightPanel.Controls.Add(this.label5);
+            this.rightPanel.Controls.Add(this.label6);
+            this.rightPanel.Controls.Add(this.label7);
+            this.rightPanel.Controls.Add(this.TeamLabel);
+            this.rightPanel.Controls.Add(this.MoveButton);
+            this.rightPanel.Controls.Add(this.label10);
+            this.rightPanel.Controls.Add(this.MoveSpecificButton);
+            this.rightPanel.Controls.Add(this.button7);
+            this.rightPanel.Location = new System.Drawing.Point(876, 0);
+            this.rightPanel.Name = "rightPanel";
+            this.rightPanel.Size = new System.Drawing.Size(178, 528);
+            this.rightPanel.TabIndex = 41;
+            this.rightPanel.Tag = "labelFont";
             // 
             // MainGameForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1054, 528);
-            this.Controls.Add(this.LevelText);
-            this.Controls.Add(this.button12);
-            this.Controls.Add(this.label18);
+            this.Controls.Add(this.rightPanel);
             this.Controls.Add(this.LoadCargoMenu);
             this.Controls.Add(this.ShipCargoPopup);
-            this.Controls.Add(this.BuildPortButton);
-            this.Controls.Add(this.shipList);
             this.Controls.Add(this.ClothResourceLabel);
             this.Controls.Add(this.MetalResourceLabel);
             this.Controls.Add(this.WoodResourceLabel);
             this.Controls.Add(this.label11);
-            this.Controls.Add(this.TeamLabel);
-            this.Controls.Add(this.label10);
-            this.Controls.Add(this.button7);
             this.Controls.Add(this.MoveSpecificMenu);
-            this.Controls.Add(this.MoveSpecificButton);
             this.Controls.Add(this.moveSettings);
-            this.Controls.Add(this.MoveButton);
-            this.Controls.Add(this.label7);
-            this.Controls.Add(this.label6);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.ManufactureVeryFast);
-            this.Controls.Add(this.ManufactureFast);
-            this.Controls.Add(this.ManufactureMedium);
-            this.Controls.Add(this.ManufactureHeavy);
-            this.Controls.Add(this.ManufactureLabel);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.ShipsList);
-            this.Controls.Add(this.label1);
             this.Controls.Add(this.pictureBox1);
+            this.MinimumSize = new System.Drawing.Size(1070, 567);
             this.Name = "MainGameForm";
             this.Text = "Archipelago";
             this.Shown += new System.EventHandler(this.Form2_Shown);
+            this.Resize += new System.EventHandler(this.MainGameForm_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.moveSettings.ResumeLayout(false);
             this.moveSettings.PerformLayout();
@@ -748,6 +782,8 @@ namespace Archipelago
             this.ShipCargoPopup.PerformLayout();
             this.LoadCargoMenu.ResumeLayout(false);
             this.LoadCargoMenu.PerformLayout();
+            this.rightPanel.ResumeLayout(false);
+            this.rightPanel.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -806,5 +842,6 @@ namespace Archipelago
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Button button12;
         private System.Windows.Forms.Label LevelText;
+        private System.Windows.Forms.Panel rightPanel;
     }
 }

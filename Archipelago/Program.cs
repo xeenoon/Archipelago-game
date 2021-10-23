@@ -16,8 +16,9 @@ namespace Archipelago
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            RuleFunctions.OnStart();
-            Application.Run(new StartForm());
+            //            RuleFunctions.OnStart();
+//            Application.Run(new StartForm());
+            Application.Run(new MainGameForm(Team.Red|Team.Green, Team.None, MainGameForm.MapType.Continents));
 
         }
     }
