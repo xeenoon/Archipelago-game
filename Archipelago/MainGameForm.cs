@@ -6,6 +6,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -75,39 +76,40 @@ namespace Archipelago
                 }
             }
             //CanMovePopulate(); Only to be used if repopulating squareValidity. Just copy and paste from txt file. Change username in Filepath to your own username
-            playerTeams |= AiTeams;
+            this.playerTeams = playerTeams;
+            var allteams = playerTeams | AiTeams;
             if (maptype == MapType.Continents) {
-                if ((playerTeams & Team.Red) == Team.Red) {
+                if ((allteams & Team.Red) == Team.Red) {
                     CreatePort(4, 2, Team.Red);
                 }
-                if ((playerTeams & Team.Green) == Team.Green)
+                if ((allteams & Team.Green) == Team.Green)
                 {
                     CreatePort(11, 14, Team.Green);
                 }
-                if ((playerTeams & Team.Black) == Team.Black)
+                if ((allteams & Team.Black) == Team.Black)
                 {
                     CreatePort(21, 5, Team.Black);
                 }
-                if ((playerTeams & Team.Blue) == Team.Blue)
+                if ((allteams & Team.Blue) == Team.Blue)
                 {
                     CreatePort(22, 18, Team.Blue);
                 }
             }
             else
             {
-                if ((playerTeams & Team.Red) == Team.Red)
+                if ((allteams & Team.Red) == Team.Red)
                 {
                     CreatePort(5, 2, Team.Red);
                 }
-                if ((playerTeams & Team.Green) == Team.Green)
+                if ((allteams & Team.Green) == Team.Green)
                 {
                     CreatePort(4, 18, Team.Green);
                 }
-                if ((playerTeams & Team.Black) == Team.Black)
+                if ((allteams & Team.Black) == Team.Black)
                 {
                     CreatePort(24, 4, Team.Black);
                 }
-                if ((playerTeams & Team.Blue) == Team.Blue)
+                if ((allteams & Team.Blue) == Team.Blue)
                 {
                     CreatePort(22, 17, Team.Blue);
                 }
@@ -119,6 +121,7 @@ namespace Archipelago
             teamMaterials = new TeamMaterials(WoodResourceLabel, MetalResourceLabel, ClothResourceLabel, new Materials(1000, 100, 12), new Materials(1000, 100, 12), new Materials(1000, 100, 12), new Materials(1000, 100, 12));
             //Set the starting materials for each player
         }
+        Team playerTeams = Team.None;
         public static void CreatePort(int x, int y, Team t)
         {
             var g = Graphics.FromImage(pictureboxBitmap); //Get the graphics from the bitmap
@@ -1187,6 +1190,79 @@ namespace Archipelago
                     MessageBox.Show("Not enough materials");
                 }
             }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+
+            saveFileDialog1.Filter = "agame files (*.agame)|*.agame"; //Only let users choose file of type '.agame'
+            saveFileDialog1.FilterIndex = 2;
+            saveFileDialog1.RestoreDirectory = true;
+
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK) //Open file explorer to allow user to choose gamesave fle
+            {
+                SaveGame(saveFileDialog1.FileName);
+            }
+        }
+        private void SaveGame(string filepath)
+        {
+            string towrite = "";
+            string redPorts = "Red:{";
+            string greenPorts = "Green:{";
+            string bluePorts = "Blue:{";
+            string blackPorts = "Black:{";
+
+            foreach (var s in squares)
+            {
+                if (s.ships.Count != 0) //Are there ships in harbour
+                {
+                    towrite += string.Format(",{{[{0},{1}]", s.location.X, s.location.Y); //Add the location of the square to the string
+                    foreach (var ship in s.ships)
+                    {
+                        towrite += string.Format(",{{{0},{1},{2},{3},{4}}}",ship.name, ship.health, ship.cannons, ship.hasMoved, ship.team); //Add ship data
+                    }
+                    towrite += '}'; //Add final closing curly bracket
+                }
+                if (s.isPort)
+                {
+                    switch (s.team)
+                    {
+                        case Team.Red:
+                            redPorts += string.Format(",[{0},{1},{2}]", s.location.X, s.location.Y, s.level);
+                            break;
+                        case Team.Green:
+                            greenPorts += string.Format(",[{0},{1},{2}]", s.location.X, s.location.Y, s.level);
+                            break;
+                        case Team.Black:
+                            blackPorts += string.Format(",[{0},{1},{2}]", s.location.X, s.location.Y, s.level);
+                            break;
+                        case Team.Blue:
+                            bluePorts += string.Format(",[{0},{1},{2}]", s.location.X, s.location.Y, s.level);
+                            break;
+                    } //Add the port data for the different teams, if applicable
+                }
+            }
+            if (towrite != "") {
+                towrite = towrite.Substring(1, towrite.Length - 1); //Remove first comma from the string
+            }
+            towrite += '\n'; //Add a new line
+
+            redPorts   = Regex.Replace(redPorts, "{,", "{")   + "}\n"; //Remove the comma at the start
+            bluePorts  = Regex.Replace(bluePorts, "{,", "{")  + "}\n"; //Remove the comma at the start
+            greenPorts = Regex.Replace(greenPorts, "{,", "{") + "}\n"; //Remove the comma at the start
+            blackPorts = Regex.Replace(blackPorts, "{,", "{") + "}\n"; //Remove the comma at the start
+
+            towrite += redPorts;
+            towrite += bluePorts;
+            towrite += greenPorts;
+            towrite += blackPorts; //Add the port data to the string we are writing to
+
+            towrite += hasTurn.ToString(); //Add who's turn it is
+            towrite += "\nAI:"    + Regex.Replace(AIteam.ToString(), @" ",""); //Write the AI's teams
+            towrite += "\nHuman:" + Regex.Replace(playerTeams.ToString(), @" ",""); //Write the Player controlled teams
+            towrite += "\n" + maptype.ToString(); //Add the maptype we are using
+            File.WriteAllText(filepath, towrite);
         }
     }
     public struct Filter
