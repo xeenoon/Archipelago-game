@@ -384,7 +384,7 @@ namespace Archipelago
                     bool enemies = (squares[xpos, ypos].GetTeam() != Team.None && squares[xpos, ypos].GetTeam() != hasTurn);
                     foreach (var ship in selected.ships) //Iterate through ships
                     {
-                        if (ship.hasMoved || (enemies ^ ship.canAttack)) //Has the ship moved this turn
+                        if (ship.hasMoved || (enemies && (enemies ^ ship.canAttack))) //Has the ship moved this turn
                                                                          //Or if it cannot attack, make sure it is not going to move to a square with enemies in it
                         {
                             replaceList.Add(ship); //Add it to the cache list
@@ -541,7 +541,7 @@ namespace Archipelago
             }
         }
         Random r = new Random(); //The random class to be used when attacking
-
+        static System.Windows.Media.MediaPlayer cannon;
         public static void RunAttack(Square square)
         {
             while (square.ships.Select(s => s.team).Distinct().Count() >= 2) //While there are ships to attack and ships to defend
@@ -554,7 +554,12 @@ namespace Archipelago
                     var damage = totalCannons * currentForm.r.Next(1, 7); //Calculate damage done, random number from 1 inclusive to 7 exclusive
                     //We have to use current form because this is a static function
                     ship.health -= damage; //Decrement ships health
-                    MessageBox.Show(string.Format("Team {0} did {1} damage", team, damage), "FIGHT", MessageBoxButtons.OK); //Show damage data
+                    if (damage != 0) {
+                        cannon = new System.Windows.Media.MediaPlayer();
+                        cannon.Open(new System.Uri(@"C:\Program Files\Archipelago\Cannon.wav"));
+                        cannon.Play();
+                        MessageBox.Show(string.Format("Team {0} did {1} damage", team, damage), "FIGHT", MessageBoxButtons.OK); //Show damage data
+                    }
                     if (ship.health <= 0) //Did the ship die
                     {
                         MessageBox.Show(string.Format("Team {0} killed {1}", team, ship.name), "FIGHT", MessageBoxButtons.OK); //Show death data
@@ -889,6 +894,37 @@ namespace Archipelago
         private void Form2_Shown(object sender, EventArgs e)
         {
             EndTurn(new object(), new EventArgs()); //Since hasturn = team.none, endturn will start reds turn
+
+            var startTimeSpan = TimeSpan.Zero;
+            var periodTimeSpan = TimeSpan.FromMinutes(1.3);
+
+            var timer = new System.Threading.Timer((t) =>
+            {
+                PlayMusic();
+            }, null, startTimeSpan, periodTimeSpan);
+
+            
+            periodTimeSpan = TimeSpan.FromMinutes(3);
+
+            var timer2 = new System.Threading.Timer((t) =>
+            {
+                AmbientOcean();
+            }, null, startTimeSpan, periodTimeSpan);
+        }
+        System.Windows.Media.MediaPlayer music;
+        System.Windows.Media.MediaPlayer ocean;
+        private void PlayMusic()
+        {
+            music = new System.Windows.Media.MediaPlayer();
+            music.Open(new System.Uri(@"C:\Program Files\Archipelago\ArchipelagoMusic.wav"));
+            music.Play();
+        }
+        private void AmbientOcean()
+        {
+            ocean = new System.Windows.Media.MediaPlayer();
+            ocean.Open(new System.Uri(@"C:\Program Files\Archipelago\AmbientOcean.wav"));
+            ocean.Volume = 0.2;
+            ocean.Play();
         }
         Team AIteam = Team.Green;
         private void EndTurn(object sender, EventArgs e)
