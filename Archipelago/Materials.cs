@@ -36,7 +36,10 @@ namespace Archipelago
             }//Different ship types require different amounts of cloth to be produced
             return new Materials(HealthToWood(health), cannons, cloth);
         }
-
+        public override string ToString()
+        {
+            return string.Format("{0},{1},{2}", wood, metal, cloth);
+        }
         internal int GetWeight()
         {
             return wood + metal*2 + cloth;
@@ -316,6 +319,12 @@ namespace Archipelago
                     blueMaterials += total;
                     break;
             } //Add materials to a team
+        }
+
+        internal static Materials Parse(string v)
+        {
+            var strs = v.Split(',');
+            return new Materials(int.Parse(strs[0]), int.Parse(strs[1]), int.Parse(strs[2]));
         }
     }
 
