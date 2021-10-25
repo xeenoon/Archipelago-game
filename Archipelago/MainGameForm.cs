@@ -1475,11 +1475,6 @@ namespace Archipelago
             }
             return 0; //We did not find the character after the selected position
         }
-
-        private void MainGameForm_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            Application.Exit();
-        }
     }
     public struct Filter
     {
