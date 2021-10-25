@@ -35,7 +35,6 @@ namespace Archipelago
             this.button5 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
-            this.roundPictureBox3 = new Archipelago.RoundPictureBox();
             this.roundPictureBox2 = new Archipelago.RoundPictureBox();
             this.roundPictureBox1 = new Archipelago.RoundPictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
@@ -44,10 +43,11 @@ namespace Archipelago
             this.button9 = new System.Windows.Forms.Button();
             this.button10 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.roundPictureBox3)).BeginInit();
+            this.roundPictureBox3 = new Archipelago.RoundPictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.roundPictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.roundPictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.roundPictureBox3)).BeginInit();
             this.SuspendLayout();
             // 
             // button3
@@ -124,18 +124,6 @@ namespace Archipelago
             this.button1.TabIndex = 5;
             this.button1.Text = "1";
             this.button1.UseVisualStyleBackColor = false;
-            // 
-            // roundPictureBox3
-            // 
-            this.roundPictureBox3.BackColor = System.Drawing.Color.DarkGray;
-            this.roundPictureBox3.Image = ((System.Drawing.Image)(resources.GetObject("roundPictureBox3.Image")));
-            this.roundPictureBox3.Location = new System.Drawing.Point(242, 291);
-            this.roundPictureBox3.Name = "roundPictureBox3";
-            this.roundPictureBox3.Size = new System.Drawing.Size(334, 50);
-            this.roundPictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.roundPictureBox3.TabIndex = 4;
-            this.roundPictureBox3.TabStop = false;
-            this.roundPictureBox3.Paint += new System.Windows.Forms.PaintEventHandler(this.Training_Paint);
             // 
             // roundPictureBox2
             // 
@@ -250,6 +238,19 @@ namespace Archipelago
             this.button6.Text = "10";
             this.button6.UseVisualStyleBackColor = false;
             // 
+            // roundPictureBox3
+            // 
+            this.roundPictureBox3.BackColor = System.Drawing.Color.DarkGray;
+            this.roundPictureBox3.Image = ((System.Drawing.Image)(resources.GetObject("roundPictureBox3.Image")));
+            this.roundPictureBox3.Location = new System.Drawing.Point(242, 291);
+            this.roundPictureBox3.Name = "roundPictureBox3";
+            this.roundPictureBox3.Size = new System.Drawing.Size(334, 50);
+            this.roundPictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.roundPictureBox3.TabIndex = 4;
+            this.roundPictureBox3.TabStop = false;
+            this.roundPictureBox3.Click += new System.EventHandler(this.OpenFileExplorer);
+            this.roundPictureBox3.Paint += new System.Windows.Forms.PaintEventHandler(this.LoadSave_Paint);
+            // 
             // StartForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -269,12 +270,18 @@ namespace Archipelago
             this.Controls.Add(this.roundPictureBox2);
             this.Controls.Add(this.roundPictureBox1);
             this.Controls.Add(this.pictureBox1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
+            this.MaximumSize = new System.Drawing.Size(816, 489);
+            this.MinimumSize = new System.Drawing.Size(816, 489);
             this.Name = "StartForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Archipelago";
-            ((System.ComponentModel.ISupportInitialize)(this.roundPictureBox3)).EndInit();
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.StartForm_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.roundPictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.roundPictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.roundPictureBox3)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -284,7 +291,6 @@ namespace Archipelago
         private System.Windows.Forms.PictureBox pictureBox1;
         private RoundPictureBox roundPictureBox1;
         private RoundPictureBox roundPictureBox2;
-        private RoundPictureBox roundPictureBox3;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
@@ -295,6 +301,7 @@ namespace Archipelago
         private System.Windows.Forms.Button button9;
         private System.Windows.Forms.Button button10;
         private System.Windows.Forms.Button button6;
+        private RoundPictureBox roundPictureBox3;
     }
 }
 

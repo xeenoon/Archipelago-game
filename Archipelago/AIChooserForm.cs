@@ -128,5 +128,10 @@ namespace Archipelago
             StartForm m = new StartForm();
             m.ShowDialog();
         }
+
+        private void AIChooserForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Application.Exit();
+        }
     }
 }

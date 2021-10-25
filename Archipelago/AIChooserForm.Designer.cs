@@ -227,6 +227,7 @@ namespace Archipelago
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "AIChooserForm";
             this.Text = "Error";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.AIChooserForm_FormClosing);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.AIChooserForm_Paint);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);

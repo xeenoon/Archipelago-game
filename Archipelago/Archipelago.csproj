@@ -7,13 +7,14 @@
     <ProjectGuid>{BD7897F0-D2AE-431C-AEDE-F1330BBCDF9D}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>Archipelago</RootNamespace>
-    <AssemblyName>Archipelago</AssemblyName>
+    <AssemblyName>Battle For The Archipelago</AssemblyName>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
     <IsWebBootstrapper>false</IsWebBootstrapper>
-    <PublishUrl>B:\Archipelago\</PublishUrl>
+    <TargetFrameworkProfile />
+    <PublishUrl>C:\Users\chris\Downloads\Archipelago\InstallFiles\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
     <UpdateEnabled>false</UpdateEnabled>
@@ -23,12 +24,11 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>1</ApplicationRevision>
+    <ApplicationRevision>5</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -60,6 +60,9 @@
   </PropertyGroup>
   <PropertyGroup>
     <SignManifests>true</SignManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>shipicon_removebg_preview_5Ri_icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="PresentationCore" />
@@ -161,6 +164,9 @@
   <ItemGroup>
     <None Include="Resources\Archipelago2.png" />
     <None Include="Resources\Archipelago.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="shipicon_removebg_preview_5Ri_icon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

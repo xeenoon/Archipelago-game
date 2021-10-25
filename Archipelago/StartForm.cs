@@ -51,15 +51,15 @@ namespace Archipelago
         {
             using (Font myFont = new Font("Modern No. 20", 30))
             {
-                e.Graphics.DrawString("Campaign", myFont, Brushes.Black, new Point(80, 0));
+                e.Graphics.DrawString("Campaign", myFont, Brushes.Black, new Point(80, 5));
             }
         }
 
-        private void Training_Paint(object sender, PaintEventArgs e)
+        private void LoadSave_Paint(object sender, PaintEventArgs e)
         {
             using (Font myFont = new Font("Modern No. 20", 30))
             {
-                e.Graphics.DrawString("Training", myFont, Brushes.Black, new Point(90, 0));
+                e.Graphics.DrawString("Load save", myFont, Brushes.Black, new Point(82, 5));
             }
         }
 
@@ -86,6 +86,28 @@ namespace Archipelago
             button8.Visible = true;
             button9.Visible = true;
             button10.Visible = true;
+        }
+
+        private void OpenFileExplorer(object sender, EventArgs e)
+        {
+            OpenFileDialog saveFileDialog1 = new OpenFileDialog
+            {
+                Filter = "agame files (*.agame)|*.agame", //Only let users choose file of type '.agame'
+                FilterIndex = 2,
+                RestoreDirectory = true
+            };
+
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK) //Open file explorer to allow user to choose gamesave fle
+            {
+                Hide();
+                MainGameForm m = new MainGameForm(saveFileDialog1.FileName);
+                m.ShowDialog();
+            }
+        }
+
+        private void StartForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Application.Exit();
         }
     }
 }
