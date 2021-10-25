@@ -725,8 +725,8 @@ namespace Archipelago
                 for (int y = (int)(square_y * png_boxsize + png_top); y < (square_y * png_boxsize) + png_boxsize + png_top; ++y) //Iterate through all pixels
                 {
                     Color original = pictureboxBitmap.GetPixel(x, y); //Get the colour of the pixel
-
-                    if (original.R > 120 && original.G > 150 && original.B > 120 && (original.R < 170 || original.B > 170) && ((original.B > original.G) || original.B > 160)) //Is it blue?
+                    
+                    if (original.R > 100 && original.G > 130 && original.B > 120 && (original.R < 170 || original.B > 170) && ((original.B+15 > original.G) || original.B > 160)) //Is it blue?
                     {
                         Color filter = Color.FromArgb(original.R + 70 >= 255 ? 255 : original.R + 70, original.G - 50 <= 0 ? 0 : original.G - 50, original.B - 100 <= 0 ? 0 : original.B - 100); //Create the filter
                         result.SetPixel(x, y, filter); //Replace the old pixel with the filter
