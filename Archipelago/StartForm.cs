@@ -104,5 +104,10 @@ namespace Archipelago
                 m.ShowDialog();
             }
         }
+
+        private void StartForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Application.Exit();
+        }
     }
 }
