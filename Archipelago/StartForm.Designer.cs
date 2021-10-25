@@ -270,7 +270,12 @@ namespace Archipelago
             this.Controls.Add(this.roundPictureBox2);
             this.Controls.Add(this.roundPictureBox1);
             this.Controls.Add(this.pictureBox1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
+            this.MaximumSize = new System.Drawing.Size(816, 489);
+            this.MinimumSize = new System.Drawing.Size(816, 489);
             this.Name = "StartForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Archipelago";
             ((System.ComponentModel.ISupportInitialize)(this.roundPictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.roundPictureBox1)).EndInit();

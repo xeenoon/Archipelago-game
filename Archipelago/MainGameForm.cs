@@ -19,15 +19,26 @@ namespace Archipelago
             SmallIslands,
             Continents,
         }
-        public static Team hasTurn = Team.None; //Hasturn is a type of team which shows what teams turn it is
+        public static Team hasTurn = Team.Red; //Hasturn is a type of team which shows what teams turn it is
         public static TeamMaterials teamMaterials; //A way of determining the materials that the players whose turn it is has
         public static MainGameForm currentForm;
         public static MapType maptype = MapType.SmallIslands;
+
+        public MainGameForm(string filepath)
+        {
+            InitializeComponent();
+            Setup();
+            LoadGame(filepath);
+            //teamMaterials = new TeamMaterials(WoodResourceLabel, MetalResourceLabel, ClothResourceLabel, new Materials(1000, 100, 12), new Materials(1000, 100, 12), new Materials(1000, 100, 12), new Materials(1000, 100, 12));
+            OnSquareClick(0, 0); //Highlight the top left square
+        }
         public MainGameForm(Team playerTeams, Team AiTeams, MapType maptype)
         {
             InitializeComponent();
+            Setup();
             MainGameForm.maptype = maptype;
-            if (maptype == MapType.SmallIslands) {
+            if (maptype == MapType.SmallIslands)
+            {
                 pictureBox1.Image = Properties.Resources.Archipelago2;
             }
             else
@@ -37,49 +48,13 @@ namespace Archipelago
             pictureboxBitmap = new Bitmap(pictureBox1.Image);
             pictureBox1.Image = pictureboxBitmap; //Load the picture
 
-            Ship.Setup();//Setup the ships
-
-            currentForm = this; //Assign the current form to the form that is running
-
-            label4.Visible = false;
-            label5.Visible = false;
-            label6.Visible = false;
-            label7.Visible = false;
-
-            ShipCargoPopup.Visible = false;
-            LoadCargoMenu.Visible = false;
-
-            moveSettings.Visible = false;
-            MoveSpecificMenu.Visible = false;
-
-            button12.Visible = false;
-
-            BuildPortButton.Visible = false;
-
-            ManufactureFast.Visible = false;
-            ManufactureLabel.Visible = false;
-            ManufactureMedium.Visible = false;
-            ManufactureHeavy.Visible = false;
-            ManufactureVeryFast.Visible = false; //Make menu's that should be invisible invisible
-
-
-            ManufactureFast.DropDownWidth = 70;
-            ManufactureHeavy.DropDownWidth = 70;
-            ManufactureMedium.DropDownWidth = 70;
-            ManufactureVeryFast.DropDownWidth = 80; //Change the width of dropdown menu's
-
-            for (int x = 0; x < horizontalSquares; ++x)
-            {
-                for (int y = 0; y < verticalSquares; ++y) //Iterate through all the spaces available for squares
-                {
-                    squares[x, y] = new Square(x, y); //add a square
-                }
-            }
             //CanMovePopulate(); Only to be used if repopulating squareValidity. Just copy and paste from txt file. Change username in Filepath to your own username
             this.playerTeams = playerTeams;
             var allteams = playerTeams | AiTeams;
-            if (maptype == MapType.Continents) {
-                if ((allteams & Team.Red) == Team.Red) {
+            if (maptype == MapType.Continents)
+            {
+                if ((allteams & Team.Red) == Team.Red)
+                {
                     CreatePort(4, 2, Team.Red);
                 }
                 if ((allteams & Team.Green) == Team.Green)
@@ -117,10 +92,53 @@ namespace Archipelago
             AIteam = AiTeams;
             moveSettings.Visible = false;
             MoveSpecificMenu.Visible = false;
-            OnSquareClick(0,0); //Highlight the top left square
+            OnSquareClick(0, 0); //Highlight the top left square
             teamMaterials = new TeamMaterials(WoodResourceLabel, MetalResourceLabel, ClothResourceLabel, new Materials(1000, 100, 12), new Materials(1000, 100, 12), new Materials(1000, 100, 12), new Materials(1000, 100, 12));
             //Set the starting materials for each player
         }
+
+        private void Setup()
+        {
+            Ship.Setup();//Setup the ships
+            for (int x = 0; x < horizontalSquares; ++x)
+            {
+                for (int y = 0; y < verticalSquares; ++y) //Iterate through all the spaces available for squares
+                {
+                    squares[x, y] = new Square(x, y); //add a square
+                }
+            }
+
+
+            currentForm = this; //Assign the current form to the form that is running
+
+            label4.Visible = false;
+            label5.Visible = false;
+            label6.Visible = false;
+            label7.Visible = false;
+
+            ShipCargoPopup.Visible = false;
+            LoadCargoMenu.Visible = false;
+
+            moveSettings.Visible = false;
+            MoveSpecificMenu.Visible = false;
+
+            button12.Visible = false;
+
+            BuildPortButton.Visible = false;
+
+            ManufactureFast.Visible = false;
+            ManufactureLabel.Visible = false;
+            ManufactureMedium.Visible = false;
+            ManufactureHeavy.Visible = false;
+            ManufactureVeryFast.Visible = false; //Make menu's that should be invisible invisible
+
+
+            ManufactureFast.DropDownWidth = 70;
+            ManufactureHeavy.DropDownWidth = 70;
+            ManufactureMedium.DropDownWidth = 70;
+            ManufactureVeryFast.DropDownWidth = 80; //Change the width of dropdown menu's
+        }
+
         Team playerTeams = Team.None;
         public static void CreatePort(int x, int y, Team t)
         {
@@ -896,7 +914,10 @@ namespace Archipelago
 
         private void Form2_Shown(object sender, EventArgs e)
         {
-            EndTurn(new object(), new EventArgs()); //Since hasturn = team.none, endturn will start reds turn
+            //Since hasturn = team.red, we must -- hasturn before continueing
+            hasTurn--;
+
+            EndTurn(new object(), new EventArgs());
 
             var startTimeSpan = TimeSpan.Zero;
             var periodTimeSpan = TimeSpan.FromMinutes(1.3);
@@ -919,7 +940,7 @@ namespace Archipelago
         private void PlayMusic()
         {
             music = new System.Windows.Media.MediaPlayer();
-            music.Open(new System.Uri(@"C:\Program Files\Archipelago\ArchipelagoMusic.wav"));
+            music.Open(new Uri(@"C:\Program Files\Archipelago\ArchipelagoMusic.wav"));
             music.Play();
         }
         private void AmbientOcean()
@@ -1194,11 +1215,12 @@ namespace Archipelago
 
         private void button1_Click(object sender, EventArgs e)
         {
-            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
-
-            saveFileDialog1.Filter = "agame files (*.agame)|*.agame"; //Only let users choose file of type '.agame'
-            saveFileDialog1.FilterIndex = 2;
-            saveFileDialog1.RestoreDirectory = true;
+            SaveFileDialog saveFileDialog1 = new SaveFileDialog
+            {
+                Filter = "agame files (*.agame)|*.agame", //Only let users choose file of type '.agame'
+                FilterIndex = 2,
+                RestoreDirectory = true
+            };
 
             if (saveFileDialog1.ShowDialog() == DialogResult.OK) //Open file explorer to allow user to choose gamesave fle
             {
@@ -1262,7 +1284,196 @@ namespace Archipelago
             towrite += "\nAI:"    + Regex.Replace(AIteam.ToString(), @" ",""); //Write the AI's teams
             towrite += "\nHuman:" + Regex.Replace(playerTeams.ToString(), @" ",""); //Write the Player controlled teams
             towrite += "\n" + maptype.ToString(); //Add the maptype we are using
+
+            towrite += "\nRedMats:"   + teamMaterials.redMaterials.ToString();
+            towrite += "\nGreenMats:" + teamMaterials.greenMaterials.ToString();
+            towrite += "\nBlueMats:"  + teamMaterials.blueMaterials.ToString();
+            towrite += "\nBlackMats:" + teamMaterials.blackMaterials.ToString();
+
             File.WriteAllText(filepath, towrite);
+        }
+        private void LoadGame(string filepath)
+        {
+            var text = File.ReadAllLines(filepath);
+
+            if (text[8] == "Continents")
+            {
+                maptype = MapType.Continents;
+                pictureBox1.Image = Properties.Resources.Archipelago;
+            }
+            else
+            {
+                maptype = MapType.SmallIslands;
+                pictureBox1.Image = Properties.Resources.Archipelago2;
+            } //Doing this first to initialize the bitmap
+            pictureboxBitmap = new Bitmap(pictureBox1.Image);
+            pictureBox1.Image = pictureboxBitmap; //Load the picture
+
+            var squareDatas = text[0].Split(new string[] { ",{[" }, StringSplitOptions.None); //Get a list of all the squares
+            squareDatas[0] = squareDatas[0].Substring(2); //Remove curly brackets for first square data
+            foreach (var square in squareDatas)
+            {
+                var shipdatastart = NextCharIDX(square, 0, ']') + 1;
+                Point position = Extensions.Parse(square.Substring(0, shipdatastart - 1)); //Get the position
+                Square specifiedSqr = squares[position.X, position.Y];
+
+                var shipdatas = square.Substring(shipdatastart + 2).Split(new string[] { ",{" }, StringSplitOptions.None);
+                foreach (var shipdata in shipdatas) // Iterate through all the ship datas
+                {
+                    int length = NextCharIDX(shipdata, 0, '}') - 1;
+                    var shipSplitData = shipdata.Substring(0, length).Split(','); //Get an array with all the data in it
+                    //Since we know where all the data is stored, we do not need to do any more 'string parsing'
+
+                    var shipname = shipSplitData[0];
+                    int health = int.Parse(shipSplitData[1]);
+                    int cannons = int.Parse(shipSplitData[2]);
+                    bool hasmoved = bool.Parse(shipSplitData[3]);
+                    Team team = Team.None;
+                    switch (shipSplitData[4])
+                    {
+                        case "Red":
+                            team = Team.Red;
+                            break;
+                        case "Green":
+                            team = Team.Green;
+                            break;
+                        case "Blue":
+                            team = Team.Blue;
+                            break;
+                        case "Black":
+                            team = Team.Black;
+                            break;
+                        case "Pirate":
+                            team = Team.Pirate;
+                            break;
+                    }
+                    Ship.ShipType shipType = Ship.Create(shipname).shipType;
+                    specifiedSqr.ships.Add(new Ship(shipType, cannons, health, shipname) { hasMoved = hasmoved, team = team }); //Add the new ship we just found
+                }
+            }
+
+            var redportdata = text[1].Substring(6);
+            ParsePort(redportdata, Team.Red);
+
+            var blueportdata = text[2].Substring(7);
+            ParsePort(blueportdata, Team.Blue);
+
+
+            var greenportdata = text[3].Substring(8);
+            ParsePort(greenportdata, Team.Green);
+
+            var blackportdata = text[4].Substring(8);
+            ParsePort(blackportdata, Team.Black);
+
+            switch (text[5])
+            {
+                case "Red":
+                    hasTurn = Team.Red;
+                    break;
+                case "Green":
+                    hasTurn = Team.Green;
+                    break;
+                case "Blue":
+                    hasTurn = Team.Blue;
+                    break;
+                case "Black":
+                    hasTurn = Team.Black;
+                    break;
+            }
+
+            var aiteams = text[6].Substring(3).Split(',');
+            foreach (var t in aiteams)
+            {
+                switch (t)
+                {
+                    case "Red":
+                        AIteam |= Team.Red;
+                        break;
+                    case "Green":
+                        AIteam |= Team.Green;
+                        break;
+                    case "Blue":
+                        AIteam |= Team.Blue;
+                        break;
+                    case "Black":
+                        AIteam |= Team.Black;
+                        break;
+                }
+            }
+
+            var playerteams = text[7].Substring(6).Split(',');
+            foreach (var t in playerteams)
+            {
+                switch (t)
+                {
+                    case "Red":
+                        playerTeams |= Team.Red;
+                        break;
+                    case "Green":
+                        playerTeams |= Team.Green;
+                        break;
+                    case "Blue":
+                        playerTeams |= Team.Blue;
+                        break;
+                    case "Black":
+                        playerTeams |= Team.Black;
+                        break;
+                }
+            }
+
+            //Team materials parsing\\
+            Materials redmats = TeamMaterials.Parse(text[9].Substring(8));
+            Materials greenmats = TeamMaterials.Parse(text[9].Substring(9));
+            Materials bluemats = TeamMaterials.Parse(text[9].Substring(10));
+            Materials blackmats = TeamMaterials.Parse(text[9].Substring(10));
+      
+            teamMaterials = new TeamMaterials(WoodResourceLabel, MetalResourceLabel, ClothResourceLabel, redmats, greenmats, blackmats, bluemats);
+        }
+
+        private static void ParsePort(string portData, Team team)
+        {
+            if (portData == "")
+            {
+                return;
+            }
+            portData = portData.Substring(0, portData.Length - 1); //Remove all curly braces
+            if (portData == "")
+            {
+                return;
+            }
+            var portdatas = portData.Split(new string[] { ",[" }, StringSplitOptions.None);
+            foreach (var portdata in portdatas)
+            {
+                var nums = portdata.Substring(0, portdata.Length - 1).Split(',');
+                var newport = squares[int.Parse(nums[0]), int.Parse(nums[1])];
+                CreatePort(int.Parse(nums[0]), int.Parse(nums[1]), team);
+                newport.level = int.Parse(nums[2]);
+            }
+        }
+
+        private static int NextCharIDX(string s, int curIDX, char lookFor)
+        {
+            for (int i = curIDX+1; i < s.Length; ++i) //Start at +1 to ignore current letter
+            {
+                if (s[i]==lookFor)
+                {
+                    return i;
+                } //Iterate through the string until we find the selected character, return its index
+            }
+            return 0; //We did not find the character after the selected position
+        }
+        private static int NextStrIDX(string s, int curIDX, string lookFor)
+        {
+            string buffer = "";
+            for (int i = curIDX + 1; i < s.Length; ++i) //Start at +1 to ignore current letter
+            {
+                buffer += s[i];
+                if (buffer.Contains(lookFor))
+                {
+                    return i;
+                } //Iterate through the string until we find the selected character, return its index
+            }
+            return 0; //We did not find the character after the selected position
         }
     }
     public struct Filter

@@ -12,12 +12,19 @@ namespace Archipelago
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main()
+        static void Main(string[] args)
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-  //          RuleFunctions.OnStart();
-            Application.Run(new StartForm());
+            RuleFunctions.OnStart();
+            if (args.Length != 0)
+            {
+                Application.Run(new MainGameForm(args[0]));
+            }
+            else
+            {
+                Application.Run(new StartForm());
+            }
 
         }
     }

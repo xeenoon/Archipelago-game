@@ -185,7 +185,7 @@ namespace Archipelago
             return new Ship(shipType, cannons, health, name) {team = team};
         }
 
-        private Ship(ShipType shipType, int cannons, int health, string name)
+        public Ship(ShipType shipType, int cannons, int health, string name)
         {
             this.shipType = shipType;
             this.cannons = cannons;
@@ -393,7 +393,7 @@ namespace Archipelago
         //    Very Fast     //
         public static Ship CreateSteamCorvette()
         {
-            return new Ship(ShipType.VeryFast, 20, 150, "Steam corvette");
+            return new Ship(ShipType.VeryFast, 20, 150, "Steam Corvette");
         }
         public static Ship CreateClipper()
         {

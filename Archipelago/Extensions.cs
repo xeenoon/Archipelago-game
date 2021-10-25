@@ -84,5 +84,11 @@ namespace Archipelago
             Random r = new Random();
             return list[r.Next(0,list.Count()-1)];
         }
+
+        public static Point Parse(string s)
+        {
+            var strs = s.Split(',');
+            return new Point(int.Parse(strs[0]), int.Parse(strs[1]));
+        }
     }
 }

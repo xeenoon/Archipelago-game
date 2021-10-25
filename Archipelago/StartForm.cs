@@ -90,6 +90,19 @@ namespace Archipelago
 
         private void OpenFileExplorer(object sender, EventArgs e)
         {
+            OpenFileDialog saveFileDialog1 = new OpenFileDialog
+            {
+                Filter = "agame files (*.agame)|*.agame", //Only let users choose file of type '.agame'
+                FilterIndex = 2,
+                RestoreDirectory = true
+            };
+
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK) //Open file explorer to allow user to choose gamesave fle
+            {
+                Hide();
+                MainGameForm m = new MainGameForm(saveFileDialog1.FileName);
+                m.ShowDialog();
+            }
         }
     }
 }
