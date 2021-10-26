@@ -1320,7 +1320,7 @@ namespace Archipelago
                 var shipdatas = square.Substring(shipdatastart + 2).Split(new string[] { ",{" }, StringSplitOptions.None);
                 foreach (var shipdata in shipdatas) // Iterate through all the ship datas
                 {
-                    int length = NextCharIDX(shipdata, 0, '}') - 1;
+                    int length = NextCharIDX(shipdata, 0, '}');
                     var shipSplitData = shipdata.Substring(0, length).Split(','); //Get an array with all the data in it
                     //Since we know where all the data is stored, we do not need to do any more 'string parsing'
 
