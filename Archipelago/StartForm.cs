@@ -109,5 +109,75 @@ namespace Archipelago
         {
             Application.Exit();
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Hide();
+            MainGameForm m = new MainGameForm(@"C:\Program Files\Archipelago\1.agame");
+            m.ShowDialog();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Hide();
+            MainGameForm m = new MainGameForm(@"C:\Program Files\Archipelago\2.agame");
+            m.ShowDialog();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            Hide();
+            MainGameForm m = new MainGameForm(@"C:\Program Files\Archipelago\3.agame");
+            m.ShowDialog();
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            Hide();
+            MainGameForm m = new MainGameForm(@"C:\Program Files\Archipelago\4.agame");
+            m.ShowDialog();
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            Hide();
+            MainGameForm m = new MainGameForm(@"C:\Program Files\Archipelago\5.agame");
+            m.ShowDialog();
+        }
+
+        private void button10_Click(object sender, EventArgs e)
+        {
+            Hide();
+            MainGameForm m = new MainGameForm(@"C:\Program Files\Archipelago\6.agame");
+            m.ShowDialog();
+        }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            Hide();
+            MainGameForm m = new MainGameForm(@"C:\Program Files\Archipelago\7.agame");
+            m.ShowDialog();
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            Hide();
+            MainGameForm m = new MainGameForm(@"C:\Program Files\Archipelago\8.agame");
+            m.ShowDialog();
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            Hide();
+            MainGameForm m = new MainGameForm(@"C:\Program Files\Archipelago\9.agame");
+            m.ShowDialog();
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            Hide();
+            MainGameForm m = new MainGameForm(@"C:\Program Files\Archipelago\10.agame");
+            m.ShowDialog();
+        }
     }
 }
