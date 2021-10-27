@@ -134,8 +134,6 @@ namespace Archipelago
         //Defend port functions
         public static bool IsVulnerablePort()
         {
-            vulnerablePorts = new List<Square>();
-
             bool result = false;
             Team hasTurn = MainGameForm.hasTurn;
             foreach (var square in MainGameForm.squares)
@@ -150,7 +148,7 @@ namespace Archipelago
                     var nearby = square.ShipsNearby(4);
                     if (nearby.Where(s=>s.team != hasTurn).Count() >= 1)
                     {
-                        return true;
+                        vulnerablePorts.Add(square);
                     }
                 }
             }
@@ -311,7 +309,7 @@ namespace Archipelago
             List<Square> ports = new List<Square>();
             foreach (var s in MainGameForm.squares)
             {
-                if (s.isPort&&s.team == MainGameForm.hasTurn) //Is it our port
+                if (s.isPort && s.team == MainGameForm.hasTurn) //Is it our port
                 {
                     ports.Add(s); //Add it too the list
                 }

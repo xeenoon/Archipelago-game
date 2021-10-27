@@ -1308,50 +1308,51 @@ namespace Archipelago
             } //Doing this first to initialize the bitmap
             pictureboxBitmap = new Bitmap(pictureBox1.Image);
             pictureBox1.Image = pictureboxBitmap; //Load the picture
-
-            var squareDatas = text[0].Split(new string[] { ",{[" }, StringSplitOptions.None); //Get a list of all the squares
-            squareDatas[0] = squareDatas[0].Substring(2); //Remove curly brackets for first square data
-            foreach (var square in squareDatas)
+            if (text[0] != "")
             {
-                var shipdatastart = NextCharIDX(square, 0, ']') + 1;
-                Point position = Extensions.Parse(square.Substring(0, shipdatastart - 1)); //Get the position
-                Square specifiedSqr = squares[position.X, position.Y];
-
-                var shipdatas = square.Substring(shipdatastart + 2).Split(new string[] { ",{" }, StringSplitOptions.None);
-                foreach (var shipdata in shipdatas) // Iterate through all the ship datas
+                var squareDatas = text[0].Split(new string[] { ",{[" }, StringSplitOptions.None); //Get a list of all the squares
+                squareDatas[0] = squareDatas[0].Substring(2); //Remove curly brackets for first square data
+                foreach (var square in squareDatas)
                 {
-                    int length = NextCharIDX(shipdata, 0, '}');
-                    var shipSplitData = shipdata.Substring(0, length).Split(','); //Get an array with all the data in it
-                    //Since we know where all the data is stored, we do not need to do any more 'string parsing'
+                    var shipdatastart = NextCharIDX(square, 0, ']') + 1;
+                    Point position = Extensions.Parse(square.Substring(0, shipdatastart - 1)); //Get the position
+                    Square specifiedSqr = squares[position.X, position.Y];
 
-                    var shipname = shipSplitData[0];
-                    int health = int.Parse(shipSplitData[1]);
-                    int cannons = int.Parse(shipSplitData[2]);
-                    bool hasmoved = bool.Parse(shipSplitData[3]);
-                    Team team = Team.None;
-                    switch (shipSplitData[4])
+                    var shipdatas = square.Substring(shipdatastart + 2).Split(new string[] { ",{" }, StringSplitOptions.None);
+                    foreach (var shipdata in shipdatas) // Iterate through all the ship datas
                     {
-                        case "Red":
-                            team = Team.Red;
-                            break;
-                        case "Green":
-                            team = Team.Green;
-                            break;
-                        case "Blue":
-                            team = Team.Blue;
-                            break;
-                        case "Black":
-                            team = Team.Black;
-                            break;
-                        case "Pirate":
-                            team = Team.Pirate;
-                            break;
+                        int length = NextCharIDX(shipdata, 0, '}');
+                        var shipSplitData = shipdata.Substring(0, length).Split(','); //Get an array with all the data in it
+                                                                                      //Since we know where all the data is stored, we do not need to do any more 'string parsing'
+
+                        var shipname = shipSplitData[0];
+                        int health = int.Parse(shipSplitData[1]);
+                        int cannons = int.Parse(shipSplitData[2]);
+                        bool hasmoved = bool.Parse(shipSplitData[3]);
+                        Team team = Team.None;
+                        switch (shipSplitData[4])
+                        {
+                            case "Red":
+                                team = Team.Red;
+                                break;
+                            case "Green":
+                                team = Team.Green;
+                                break;
+                            case "Blue":
+                                team = Team.Blue;
+                                break;
+                            case "Black":
+                                team = Team.Black;
+                                break;
+                            case "Pirate":
+                                team = Team.Pirate;
+                                break;
+                        }
+                        Ship.ShipType shipType = Ship.Create(shipname).shipType;
+                        specifiedSqr.ships.Add(new Ship(shipType, cannons, health, shipname) { hasMoved = hasmoved, team = team }); //Add the new ship we just found
                     }
-                    Ship.ShipType shipType = Ship.Create(shipname).shipType;
-                    specifiedSqr.ships.Add(new Ship(shipType, cannons, health, shipname) { hasMoved = hasmoved, team = team }); //Add the new ship we just found
                 }
             }
-
             var redportdata = text[1].Substring(6);
             ParsePort(redportdata, Team.Red);
 

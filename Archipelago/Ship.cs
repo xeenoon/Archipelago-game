@@ -232,7 +232,7 @@ namespace Archipelago
             {
                 if (ship.required < materials) //Can we afford to build it
                 {
-                    return ship; //This is fastest, most expensive ship, return it
+                    return ship.Copy(); //This is fastest, most expensive ship, return it
                 }
             }
             return null; //We cannot build a ship with our current resources
