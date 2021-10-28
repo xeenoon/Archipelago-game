@@ -950,7 +950,7 @@ namespace Archipelago
             ocean.Volume = 0.2;
             ocean.Play();
         }
-        Team AIteam = Team.Green;
+        Team AIteam = Team.None;
         private void EndTurn(object sender, EventArgs e)
         {
             switch (hasTurn)
@@ -1294,6 +1294,7 @@ namespace Archipelago
         }
         private void LoadGame(string filepath)
         {
+            playerTeams = Team.None;
             var text = File.ReadAllLines(filepath);
 
             if (text[8] == "Continents")
@@ -1379,6 +1380,9 @@ namespace Archipelago
                     break;
                 case "Black":
                     hasTurn = Team.Black;
+                    break;
+                case "Pirate":
+                    hasTurn = Team.Pirate;
                     break;
             }
 
