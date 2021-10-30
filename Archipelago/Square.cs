@@ -25,7 +25,7 @@ namespace Archipelago
         }
 
         public Materials generates;
-        internal bool red = false;
+        internal bool hasShips = false;
         internal bool orange = false;
 
         internal Materials GetMaterials()
