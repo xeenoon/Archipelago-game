@@ -83,6 +83,7 @@ namespace Archipelago
             this.LevelText = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.label19 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.moveSettings.SuspendLayout();
             this.MoveSpecificMenu.SuspendLayout();
@@ -708,11 +709,21 @@ namespace Archipelago
             this.button1.UseVisualStyleBackColor = false;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Font = new System.Drawing.Font("Modern No. 20", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label19.Location = new System.Drawing.Point(3, 195);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(0, 25);
+            this.label19.TabIndex = 42;
+            // 
             // MainGameForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1129, 528);
+            this.Controls.Add(this.label19);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.LevelText);
             this.Controls.Add(this.button12);
@@ -823,5 +834,6 @@ namespace Archipelago
         private System.Windows.Forms.Label LevelText;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private System.Windows.Forms.Label label19;
     }
 }

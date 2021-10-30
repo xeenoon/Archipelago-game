@@ -60,7 +60,7 @@ namespace Archipelago
             foreach (var ship in toMove)
             {
                 MainGameForm.squares[currentLocation.X, currentLocation.Y].ships.Remove(ship); //Remove the ship from its old destination
-                MainGameForm.squares[destination.X, destination.Y].ships.Add(ship); //Add the ship to its new destination
+                MainGameForm.squares[destination.X, destination.Y].ships.Add(ship.Copy()); //Add the ship to its new destination
                 ship.hasMoved = false; //The ship has now moved, and cannot move again until the next turn
             }
             if (toMove.Count != 0)
@@ -69,10 +69,11 @@ namespace Archipelago
             }
             if (shipToBuild != null) //Is there a ship to build
             {
-                port.ships.Add(shipToBuild);
+                var building = shipToBuild.Copy();
+                port.ships.Add(building);
                 MainGameForm.teamMaterials.Pay(MainGameForm.hasTurn, shipToBuild.required); ///Pay for the ship
-                shipToBuild.team = MainGameForm.hasTurn; //Set the ships team
-                shipToBuild.canAttack = false; //Ship cannot move on the same turn it was built
+                building.team = MainGameForm.hasTurn; //Set the ships team
+                building.canAttack = false; //Ship cannot move on the same turn it was built
             }
             if (portToBuild != null) //Are we building a port?
             {

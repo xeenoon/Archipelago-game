@@ -86,7 +86,7 @@ namespace Archipelago
             {
                 foreach (var ship in square.ships) //Iterate through all ships
                 {
-                    if (ship.team ==hasTurn) //Is it on my team?
+                    if (ship.team == hasTurn) //Is it on my team?
                     {
                         var positions = Ship.Destinations(ship.shipType, square.location).Where(p => MainGameForm.CanMove(p.X, p.Y)).ToList(); //Figure out the possible moves the ship cam make
                         foreach (var p in positions)
@@ -149,6 +149,7 @@ namespace Archipelago
                     if (nearby.Where(s=>s.team != hasTurn).Count() >= 1)
                     {
                         vulnerablePorts.Add(square);
+                        result = true;
                     }
                 }
             }

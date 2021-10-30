@@ -182,7 +182,7 @@ namespace Archipelago
 
         internal Ship Copy()
         {
-            return new Ship(shipType, cannons, health, name) {team = team};
+            return new Ship(shipType, cannons, health, name) {team = this.team};
         }
 
         public Ship(ShipType shipType, int cannons, int health, string name)
