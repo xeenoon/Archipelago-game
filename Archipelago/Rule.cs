@@ -149,7 +149,6 @@ namespace Archipelago
                     if (nearby.Where(s=>s.team != hasTurn).Count() >= 1)
                     {
                         vulnerablePorts.Add(square);
-                        result = true;
                     }
                 }
             }
