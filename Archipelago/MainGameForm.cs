@@ -1021,9 +1021,9 @@ namespace Archipelago
         System.Windows.Media.MediaPlayer ocean;
         private void PlayMusic()
         {
-          // music = new System.Windows.Media.MediaPlayer();
-          // music.Open(new Uri(@"C:\Program Files\Archipelago\ArchipelagoMusic.wav"));
-          // music.Play();
+           music = new System.Windows.Media.MediaPlayer();
+           music.Open(new Uri(@"C:\Program Files\Archipelago\ArchipelagoMusic.wav"));
+           music.Play();
         }
         private void AmbientOcean()
         {
