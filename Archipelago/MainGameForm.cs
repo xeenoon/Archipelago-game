@@ -917,24 +917,7 @@ namespace Archipelago
                 {
                     if (!s.hasShips)
                     {
-                        switch (s.GetTeam())
-                        {
-                            case Team.Red:
-                                HighlightSquare(s.location.X, s.location.Y, new Filter(100, -100, -100), ref result); //Highlight square with a red filter (increases red by 100, decreases everything else by 100)
-                                break;
-                            case Team.Green:
-                                HighlightSquare(s.location.X, s.location.Y, new Filter(-100, 50, -100), ref result); //Highlight square with a red filter (increases red by 100, decreases everything else by 100)
-                                break;
-                            case Team.Blue:
-                                HighlightSquare(s.location.X, s.location.Y, new Filter(-100, -100, 100), ref result); //Highlight square with a red filter (increases red by 100, decreases everything else by 100)
-                                break;
-                            case Team.Black:
-                                HighlightSquare(s.location.X, s.location.Y, new Filter(-100, -100, -100), ref result); //Highlight square with a red filter (increases red by 100, decreases everything else by 100)
-                                break;
-                            case Team.Pirate:
-                                HighlightSquare(s.location.X, s.location.Y, new Filter(0, -75, -100), ref result); //Highlight square with a red filter (increases red by 100, decreases everything else by 100)
-                                break;
-                        }
+                        HighlightSquare(s.location.X, s.location.Y, new Filter(100, -100, -100), ref result); //Highlight square with a red filter (increases red by 100, decreases everything else by 100)
                     }
 
                     if (s.hasShips && s.orange)
