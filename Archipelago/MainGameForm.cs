@@ -736,12 +736,62 @@ namespace Archipelago
 
             pictureBox1.Image = result; //Change the image being shown to the one with the filter
         }
+        private void HighlightSquare(int square_x, int square_y, ref Bitmap result)
+        {
+            squares[square_x, square_y].orange = true;
+
+            for (int x = (int)(square_x * png_boxsize + png_left); x < (square_x * png_boxsize) + png_boxsize + png_left; ++x)
+            {
+                for (int y = (int)(square_y * png_boxsize + png_top); y < (square_y * png_boxsize) + png_boxsize + png_top; ++y) //Iterate through all pixels
+                {
+                    Color original = pictureboxBitmap.GetPixel(x, y); //Get the colour of the pixel
+
+                    if (original.R > 100 && original.G > 130 && original.B > 120 && (original.R < 170 || original.B > 170) && ((original.B + 15 > original.G) || original.B > 160)) //Is it blue?
+                    {
+                        Color filter = Color.FromArgb(original.R + 70 >= 255 ? 255 : original.R + 70, original.G - 50 <= 0 ? 0 : original.G - 50, original.B - 100 <= 0 ? 0 : original.B - 100); //Create the filter
+                        result.SetPixel(x, y, filter); //Replace the old pixel with the filter
+                    }
+                }
+            }
+        }
 
         private void HighlightSquare(int square_x, int square_y, Filter filter)
         {
             squares[square_x, square_y].hasShips = true;
 
             Bitmap result = new Bitmap(pictureBox1.Image); //Create a bitmap based off the picture
+
+            for (int x = (int)(square_x * png_boxsize + png_left); x < (square_x * png_boxsize) + png_boxsize + png_left; ++x)
+            {
+                for (int y = (int)(square_y * png_boxsize + png_top); y < (square_y * png_boxsize) + png_boxsize + png_top; ++y) //Iterate through all pixels
+                {
+                    Color original = result.GetPixel(x, y); //Get the pixel's colour
+
+                    if (original.R > 120 && original.G > 150 && original.B > 120 && (original.R < 170 || original.B > 170) && ((original.B > original.G) || original.B > 160)) //Is it blue?
+                    {
+                        var finalColour = new Filter(original.R + filter.R, original.G + filter.G, original.B + filter.B); //Create filter
+                        if (finalColour.R > 255)
+                        {
+                            finalColour = new Filter(255, finalColour.G, finalColour.B);
+                        }
+                        if (finalColour.G > 255)
+                        {
+                            finalColour = new Filter(finalColour.R, 255, finalColour.B);
+                        }
+                        if (finalColour.B > 255)
+                        {
+                            finalColour = new Filter(finalColour.R, finalColour.G, 255);
+                        } //If any rgb value is larger than 255, make it 255
+                        result.SetPixel(x, y, finalColour.AsColor()); //Change the colour of the pixel to the new filter colour
+                    }
+                }
+            }
+
+            pictureBox1.Image = result; //Replace the image with the filtered result
+        }
+        private void HighlightSquare(int square_x, int square_y, Filter filter, ref Bitmap result)
+        {
+            squares[square_x, square_y].hasShips = true;
 
             for (int x = (int)(square_x * png_boxsize + png_left); x < (square_x * png_boxsize) + png_boxsize + png_left; ++x)
             {
@@ -786,6 +836,18 @@ namespace Archipelago
             squares[square_x, square_y].orange = false;
 
             pictureBox1.Image = result; //Replace the image with the unfiltered result
+        }
+        private void RemoveHighlight(int square_x, int square_y, ref Bitmap result)
+        {
+            for (int x = (int)(square_x * png_boxsize + png_left); x < (square_x * png_boxsize) + png_boxsize + png_left; ++x)
+            {
+                for (int y = (int)(square_y * png_boxsize + png_top); y < (square_y * png_boxsize) + png_boxsize + png_top; ++y) //Iterate through all pixels
+                {
+                    result.SetPixel(x, y, pictureboxBitmap.GetPixel(x, y)); //Change the colour of the pixel to the original pixels colour
+                }
+            }
+            squares[square_x, square_y].hasShips = false;
+            squares[square_x, square_y].orange = false;
         }
 
         private void MoveClosest(object sender, EventArgs e)
@@ -843,11 +905,13 @@ namespace Archipelago
 
         private void RepaintShipPicture()
         {
+            Bitmap result = new Bitmap(pictureBox1.Image); //Create a bitmap based off the picture
+
             foreach (var s in squares)
             {
                 if (s.orange)
                 {
-                    RemoveHighlight(s.location.X, s.location.Y);
+                    RemoveHighlight(s.location.X, s.location.Y, ref result);
                 }
                 if (s.ships.Count >= 1) //Are there ships in the square?
                 {
@@ -856,26 +920,26 @@ namespace Archipelago
                         switch (s.GetTeam())
                         {
                             case Team.Red:
-                                HighlightSquare(s.location.X, s.location.Y, new Filter(100, -100, -100)); //Highlight square with a red filter (increases red by 100, decreases everything else by 100)
+                                HighlightSquare(s.location.X, s.location.Y, new Filter(100, -100, -100), ref result); //Highlight square with a red filter (increases red by 100, decreases everything else by 100)
                                 break;
                             case Team.Green:
-                                HighlightSquare(s.location.X, s.location.Y, new Filter(-100, 50, -100)); //Highlight square with a red filter (increases red by 100, decreases everything else by 100)
+                                HighlightSquare(s.location.X, s.location.Y, new Filter(-100, 50, -100), ref result); //Highlight square with a red filter (increases red by 100, decreases everything else by 100)
                                 break;
                             case Team.Blue:
-                                HighlightSquare(s.location.X, s.location.Y, new Filter(-100, -100, 100)); //Highlight square with a red filter (increases red by 100, decreases everything else by 100)
+                                HighlightSquare(s.location.X, s.location.Y, new Filter(-100, -100, 100), ref result); //Highlight square with a red filter (increases red by 100, decreases everything else by 100)
                                 break;
                             case Team.Black:
-                                HighlightSquare(s.location.X, s.location.Y, new Filter(-100, -100, -100)); //Highlight square with a red filter (increases red by 100, decreases everything else by 100)
+                                HighlightSquare(s.location.X, s.location.Y, new Filter(-100, -100, -100), ref result); //Highlight square with a red filter (increases red by 100, decreases everything else by 100)
                                 break;
                             case Team.Pirate:
-                                HighlightSquare(s.location.X, s.location.Y, new Filter(0, -75, -100)); //Highlight square with a red filter (increases red by 100, decreases everything else by 100)
+                                HighlightSquare(s.location.X, s.location.Y, new Filter(0, -75, -100), ref result); //Highlight square with a red filter (increases red by 100, decreases everything else by 100)
                                 break;
                         }
                     }
 
                     if (s.hasShips && s.orange)
                     {
-                        HighlightSquare(s.location.X, s.location.Y); //Highlight square with a orange filter
+                        HighlightSquare(s.location.X, s.location.Y, ref result); //Highlight square with a orange filter
                     }
                     s.hasShips = true;
                 }
@@ -883,7 +947,7 @@ namespace Archipelago
                 {
                     if (s.hasShips)
                     {
-                        RemoveHighlight(s.location.X, s.location.Y);
+                        RemoveHighlight(s.location.X, s.location.Y, ref result);
                     }
                     if (s.hasShips && s.orange)
                     {
@@ -893,6 +957,7 @@ namespace Archipelago
                 }
                 s.orange = false;
             }
+            pictureBox1.Image = result;
         }
 
         private void MoveSpecificSquareButtonClick(object sender, EventArgs e)
@@ -956,9 +1021,9 @@ namespace Archipelago
         System.Windows.Media.MediaPlayer ocean;
         private void PlayMusic()
         {
-            music = new System.Windows.Media.MediaPlayer();
-            music.Open(new Uri(@"C:\Program Files\Archipelago\ArchipelagoMusic.wav"));
-            music.Play();
+          // music = new System.Windows.Media.MediaPlayer();
+          // music.Open(new Uri(@"C:\Program Files\Archipelago\ArchipelagoMusic.wav"));
+          // music.Play();
         }
         private void AmbientOcean()
         {
